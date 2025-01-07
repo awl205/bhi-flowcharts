@@ -1,0 +1,49 @@
+/* App.css */
+
+.container {
+    padding: 20px;
+    text-align: center;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.message {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.buttons-container {
+    margin-top: 20px;
+}
+
+.button {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #f0f0f0;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    background: #e0e0e0;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #000;
+    background: #d9534f;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.back-button:hover {
+    background: #c9302c;
+}
