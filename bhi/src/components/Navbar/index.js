@@ -6,44 +6,33 @@ const Navbar = () => {
     return (
         <nav className="nav">
             <div className="nav-menu">
-                <NavLink
-                    to="/"
-                    className="nav-link"
-                    activeClassName="active"
-                    exact
-                >
-                    Home
+                <NavLink to="/" className="nav-link" activeClassName="active" exact>
+                    <img
+                        src="https://www.guidestar.org/ViewEdoc.aspx?eDocId=11021317&approved=True"
+                        alt="Logo"
+                        className="nav-logo"
+                    />
                 </NavLink>
-                <NavLink
-                    to="/oxygen-generator"
-                    className="nav-link"
-                    activeClassName="active"
-                >
-                    Oxygen Generator
-                </NavLink>
-                <NavLink
-                    to="/2"
-                    className="nav-link"
-                    activeClassName="active"
-                >
-                    Equip2
-                </NavLink>
-                <NavLink
-                    to="/3"
-                    className="nav-link"
-                    activeClassName="active"
-                >
-                    Equip3
-                </NavLink>
-                <NavLink
-                    to="/4"
-                    className="nav-link"
-                    activeClassName="active"
-                >
-                    Equip4
-                </NavLink>
+                <div className="nav-links">
+                    <NavLink to="/" className="nav-link" activeClassName="active" exact>
+                        Home
+                    </NavLink>
+                    <NavLink to="/oxygen-generator" className="nav-link" activeClassName="active">
+                        Oxygen Generator
+                    </NavLink>
+                    <NavLink to="/2" className="nav-link" activeClassName="active">
+                        Equip2
+                    </NavLink>
+                    <NavLink to="/3" className="nav-link" activeClassName="active">
+                        Equip3
+                    </NavLink>
+                    <NavLink to="/4" className="nav-link" activeClassName="active">
+                        Equip4
+                    </NavLink>
+                </div>
             </div>
         </nav>
+
     );
 };
 

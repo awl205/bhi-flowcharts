@@ -1,5 +1,3 @@
-/* App.css */
-
 .container {
     padding: 20px;
     text-align: center;
@@ -7,43 +5,99 @@
 
 .title {
     font-size: 24px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
+}
+
+.update{
+    margin-top: 0px;
+    font-style: italic;
+}
+
+.oxygen_img{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    width: auto;
+    border: 2px solid #cbde74;
+    margin-bottom: 20px;
 }
 
 .message {
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    border: 3px solid #cbde74;
+    display: inline-block;
+    padding: 10px;
+    line-height: 20px;
 }
 
 .buttons-container {
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 .button {
     margin: 10px;
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #000;
     background: #f0f0f0;
+    border: 2px solid #7E887C;
+    color: black;
     cursor: pointer;
     font-size: 16px;
 }
 
 .button:hover {
-    background: #e0e0e0;
+    background: #f16521;
+    border: 2px solid #f16521;
+    color: white;
 }
 
 .back-button {
     margin-top: 20px;
     padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #000;
-    background: #d9534f;
+    border: 1px solid #e0e0e0;
+    background: #cbde74;
     color: white;
     cursor: pointer;
     font-size: 16px;
 }
 
 .back-button:hover {
-    background: #c9302c;
+    background: #f16521;
+}
+
+.interactive-subtitle{
+    font-size: 18px;
+    display: flex;
+    text-align: center;
+    font-weight: bold;
+    margin: auto;
+    width: max-content;
+    padding: 10px;
+    line-height: 20px;
+    background:#cbde74;
+    color: white;
+}
+
+.flowchart-subtitle{
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    display: inline-block;
+    font-weight: bold;
+    padding: 10px;
+    line-height: 20px;
+    background:#f16521;
+    color: white;
+}
+
+div.flowchart {
+    overflow-x: scroll;
+}
+
+.oxygen-generator-flowchart{
+    display: flex;
+    width: 200%;
+    border:2px solid #f16521;
+    margin: 10px;
 }
