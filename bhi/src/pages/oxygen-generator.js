@@ -24,7 +24,8 @@ const flowChartLogic = {
     options: [
         {label: "Return to menu", next: "start"},
     ]
-  },
+},
+
   // ***** FLOWCHART #1: OXYGEN GENERATOR WON'T RUN *****
   generator_wont_run: {
     message: "Is the oxygen generator in standby mode?",
@@ -342,16 +343,17 @@ const flowChartLogic = {
   limit_oxygen_output: {
     message: "ACTION: Limit oxygen output (close supply valve to hospital). \nDoes the pressure increase?",
     options: [
-      { label: "Yes", next: "piping_leaks" },
-      { label: "No", next: "inlet_pressure_match" },
+        { label: "No", next: "inlet_pressure_match" },
+        { label: "Yes", next: "piping_leaks" },
+
     ],
   },
   // for inlet_pressure_match branching
   inlet_pressure_match: {
     message: "Does the inlet pressure match manufacturer specs?",
     options: [
-      { label: "Yes", next: "troubleshoot_valve_noise" },
       { label: "No", next: "troubleshoot_inlet_pressure" },
+      { label: "Yes", next: "troubleshoot_valve_noise" },
     ],
   },
   troubleshoot_inlet_pressure: {
@@ -370,28 +372,29 @@ const flowChartLogic = {
   piping_leaks: {
     message: "Are there any leaks in the piping distribution system?",
     options: [
-      { label: "Yes", next: "repair_leaks" },
-      { label: "No", next: "exceed_capacity" },
+        { label: "No", next: "exceed_capacity" },
+        { label: "Yes", next: "repair_leaks" },
     ],
   },
   repair_leaks: {
     message: "ACTION: Repair leaks. \nHas the issue been resolved?",
     options: [
+      { label: "No", next: "exceed_capacity"},
       { label: "Yes", next: "end" },
-      { label: "No", next: "exceed_capacity"}
     ],
   },
   exceed_capacity: {
     message: "Does the hospital oxygen usage exceed oxygen generator capacity?",
     options: [
-      { label: "Yes", next: "limit_oxygen_demand" },
+        { label: "No", next: "exit"},
+        { label: "Yes", next: "limit_oxygen_demand" },
     ],
   },
   limit_oxygen_demand: {
     message: "Action: Permanently limit oxygen demand on PSA Plant. \nProcure supplemental oxygen supply. \nHas the issue been resolved?",
     options: [
+      { label: "No", next: "contact_manufacturer"},
       { label: "Yes", next: "end" },
-      { label: "No", next: "contact_manufacturer"}
     ],
   },
 
@@ -399,22 +402,22 @@ const flowChartLogic = {
   low_inlet_pressure: {
     message: "Are any closed ball valves blocking airflow?",
     options: [
-        {label: "Yes", next: "open_ball_valves"},
         {label: "No", next: "sufficient_pressure"},
+        {label: "Yes", next: "open_ball_valves"},
     ],
   },
   open_ball_valves: {
     message: "Open the ball valves. Is there sufficient pressure?",
     options: [
-        {label: "Yes", next: "end"},
         {label: "No", next: "sufficient_pressure"},
+        {label: "Yes", next: "end"},
     ],
   },
   sufficient_pressure: {
     message: "Is there sufficient pressure in the air tank?",
     options: [
-        {label: "Yes", next: "dial_pressure_settings"},
         {label: "No", next: "troubleshoot_upstream_equip"},
+        {label: "Yes", next: "dial_pressure_settings"},
     ],
   },
   troubleshoot_upstream_equip: {
@@ -426,8 +429,8 @@ const flowChartLogic = {
   dial_pressure_settings: {
     message: "Does the feed air regulator have dial pressure settings on it?",
     options: [
-        {label: "Yes", next: "compare_pressure"},
         {label: "No", next: "increase_output_pressure"},
+        {label: "Yes", next: "compare_pressure"},
     ],
   },
   increase_output_pressure: {
@@ -439,49 +442,73 @@ const flowChartLogic = {
   compare_pressure: {
     message: "Compare the pressure on the dial to the maximum pressure of the sieve beds. \nAre they close to each other?",
     options: [
-        {label: "Yes", next: "service_regulator"},
         {label: "No", next: "adjust_regulator"},
+        {label: "Yes", next: "service_regulator"},
     ],
   },
   service_regulator: {
     message: "Service or replace the pressure regulator. \nHas the issue been resolved?",
     options: [
-        {label: "Yes", next: "end"},
         {label: "No", next: "adjust_regulator"},
+        {label: "Yes", next: "end"},
     ],
   },
   adjust_regulator: {
     message: "Adjust the feed air regulator pressure settings to manufacturer recommendations. \nHas the issue been resolved?",
     options: [
-        {label: "Yes", next: "end"},
         {label: "No", next: "pressure_increased"},
+        {label: "Yes", next: "end"},
     ],
   },
   pressure_increased: {
     message: "Has the pressure downstream of the regulator increased?",
     options: [
         {label: "Yes", next: "end"},
+        {label: "No", next: "exit"},
     ],
   },
 };
 
+const oxygenFlowChart = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
 const App = () => {
   const [currentStep, setCurrentStep] = useState("start");
   const [history, setHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState("false");
 
-  const goToStep = (nextStep) => {
-    setHistory((prev) => [...prev, currentStep]); // add current step to history
+  const goToStep = (nextStep, selectedLabel) => {
+    setHistory((prev) => [
+        ...prev,
+        {
+            stepKey: currentStep,
+            message: flowChartLogic[currentStep].message || "",
+            selected: selectedLabel,
+        },
+    ]); // add current step to history
     setCurrentStep(nextStep);
   };
 
   const goBack = () => {
-    if (history.length > 0){
-        const previousStep = history[history.length - 1]; // get last visited step
-        setHistory((prev) => prev.slice(0, -1)) // remove last step from history
-        setCurrentStep(previousStep); // go back to previous step
+    if (history.length > 0) {
+      const updatedHistory = history.slice(0, -1); // remove last history entry
+      const previousStep = updatedHistory.length > 0 ? updatedHistory[updatedHistory.length - 1].stepKey : "start"; // last valid stepKey
+      setHistory(updatedHistory);
+      setCurrentStep(previousStep);
     }
   };
+
+  const toggleHistory = () => {
+    setShowHistory((prev) => !prev);
+  };
+
+  const restartHistory = () => {
+    setCurrentStep("start")
+    setHistory([]);
+  }
+
+  const sendErrorReport = () => {
+    console.log("FIX LATER!")
+  }
 
   const step = flowChartLogic[currentStep];
 
@@ -489,8 +516,9 @@ const App = () => {
     <div className="container">
         <h1 className="title">Oxygen Generator Troubleshooting</h1>
         <p className="update"> Last updated: Jan 2025 </p>
-        <img className="oxygen_img" src={"https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"}/>
+        <img className="oxygen_img" src={oxygenFlowChart}/>
         <p className="interactive-subtitle"> Interactive Troubleshooting </p>
+
         <p className="message">
             {step.message.split('\n').map((line, index) => (
                 <React.Fragment key={index}>
@@ -503,7 +531,7 @@ const App = () => {
             {step.options.map((option, index) => (
             <button
                 key={index}
-                onClick={() => goToStep(option.next)}
+                onClick={() => goToStep(option.next, option.label)}
                 className="button">
                 {option.label}
             </button>
@@ -518,12 +546,52 @@ const App = () => {
             </div>
         )}
 
+        <div className="history-toggle">
+            <div className = "history-button-div">
+                <button onClick={toggleHistory} className="history-button">
+                    {showHistory ? "Hide History" : "View History"}
+                </button>
+            </div>
+
+            {showHistory && (
+                <div className="history">
+                <h2> Navigation History </h2>
+                <ul>
+                    {history.map((entry, index) => (
+                    <li key={index}>
+                        <strong> Question:</strong>{" "}
+                        {entry.message.split("\n").map((line, idx) => (
+                        <React.Fragment key={idx}>
+                            {line}
+                            <br />
+                        </React.Fragment>
+                        ))}
+                        <ul>
+                            <li>
+                                <strong>Response:</strong> {entry.selected}
+                            </li>
+                        </ul>
+                    </li>
+                    ))}
+                </ul>
+                </div>
+            )}
+
+            <div className = "history-button-div">
+                <button onClick={sendErrorReport} className="bottom-buttons">
+                    Send Report to BHI
+                </button>
+
+                <button onClick={restartHistory} className="bottom-buttons">
+                    Restart
+                </button>
+            </div>
+        </div>
+
         <p className="flowchart-subtitle"> Complete Flowchart </p>
         <div className="flowchart">
             <img className="oxygen-generator-flowchart" src={oxygenflowchart}/>
         </div>
-
-
     </div>
   );
 };

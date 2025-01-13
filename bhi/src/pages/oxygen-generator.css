@@ -32,12 +32,53 @@
     line-height: 20px;
 }
 
+.history {
+    display: inline-block;
+    text-align: left;
+    justify-content: center;
+    border: 3px solid #7E887C;
+    margin-top: 10px;
+    padding-right: 20px;
+}
+
+h2 {
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 0px;
+    padding-left: 20px;
+}
+
+li {
+    list-style-position: outside;
+    margin: 0;
+    padding-inline-start: 0;
+}
+
+.history-button{
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    background: #7E887C;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.history-button:hover{
+    background: #f16521;
+    color: white;
+}
+
 .buttons-container {
     margin-top: 10px;
 }
 
 .button {
     margin: 10px;
+    margin-top: 0px;
+    margin-bottom: 5px;
     padding: 10px;
     background: #f0f0f0;
     border: 2px solid #7E887C;
@@ -52,8 +93,25 @@
     color: white;
 }
 
+.bottom-buttons{
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #e0e0e0;
+    background: #7E887C;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.bottom-buttons:hover {
+    background: #f16521;
+    color: white;
+}
+
 .back-button {
-    margin-top: 20px;
+    margin-top: 0px;
     padding: 10px;
     border: 1px solid #e0e0e0;
     background: #cbde74;
