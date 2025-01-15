@@ -1,5 +1,10 @@
+:root {
+    --bhigreen: RGB(203, 218, 121);
+    --bhigray: RGB(123, 134, 118);
+}
+
 .nav {
-    background: #cbde74;
+    background: var(--bhigreen);
     height: 85px;
     display: flex;
     align-items: center;

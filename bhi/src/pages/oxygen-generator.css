@@ -1,3 +1,10 @@
+:root {
+    --bhigreen: RGB(203, 218, 121);
+    --bhigray: RGB(123, 134, 118);
+    --greenvar1: RGB(177, 198, 125);
+    --greenvar2: RGB(145, 164, 71);
+}
+
 .container {
     padding: 20px;
     text-align: center;
@@ -19,14 +26,14 @@
     margin-right: auto;
     height: 300px;
     width: auto;
-    border: 2px solid #cbde74;
+    border: 2px solid var(--bhigreen);
     margin-bottom: 20px;
 }
 
 .message {
     font-size: 18px;
     margin-bottom: 10px;
-    border: 3px solid #cbde74;
+    border: 3px solid var(--bhigreen);
     display: inline-block;
     padding: 10px;
     line-height: 20px;
@@ -36,7 +43,7 @@
     display: inline-block;
     text-align: left;
     justify-content: center;
-    border: 3px solid #7E887C;
+    border: 3px solid var(--bhigray);
     margin-top: 10px;
     padding-right: 20px;
 }
@@ -56,11 +63,22 @@ li {
     padding-inline-start: 0;
 }
 
+.info-button{
+    margin: 5px;
+    border: 0px;
+    padding: 5px;
+    font-size: 16px;
+    color: var(--greenvar2);
+    background: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
 .history-button{
     margin-top: 20px;
     padding: 10px;
     border: 1px solid #e0e0e0;
-    background: #7E887C;
+    background: var(--bhigray);
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -81,7 +99,7 @@ li {
     margin-bottom: 5px;
     padding: 10px;
     background: #f0f0f0;
-    border: 2px solid #7E887C;
+    border: 2px solid var(--bhigray);
     color: black;
     cursor: pointer;
     font-size: 16px;
@@ -97,7 +115,7 @@ li {
     margin-top: 10px;
     padding: 10px;
     border: 1px solid #e0e0e0;
-    background: #7E887C;
+    background: var(--bhigray);
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -114,7 +132,7 @@ li {
     margin-top: 0px;
     padding: 10px;
     border: 1px solid #e0e0e0;
-    background: #cbde74;
+    background: RGB(203,218,121);
     color: white;
     cursor: pointer;
     font-size: 16px;
@@ -133,7 +151,7 @@ li {
     width: max-content;
     padding: 10px;
     line-height: 20px;
-    background:#cbde74;
+    background: var(--bhigreen);
     color: white;
 }
 

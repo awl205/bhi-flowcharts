@@ -1,6 +1,14 @@
 import React, { useState } from 'react';
 import "./oxygen-generator.css";
 import oxygenflowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";
+import buildPurityPDF from "./assets/Building Purity .pdf";
+import lowInletPressurePDF from "./assets/Check for low inlet pressure .pdf";
+import mufflerPhotosPDF from "./assets/Muffler Photos.pdf";
+import PSACyclePressurePDF from "./assets/PSA Cycle Pressure Check.pdf";
+import PSACyclePDF from "./assets/The PSA Cycle.pdf";
+import TroubleshootUpstreamPDF from "./assets/trouble shooting upstream power.pdf";
+import valveCabinetLeaksPDF from "./assets/Valve Cabinet Leaks.pdf";
+import zeoliteDegradationPDF from "./assets/Zeolite Degradation.pdf";
 
 const flowChartLogic = {
   start: {
@@ -157,7 +165,7 @@ const flowChartLogic = {
     message: "Has the machine been restarted recently (in the last 30 minutes)?",
     options: [
         { label: "No", next: "handheld_analyzer"},
-        { label: "Yes", next: "wait_cycle"},
+        { label: "Yes", next: "build_purity"},
     ],
   },
   handheld_analyzer: {
@@ -173,6 +181,7 @@ const flowChartLogic = {
         { label: "No", next: "troubleshoot_upstream_equip"}, // defined in flowchart #5
         { label: "Yes", next: "limit_oxygen_output_purity"},
     ],
+    pdfLink: lowInletPressurePDF,
   },
   limit_oxygen_output_purity: {
     message: "Limit oxygen output (close supply valve to hospital). \n Does the purity improve?",
@@ -217,12 +226,13 @@ const flowChartLogic = {
     ],
   },
 
-  wait_cycle: {
+  build_purity: {
     message: "Wait until the oxygen generator can cycle and build purity. \nCheck every hour to see if purity is increasing. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "handheld_analyzer"},
         { label: "Yes", next: "end"},
     ],
+    pdfLink: buildPurityPDF,
   },
 
 
@@ -233,6 +243,7 @@ const flowChartLogic = {
         { label: "No", next: "valve_signal"},
         { label: "Yes", next: "valve_leaks"},
     ],
+    pdfLink: PSACyclePressurePDF,
   },
   valve_leaks: {
     message: "Are there any leaks in valve cabinet?",
@@ -240,6 +251,7 @@ const flowChartLogic = {
         { label: "No", next: "backpressure_regulator"},
         { label: "Yes", next: "tighten_leaky_unions"},
     ],
+    pdfLink: valveCabinetLeaksPDF,
   },
   backpressure_regulator: {
     message: "Is there a backpressure regulator?",
@@ -281,6 +293,7 @@ const flowChartLogic = {
     options: [
         { label: "Okay", next: "exit"},
     ],
+    pdfLink: zeoliteDegradationPDF,
   },
   zerolite_depressed: {
     message: "Has the zeolite been depressed?",
@@ -504,11 +517,23 @@ const App = () => {
   const restartHistory = () => {
     setCurrentStep("start")
     setHistory([]);
-  }
+  };
+
+  const downloadHistory = () => {
+    const textContent = history.map((entry, index) =>
+        `Question ${index+1}: ${entry.message} \n Response selected: ${entry.selected}\n`).join("\n\n");
+    const blob = new Blob([textContent], {type: "text/plain"});
+    const url= URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "troubleshooting_steps.txt"
+    link.click();
+    URL.revokeObjectURL(url);
+  };
 
   const sendErrorReport = () => {
     console.log("FIX LATER!")
-  }
+  };
 
   const step = flowChartLogic[currentStep];
 
@@ -516,7 +541,7 @@ const App = () => {
     <div className="container">
         <h1 className="title">Oxygen Generator Troubleshooting</h1>
         <p className="update"> Last updated: Jan 2025 </p>
-        <img className="oxygen_img" src={oxygenFlowChart}/>
+        <img className="oxygen_img" src={oxygenFlowChart} alt="Oxygen generator diagram"/>
         <p className="interactive-subtitle"> Interactive Troubleshooting </p>
 
         <p className="message">
@@ -526,7 +551,17 @@ const App = () => {
                     <br/ >
                 </React.Fragment>
             ))}
+
+        {step.pdfLink && (
+            <div className = "additional-info">
+                <button className = "info-button"
+                    onClick = {() => window.open(step.pdfLink, "_blank")}
+                > Additional Information
+                </button>
+            </div>
+        )}
         </p>
+
         <div className="buttons-container">
             {step.options.map((option, index) => (
             <button
@@ -556,10 +591,10 @@ const App = () => {
             {showHistory && (
                 <div className="history">
                 <h2> Navigation History </h2>
-                <ul>
+                <ol>
                     {history.map((entry, index) => (
                     <li key={index}>
-                        <strong> Question:</strong>{" "}
+                        <strong> Question:  </strong>{" "}
                         {entry.message.split("\n").map((line, idx) => (
                         <React.Fragment key={idx}>
                             {line}
@@ -573,13 +608,18 @@ const App = () => {
                         </ul>
                     </li>
                     ))}
-                </ul>
+
+                </ol>
                 </div>
             )}
 
             <div className = "history-button-div">
                 <button onClick={sendErrorReport} className="bottom-buttons">
                     Send Report to BHI
+                </button>
+
+                <button onClick={downloadHistory} className = "bottom-buttons">
+                    Download History
                 </button>
 
                 <button onClick={restartHistory} className="bottom-buttons">
@@ -590,7 +630,7 @@ const App = () => {
 
         <p className="flowchart-subtitle"> Complete Flowchart </p>
         <div className="flowchart">
-            <img className="oxygen-generator-flowchart" src={oxygenflowchart}/>
+            <img className="oxygen-generator-flowchart" src={oxygenflowchart} alt="Full oxygen generator troubleshooting flowchart."/>
         </div>
     </div>
   );
