@@ -8,8 +8,8 @@ import {
 } from "react-router-dom";
 import Home from "./pages";
 import OxygenGenerator from "./pages/oxygen-generator";
-import Equip2 from "./pages/2";
-import Equip3 from "./pages/3";
+import BoosterCompressor from "./pages/booster-compressor";
+import AirDryer from "./pages/air-dryer";
 import Equip4 from "./pages/4";
 
 function App() {
@@ -18,9 +18,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/oxygen-generator" element={<OxygenGenerator />} />
-        <Route path="/2" element={<Equip2 />} />
-        <Route path="/3" element={<Equip3 />} />
+        <Route path="/oxygen-generator" element={<OxygenGenerator/>} />
+        <Route path="/booster-compressor" element={<BoosterCompressor/>} />
+        <Route path="/air-dryer" element={<AirDryer />} />
         <Route path="/4" element={<Equip4 />} />
       </Routes>
     </Router>

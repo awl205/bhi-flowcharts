@@ -123,6 +123,11 @@ li {
     margin-right: 5px;
 }
 
+a.bottom-buttons{
+    text-decoration: none;
+    font-weight: normal;
+}
+
 .bottom-buttons:hover {
     background: #f16521;
     color: white;

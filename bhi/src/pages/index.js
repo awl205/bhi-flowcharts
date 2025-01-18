@@ -16,18 +16,18 @@ const Home = () => {
                     </a>
                 </div>
                 <div class="box">
-                    <a href= "/2">
+                    <a href= "/booster-compressor">
                         <img className="home-img" src={"https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/Homepage-First-Photo-scaled-800x450.jpg"}/>
                         <div className="overlay">
-                            <span className="overlay-text">2</span>
+                            <span className="overlay-text">Booster Compressor</span>
                         </div>
                     </a>
                 </div>
                 <div class="box">
-                    <a href= "/3">
+                    <a href= "/air-dryer">
                         <img className="home-img" src={"https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/Homepage-First-Photo-scaled-800x450.jpg"}/>
                         <div className="overlay">
-                            <span className="overlay-text">3</span>
+                            <span className="overlay-text">Air Dryer</span>
                         </div>
                     </a>
                 </div>

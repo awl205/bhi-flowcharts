@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import "./oxygen-generator.css";
+import "./equip.css";
 import oxygenflowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";
 import buildPurityPDF from "./assets/Building Purity .pdf";
 import lowInletPressurePDF from "./assets/Check for low inlet pressure .pdf";
 import mufflerPhotosPDF from "./assets/Muffler Photos.pdf";
 import PSACyclePressurePDF from "./assets/PSA Cycle Pressure Check.pdf";
 import PSACyclePDF from "./assets/The PSA Cycle.pdf";
-import TroubleshootUpstreamPDF from "./assets/trouble shooting upstream power.pdf";
+import TroubleshootUpstreamPowerPDF from "./assets/trouble shooting upstream power.pdf";
 import valveCabinetLeaksPDF from "./assets/Valve Cabinet Leaks.pdf";
 import zeoliteDegradationPDF from "./assets/Zeolite Degradation.pdf";
 
@@ -102,14 +102,14 @@ const flowChartLogic = {
     ],
   },
   set_switch_to_run: {
-    message: "ACTION: Set switch to run. \nHas the issue been resolved?",
+    message: "Set switch to run. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "contact_manufacturer"}, // defined in flowchart #2
         { label: "Yes", next: "end"},
     ],
   },
   toggle_switch: {
-    message: "ACTION: Toggle the switch. \nHas the issue been resolved?",
+    message: "Toggle the switch. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "contact_manufacturer"},
         { label: "Yes", next: "end"},
@@ -117,7 +117,7 @@ const flowChartLogic = {
   },
 
   connect_display_plc: {
-    message: "ACTION: Connect the display to the PLC.",
+    message: "Connect the display to the PLC.",
     options: [
         { label: "Done", next: "plc_receive_power"},
     ],
@@ -131,14 +131,14 @@ const flowChartLogic = {
   },
 
   replace_display: {
-    message: "ACTION: Replace display. \nHas the issue been resolved?",
+    message: "Replace display. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "contact_manufacturer"},
         { label: "Yes", next: "end"},
     ],
   },
   verify_power: {
-    message: "ACTION: Verify power incompatibility and replace power supply. \n Has the issue been resolved?",
+    message: "Verify power incompatibility and replace power supply. \n Has the issue been resolved?",
     options: [
         { label: "No", next: "display_plc"},
         { label: "Yes", next: "end"},
@@ -150,6 +150,7 @@ const flowChartLogic = {
     options: [
         { label: "Return to menu", next: "start"},
     ],
+    pdfLink: TroubleshootUpstreamPowerPDF,
   },
 
   wait_oxygen_tank: {
@@ -212,7 +213,7 @@ const flowChartLogic = {
     ],
   },
   reset_flow: {
-    message: "ACTION: Reset flow. \nHas the issue been resolved?",
+    message: "Reset flow. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "exit"},
         { label: "Yes", next: "end"},
@@ -277,12 +278,13 @@ const flowChartLogic = {
   dusting_oil: {
     message: "Is there dusting or oil on the muffler?",
     options: [
-        { label: "No", next: "zerolite_depressed"},
+        { label: "No", next: "zeolite_depressed"},
         { label: "Yes", next: "clean_replace_mufflers"},
     ],
+    pdfLink: mufflerPhotosPDF,
   },
   clean_replace_mufflers: {
-    message: "ACTION: Clean or replace mufflers. \nHas the issue been resolved?",
+    message: "Clean or replace mufflers. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "zeolite_degraded"},
         { label: "Yes", next: "end"},
@@ -295,7 +297,7 @@ const flowChartLogic = {
     ],
     pdfLink: zeoliteDegradationPDF,
   },
-  zerolite_depressed: {
+  zeolite_depressed: {
     message: "Has the zeolite been depressed?",
     options: [
         { label: "No", next: "exit"},
@@ -303,21 +305,21 @@ const flowChartLogic = {
     ],
   },
   top_off_zeolite: {
-    message: "ACTION: Top off zeolite. \nHas the issue been resolved?",
+    message: "Top off zeolite. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "exit"},
         { label: "Yes", next: "end"},
     ],
   },
   tighten_leaky_unions: {
-    message: "ACTION: Tighten leaky unions. \nHas the issue been resolved?",
+    message: "Tighten leaky unions. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "inspect_fitting_surface"},
         { label: "Yes", next: "end"},
     ],
   },
   inspect_fitting_surface: {
-    message: "ACTION: Inspect fitting seal surface. \nHas the issue been resolved?",
+    message: "Inspect fitting seal surface. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "exit"},
         { label: "Yes", next: "end"},
@@ -331,21 +333,21 @@ const flowChartLogic = {
     ],
   },
   inspect_rebuild: {
-    message: "ACTION: Inspect and clean or rebuild valves. \nHas the issue been resolved?",
+    message: "Inspect and clean or rebuild valves. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "loose_wires"},
         { label: "Yes", next: "end"},
     ],
   },
   loose_wires: {
-    message: "ACTION: Check for and re-terminate loose wires/tubing. \nHas the issue been resolved?",
+    message: "Check for and re-terminate loose wires/tubing. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "replace_plc"},
         { label: "Yes", next: "end"},
     ],
   },
   replace_plc: {
-    message: "ACTION: Replace PLC. \nHas the issue been resolved?",
+    message: "Replace PLC. \nHas the issue been resolved?",
     options: [
         { label: "No", next: "exit"},
         { label: "Yes", next: "end"},
@@ -354,7 +356,7 @@ const flowChartLogic = {
 
   // ***** FLOWCHART #4: LOW PRESSURE IN OXYGEN TANK *****
   limit_oxygen_output: {
-    message: "ACTION: Limit oxygen output (close supply valve to hospital). \nDoes the pressure increase?",
+    message: "Limit oxygen output (close supply valve to hospital). \nDoes the pressure increase?",
     options: [
         { label: "No", next: "inlet_pressure_match" },
         { label: "Yes", next: "piping_leaks" },
@@ -390,7 +392,7 @@ const flowChartLogic = {
     ],
   },
   repair_leaks: {
-    message: "ACTION: Repair leaks. \nHas the issue been resolved?",
+    message: "Repair leaks. \nHas the issue been resolved?",
     options: [
       { label: "No", next: "exceed_capacity"},
       { label: "Yes", next: "end" },
@@ -404,7 +406,7 @@ const flowChartLogic = {
     ],
   },
   limit_oxygen_demand: {
-    message: "Action: Permanently limit oxygen demand on PSA Plant. \nProcure supplemental oxygen supply. \nHas the issue been resolved?",
+    message: "Permanently limit oxygen demand on PSA Plant. \nProcure supplemental oxygen supply. \nHas the issue been resolved?",
     options: [
       { label: "No", next: "contact_manufacturer"},
       { label: "Yes", next: "end" },
@@ -482,7 +484,7 @@ const flowChartLogic = {
   },
 };
 
-const oxygenFlowChart = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
+const oxygenDiagram = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
 const App = () => {
   const [currentStep, setCurrentStep] = useState("start");
@@ -531,17 +533,13 @@ const App = () => {
     URL.revokeObjectURL(url);
   };
 
-  const sendErrorReport = () => {
-    console.log("FIX LATER!")
-  };
-
   const step = flowChartLogic[currentStep];
 
   return (
     <div className="container">
         <h1 className="title">Oxygen Generator Troubleshooting</h1>
         <p className="update"> Last updated: Jan 2025 </p>
-        <img className="oxygen_img" src={oxygenFlowChart} alt="Oxygen generator diagram"/>
+        <img className="oxygen_img" src={oxygenDiagram} alt="Oxygen generator diagram"/>
         <p className="interactive-subtitle"> Interactive Troubleshooting </p>
 
         <p className="message">
@@ -614,9 +612,10 @@ const App = () => {
             )}
 
             <div className = "history-button-div">
-                <button onClick={sendErrorReport} className="bottom-buttons">
+                <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
+                    className="bottom-buttons">
                     Send Report to BHI
-                </button>
+                </a>
 
                 <button onClick={downloadHistory} className = "bottom-buttons">
                     Download History

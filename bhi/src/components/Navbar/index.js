@@ -20,11 +20,11 @@ const Navbar = () => {
                     <NavLink to="/oxygen-generator" className="nav-link" activeClassName="active">
                         Oxygen Generator
                     </NavLink>
-                    <NavLink to="/2" className="nav-link" activeClassName="active">
-                        Equip2
+                    <NavLink to="/booster-compressor" className="nav-link" activeClassName="active">
+                        Booster Compressor
                     </NavLink>
-                    <NavLink to="/3" className="nav-link" activeClassName="active">
-                        Equip3
+                    <NavLink to="/air-dryer" className="nav-link" activeClassName="active">
+                        Air Dryer
                     </NavLink>
                     <NavLink to="/4" className="nav-link" activeClassName="active">
                         Equip4
