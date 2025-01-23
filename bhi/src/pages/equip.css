@@ -173,12 +173,14 @@ a.bottom-buttons{
 }
 
 div.flowchart {
-    overflow-x: scroll;
+    overflow-x: auto;
+    border: 2px solid #f16521;
+    margin: 10px;
+    padding: 5px;
 }
 
-.oxygen-generator-flowchart{
-    display: flex;
-    width: 200%;
-    border:2px solid #f16521;
-    margin: 10px;
+.full-flowchart-img {
+    display: block;
+    width: 225%;
+    height: 100%;
 }

@@ -629,7 +629,7 @@ const App = () => {
 
         <p className="flowchart-subtitle"> Complete Flowchart </p>
         <div className="flowchart">
-            <img className="oxygen-generator-flowchart" src={oxygenflowchart} alt="Full oxygen generator troubleshooting flowchart."/>
+            <img className="full-flowchart-img" src={oxygenflowchart} alt="Full oxygen generator troubleshooting flowchart."/>
         </div>
     </div>
   );

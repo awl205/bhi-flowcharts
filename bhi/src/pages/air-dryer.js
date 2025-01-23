@@ -6,7 +6,7 @@ const flowChartLogic = {
     start: {
       message: "What issue are you facing?",
       options: [
-        { label: "Excess water in the line (in coalescing filters or bottom of air tank", next: "excess_water" },
+        { label: "Excess water in the line (in coalescing filters or bottom of air tank)", next: "excess_water" },
         { label: "PDP sensor error or high PDP (>6 degC or see manual for limit)", next: "heat_exchangers" },
       ],
     },
@@ -287,7 +287,7 @@ const flowChartLogic = {
 
           <p className="flowchart-subtitle"> Complete Flowchart </p>
           <div className="flowchart">
-              <img className="oxygen-generator-flowchart" src={oxygenflowchart} alt="Full oxygen generator troubleshooting flowchart."/>
+              <img className="full-flowchart-img" src={oxygenflowchart} alt="Full oxygen generator troubleshooting flowchart."/>
           </div>
       </div>
     );

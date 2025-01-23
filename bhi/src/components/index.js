@@ -1,6 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import './Navbar.css';
+import logo from '../pages/assets/BHI Logo_Full_Grey.png';
 
 const Navbar = () => {
     return (
@@ -8,7 +9,7 @@ const Navbar = () => {
             <div className="nav-menu">
                 <NavLink to="/" className="nav-link" activeClassName="active" exact>
                     <img
-                        src="https://www.guidestar.org/ViewEdoc.aspx?eDocId=11021317&approved=True"
+                        src={logo}
                         alt="Logo"
                         className="nav-logo"
                     />
