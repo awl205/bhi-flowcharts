@@ -6,8 +6,9 @@ const flowChartLogic = {
     start: {
       message: "What issue are you facing?",
       options: [
-        { label: "Excess water in the line (in coalescing filters or bottom of air tank)", next: "excess_water" },
-        { label: "PDP sensor error or high PDP (>6 degC or see manual for limit)", next: "heat_exchangers" },
+        { label: (<>Excess water in the line <br/>(in coalescing filters or bottom of air tank)</>), next: "excess_water" },
+        { label: (<>High PDP <br/> (>6{'\u00b0'} C or see manual for limit)</>), next: "heat_exchangers" },
+        { label: "PDP sensor error", next: "sensor_power"}
       ],
     },
     end: {
@@ -23,7 +24,7 @@ const flowChartLogic = {
       ]
     },
 
-    // ***** FLOWCHART 1 *****
+    // ***** FLOWCHART 1/2 *****
     excess_water: {
         message: "Test the condensate drain. Is it working?",
         options: [
@@ -56,7 +57,21 @@ const flowChartLogic = {
         message: "Is the refrigerant compressor running?",
         options: [
             {label: 'No', next: 'refrigerant_power'},
+            {label: 'Yes', next: 'sensor_resistance'}
+        ],
+    },
+    sensor_resistance: {
+        message: "Check sensor resistance and continuity. Is it functioning as expected?",
+        options: [
+            {label: 'No', next: 'replace_sensor'},
             {label: 'Yes', next: 'hvac_specialist'}
+        ],
+    },
+    replace_sensor: {
+        message: "Replace sensor. \nHas the issue been resolved?",
+        options: [
+            {label: 'No', next: 'hvac_specialist'},
+            {label: 'Yes', next: 'end'}
         ],
     },
     hvac_specialist: {
@@ -138,6 +153,28 @@ const flowChartLogic = {
         ]
     },
 
+    // ***** FLOWCHART 3 *****
+    sensor_power: {
+        message: "Is the sensor receiving power?",
+        options: [
+            {label: 'No', next: 'reconnect_sensor'},
+            {label: 'Yes', next: 'replace_sensor3'}
+        ]
+    },
+    reconnect_sensor: {
+        message: "Reconnect the sensor. \nHas the issue been resolved?",
+        options: [
+            {label: 'No', next: 'replace_sensor3'},
+            {label: 'Yes', next: 'end'}
+        ]
+    },
+    replace_sensor3: {
+        message: "Replace the sensor. \nHas the issue been resolved?",
+        options: [
+            {label: 'No', next: 'exit'},
+            {label: 'Yes', next: 'end'}
+        ]
+    },
 
 
   };

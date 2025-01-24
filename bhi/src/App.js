@@ -1,6 +1,7 @@
 import React from "react";
 import './App.css';
-import Navbar from "./components";
+import Navbar from "./components/Navbar.js";
+import Footer from "./components/Footer.js"
 import {
   BrowserRouter as Router,
   Routes,
@@ -23,6 +24,7 @@ function App() {
         <Route path="/air-dryer" element={<AirDryer />} />
         <Route path="/4" element={<Equip4 />} />
       </Routes>
+      <Footer/>
     </Router>
   );
 }

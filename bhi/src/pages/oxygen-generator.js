@@ -522,13 +522,28 @@ const App = () => {
   };
 
   const downloadHistory = () => {
+    const currentDate = new Date();
+    const date = currentDate.toLocaleDateString('en-US', { // MM/DD/YYYY
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    })
+    const time = currentDate.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    const date_timestamp = `${date} ${time}`
     const textContent = history.map((entry, index) =>
         `Question ${index+1}: ${entry.message} \n Response selected: ${entry.selected}\n`).join("\n\n");
-    const blob = new Blob([textContent], {type: "text/plain"});
+    const fileContent = `Troubleshooting Steps - Date: ${date_timestamp}\n\n${textContent}`
+    const blob = new Blob([fileContent], {type: "text/plain"});
     const url= URL.createObjectURL(blob);
     const link = document.createElement("a");
+    const fileName = `troubleshooting_steps_${date_timestamp}`
     link.href = url;
-    link.download = "troubleshooting_steps.txt"
+    link.download = fileName
     link.click();
     URL.revokeObjectURL(url);
   };
