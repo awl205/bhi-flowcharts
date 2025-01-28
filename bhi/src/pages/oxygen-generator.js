@@ -638,7 +638,7 @@ const App = () => {
 
           {showHistory && (
             <div className="history">
-            <h2> Navigation History </h2>
+              <h2> Navigation History </h2>
             <ol>
               {history.map((entry, index) => (
               <li key={index}>

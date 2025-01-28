@@ -16,7 +16,7 @@ import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram 
           externalLink: {
             url: "https://bhioxygen.org/request-support/",
             label: "Other"
-        },
+          },
         },
         end: {
           message: "Issue resolved!",
@@ -211,7 +211,7 @@ import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram 
     };
 
     const goToStep = (nextStep, selectedLabel) => {
-      setHistory((prev) => [
+        setHistory((prev) => [
           ...prev,
           {
               stepKey: currentStep,
