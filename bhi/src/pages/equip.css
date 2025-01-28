@@ -175,7 +175,7 @@ a.bottom-buttons{
     justify-content: center;
     font-weight: bold;
     margin: auto;
-    width: 60%;
+    width: 100%;
     padding: 10px;
     padding-right: 0px;
     padding-left: 0px;
@@ -189,7 +189,7 @@ a.bottom-buttons{
     margin-top: 20px;
     margin-bottom: 10px;
     display: inline-block;
-    width: 60%;
+    width: 100%;
     font-weight: bold;
     padding: 10px;
     padding-right: 0px;

@@ -8,8 +8,9 @@
 
 .footer {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     height: auto;
     margin-bottom: 20px;
     background: var(--bhigray);
@@ -22,6 +23,7 @@
     padding: 10px;
     color: white;
     gap: 100px;
+    width: 100%;
 }
 
 .websites{
@@ -77,6 +79,7 @@ a{
     padding: 5px;
     width: 30px;
     height: 30px;
+    overflow: hidden;
 }
 
 .sm-logo{
@@ -88,4 +91,13 @@ a{
     margin: 0;
     font-size: 16px;
     line-height: 1.5;
+}
+
+@media (max-width: 1000px) {
+    .content {
+        flex-direction: column;
+        align-items: center;
+        /* text-align: center; */
+        gap: 0px;
+    }
 }
