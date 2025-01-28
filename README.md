@@ -16,9 +16,10 @@ App.css -- main control page styling
 ## Interactive Flowcharts
 1. Navigate to corresponding equipment page in src/pages (oxygen-generator.js, booster-compressor.js, etc.)
 2. Find flowchart number
-3. Modify steps
+3. Modify steps 
 
 ## Uploaded PDFs / Images
 1. Delete old version from src/pages/assets
-2. Upload new version
+2. Upload new version into src/pages/assets
 3. If new version has a different name, navigate to corresponding equipment page and change import statement at the top
+4. If the new LucidCharts full flowchart has changed, search for "positions" in the corresponding equipment page and modify percentages accordingly (may take some trial and error) - this is used for the automatic scrolling based on the first button selected 
