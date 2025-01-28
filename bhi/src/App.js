@@ -11,7 +11,7 @@ import Home from "./pages";
 import OxygenGenerator from "./pages/oxygen-generator";
 import BoosterCompressor from "./pages/booster-compressor";
 import AirDryer from "./pages/air-dryer";
-import Equip4 from "./pages/4";
+import AirCompressor from "./pages/air-compressor";
 
 function App() {
   return (
@@ -22,7 +22,7 @@ function App() {
         <Route path="/oxygen-generator" element={<OxygenGenerator/>} />
         <Route path="/booster-compressor" element={<BoosterCompressor/>} />
         <Route path="/air-dryer" element={<AirDryer />} />
-        <Route path="/4" element={<Equip4 />} />
+        <Route path="/air-compressor" element={<AirCompressor />} />
       </Routes>
       <Footer/>
     </Router>

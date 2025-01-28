@@ -1,14 +1,14 @@
 import React from "react";
 
-const Equip4 = () => {
+const AirCompressor = () => {
     return(
         <div>
             <h1>
-                Equipment 4
+                Air Compressor
             </h1>
         </div>
 
     );
 };
 
-export default Equip4;
+export default AirCompressor;

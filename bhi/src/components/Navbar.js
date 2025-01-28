@@ -27,9 +27,9 @@ const Navbar = () => {
                     <NavLink to="/air-dryer" className="nav-link" activeClassName="active">
                         Air Dryer
                     </NavLink>
-                    <NavLink to="/4" className="nav-link" activeClassName="active">
-                        Equip4
-                    </NavLink>
+                    {/* <NavLink to="/air-compressor" className="nav-link" activeClassName="active">
+                        Air Compressor
+                    </NavLink> */}
                 </div>
             </div>
         </nav>

@@ -34,14 +34,14 @@ const Home = () => {
                         </div>
                     </a>
                 </div>
-                <div class="box">
-                    <a href="/4">
+                {/* <div class="box">
+                    <a href="/air-compressor">
                         <img className="home-img" src={"https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/Homepage-First-Photo-scaled-800x450.jpg"}/>
                         <div className="overlay">
                             <span className="overlay-text">4</span>
                         </div>
                     </a>
-                </div>
+                </div> */}
             </div>
         </div>
     );
