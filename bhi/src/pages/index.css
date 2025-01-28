@@ -23,6 +23,7 @@ h1{
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease;
+    border: 5px solid var(--bhigreen);
 }
 
 .box:hover .home-img {

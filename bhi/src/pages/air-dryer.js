@@ -225,12 +225,12 @@ import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram 
     const step = flowChartLogic[currentStep];
 
     const goBack = () => {
-      if (history.length > 0) {
-        const updatedHistory = history.slice(0, -1); // remove last history entry
-        const previousStep = updatedHistory.length > 0 ? updatedHistory[updatedHistory.length - 1].stepKey : "start"; // last valid stepKey
-        setHistory(updatedHistory);
-        setCurrentStep(previousStep);
-      }
+        if(history.length > 0) {
+            const previousStep = history[history.length-1].stepKey;
+            const updatedHistory = history.slice(0, -1); // remove last history entry
+            setHistory(updatedHistory);
+            setCurrentStep(previousStep);
+        }
     };
 
     const toggleHistory = () => {
@@ -300,66 +300,63 @@ import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram 
           </div>
 
           {history.length > 0 && currentStep !== "start" && (
-              <div className="buttons-container">
-                  <button onClick={goBack} className="back-button">
-                      Back
-                  </button>
-              </div>
+          <div className="buttons-container">
+            <button onClick={goBack} className="back-button">
+                Back
+            </button>
+            <button onClick={restartHistory} className="back-button">
+                Restart
+            </button>
+          </div>
+        )}
+
+        <div className="history-toggle">
+
+          {showHistory && (
+            <div className="history">
+            <h2> Navigation History </h2>
+            <ol>
+              {history.map((entry, index) => (
+              <li key={index}>
+                <strong> Question:  </strong>{" "}
+                {entry.message.split("\n").map((line, idx) => (
+                <React.Fragment key={idx}>
+                    {line}
+                    <br />
+                </React.Fragment>
+                ))}
+                <ul>
+                    <li>
+                        <strong>Response:</strong> {entry.selected}
+                    </li>
+                </ul>
+              </li>
+              ))}
+            </ol>
+            </div>
           )}
 
-          <div className="history-toggle">
-              <div className = "history-button-div">
-                  <button onClick={toggleHistory} className="history-button">
-                      {showHistory ? "Hide History" : "View History"}
-                  </button>
-              </div>
+          <div className = "history-button-div">
+            <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
+              className="bottom-buttons">
+              Send Report to BHI
+            </a>
 
-              {showHistory && (
-                  <div className="history">
-                  <h2> Navigation History </h2>
-                  <ol>
-                      {history.map((entry, index) => (
-                      <li key={index}>
-                          <strong> Question:  </strong>{" "}
-                          {entry.message.split("\n").map((line, idx) => (
-                          <React.Fragment key={idx}>
-                              {line}
-                              <br />
-                          </React.Fragment>
-                          ))}
-                          <ul>
-                              <li>
-                                  <strong>Response:</strong> {entry.selected}
-                              </li>
-                          </ul>
-                      </li>
-                      ))}
+            <button onClick={toggleHistory} className="history-button">
+              {showHistory ? "Hide History" : "View History"}
+            </button>
 
-                  </ol>
-                  </div>
-              )}
-
-              <div className = "history-button-div">
-                <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
-                    className="bottom-buttons">
-                    Send Report to BHI
-                </a>
-
-                  <button onClick={downloadHistory} className = "bottom-buttons">
-                      Download History
-                  </button>
-
-                  <button onClick={restartHistory} className="bottom-buttons">
-                      Restart
-                  </button>
-              </div>
+            <button onClick={downloadHistory} className = "bottom-buttons">
+              Download History
+            </button>
           </div>
+        </div>
 
-          <p className="flowchart-subtitle"> Complete Flowchart </p>
-          <div className="flowchart" ref={flowchartRef}>
-              <img className="air-dryer-flow-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
-          </div>
-      </div>
+        <p className="flowchart-subtitle"> Complete Flowchart </p>
+        <div className="flowchart" ref={flowchartRef}>
+            <img className="air-dryer-flowchart-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
+        </div>
+    </div>
     );
   };
 

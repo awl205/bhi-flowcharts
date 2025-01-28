@@ -353,14 +353,11 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
       };
 
       const goBack = () => {
-        if (history.length === 1) {
-          restartHistory();
-        }
-        else if (history.length > 0) {
-          const updatedHistory = history.slice(0, -1); // remove last history entry
-          const previousStep = updatedHistory.length > 0 ? updatedHistory[updatedHistory.length - 1].stepKey : "start"; // last valid stepKey
-          setHistory(updatedHistory);
-          setCurrentStep(previousStep);
+        if(history.length > 0) {
+            const previousStep = history[history.length-1].stepKey;
+            const updatedHistory = history.slice(0, -1); // remove last history entry
+            setHistory(updatedHistory);
+            setCurrentStep(previousStep);
         }
       };
 
