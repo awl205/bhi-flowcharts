@@ -1,14 +1,15 @@
 h1{
     display: flex;
     justify-content: center;
+    text-align: center;
 }
 
 .welcome-message{
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-left: 300px;
-    margin-right: 300px;
+    margin-left: 20%;
+    margin-right: 20%;
     border: solid 3px var(--bhigreen);
     padding: 10px;
 }
@@ -68,4 +69,8 @@ h1{
     text-align: center;
     padding: 10px;
     background: #f16521;
+}
+
+@media (max-width: 800px) {
+
 }

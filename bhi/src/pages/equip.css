@@ -106,7 +106,7 @@ li {
     margin: 10px;
     margin-top: 0px;
     margin-bottom: 5px;
-    padding: 0 1rem;
+    padding: 0.25rem 1rem;
     background: #f0f0f0;
     border: 2px solid var(--bhigray);
     color: black;
@@ -171,7 +171,6 @@ a.bottom-buttons{
 .interactive-subtitle{
     font-size: 22px;
     display: flex;
-    text-align: center;
     justify-content: center;
     font-weight: bold;
     margin: auto;
@@ -202,7 +201,6 @@ a.bottom-buttons{
 div.flowchart {
     overflow: auto;
     border: 3px solid #f16521;
-    margin: 10px;
     padding: 5px;
     width: 59%;
     display: inline-block;
@@ -223,4 +221,21 @@ div.flowchart {
     position: relative;
     width: 250%;
     height: 100%;
+}
+
+@media (max-width: 800px) {
+    .diagram_img{
+        width: 100%;
+        transition: smooth;
+    }
+
+    .buttons-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    div.flowchart{
+        width: 95%;
+    }
 }

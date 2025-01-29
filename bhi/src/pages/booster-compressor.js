@@ -9,11 +9,13 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
         start: {
           message: "What issue are you facing?",
           options: [
-            { label: (<>Shutdown due to high temperature <br/> (Rix 2V3B and Bailan) </>), next: "shutdown_high_temp" },
-            { label: "Loud Metallic Knocking", next: "metallic_knocking" },
-            { label: "Booster will not produce \nfinal discharge pressure", next: "no_final_discharge_pressure"},
+            { label: "Shutdown due to high temperature (Rix 2V3B and Bailan)", next: "shutdown_high_temp" },
+            { label: "Loud knocking noise", next: "loud_knocking" },
             { label: "Low Interstage Pressures", next: "low_interstage_pressures"},
-            { label: "High Interstage Pressures", next: "high_interstage_pressures"}
+            { label: "Booster switches off before reaching final stage pressure", next: "no_final_discharge_pressure"},
+            { label: "High Interstage Pressures", next: "high_interstage_pressures"},
+            { label: "Tripping pressure relief value (hissing and clicking noise)", next: "tripping_pressure"},
+            { label: "Loud squealing noise during equipment start up", next: "squealing_noise"}
           ],
           externalLink: {
             url: "https://bhioxygen.org/request-support/",
@@ -27,7 +29,7 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
           ],
         },
         exit: {
-          message: "Sorry we were not able to resolve your issue. \nPlease contact __ for more information",
+          message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
           options: [
               {label: "Return to menu", next: "start"},
           ]
@@ -107,8 +109,21 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
         },
 
         // **** FLOWCHART 2 *****
-        metallic_knocking: {
-            message: "Identify which stage the knocking is coming from. \nIs the noise coming from the final stage?",
+        loud_knocking: {
+            message: "Is the noise coming from the cylinders or rotating assembly?",
+            options: [
+                {label: 'Cylinders', next: 'identify_stage'},
+                {label: 'Rotating Assembly', next: 'crankshaft_issue'},
+            ],
+        },
+        crankshaft_issue: {
+            message: "Likely a crankshaft or bearing issue. \nPlease contact manufacturer.",
+            options: [
+                {label: 'Return to menu', next: 'start'},
+            ],
+        },
+        identify_stage: {
+            message: "Identify which stage the knocking is coming from. \nIs the noise coming from the cylinders or rotating assembly?",
             options: [
                 {label: 'No', next: 'measure_piston_clearance'},
                 {label: 'Yes', next: 'final_stage_pressure'},
@@ -129,37 +144,7 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
             ],
         },
 
-        // **** FLOWCHART 3 *****
-        no_final_discharge_pressure: {
-            message: "Are there any leaks in the downstream piping or manifolds?",
-            options: [
-                {label: 'No', next: 'piston_rings_worn'},
-                {label: 'Yes', next: 'repair_leak'},
-            ],
-        },
-        repair_leak: {
-            message: "Repair leak. Has the issue been resolved?",
-            options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
-            ],
-        },
-        piston_rings_worn: {
-            message: "Are the piston rings in the final stage worn?",
-            options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'replace_rings'},
-            ],
-        },
-        replace_rings: {
-            message: "Replace the rings. Has the issue been resolved?",
-            options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'end'},
-            ],
-        },
-
-        // **** FLOWCHART 4 ****
+        // **** FLOWCHART 3 ****
         low_interstage_pressures: {
             message: "Is the inlet (suction) pressure high enough?",
             options: [
@@ -259,6 +244,36 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
             ],
         },
 
+         // **** FLOWCHART 4 *****
+         no_final_discharge_pressure: {
+            message: "Are there any leaks in the downstream piping or manifolds?",
+            options: [
+                {label: 'No', next: 'piston_rings_worn'},
+                {label: 'Yes', next: 'repair_leak'},
+            ],
+        },
+        repair_leak: {
+            message: "Repair leak. Has the issue been resolved?",
+            options: [
+                {label: 'No', next: 'exit'},
+                {label: 'Yes', next: 'end'},
+            ],
+        },
+        piston_rings_worn: {
+            message: "Are the piston rings in the final stage worn?",
+            options: [
+                {label: 'No', next: 'exit'}, // fix this???
+                {label: 'Yes', next: 'replace_rings'},
+            ],
+        },
+        replace_rings: {
+            message: "Replace the rings. Has the issue been resolved?",
+            options: [
+                {label: 'No', next: 'exit'}, // fix this???
+                {label: 'Yes', next: 'end'},
+            ],
+        },
+
         // **** FLOWCAHRT 5 ****
         high_interstage_pressures: {
             message: "Examine the valves in the following stage. Are they opening correctly?",
@@ -310,19 +325,70 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
             ],
         },
 
+        // ***** FLOWCHART 6 *****
+        tripping_pressure: {
+            message: "Is the interstage pressure below the relief valve trip threshold?",
+            options: [
+                {label: 'No', next: 'replace_cont'},
+                {label: 'Yes', next: 'replace_end'},
+            ],
+        },
+        replace_end: {
+            message: "Replace the pressure relief valve. \n Has the issue been resolved?",
+            options: [
+                {label: 'No', next: 'exit'},
+                {label: 'Yes', next: 'end'},
+            ],
+        },
+        replace_cont: {
+            message: "Replace the pressure relief valve. \n Is the issue with the final stage?",
+            options: [
+                {label: 'No', next: 'high_interstage_pressures'},
+                {label: 'Yes', next: 'sensor_functional'},
+            ],
+        },
+        sensor_functional: {
+            message: "Is the discharge pressure sensor functional?",
+            options: [
+                {label: 'No', next: 'replace_sensor'},
+                {label: 'Yes', next: 'back_pressure_functional'},
+            ],
+        },
+        back_pressure_functional: {
+            message: "Is the back pressure regulator functional? (Rix only)",
+            options: [
+                {label: 'No', next: 'replace_back_pressure'},
+                {label: 'Yes', next: 'exit'},
+            ],
+        },
+        replace_back_pressure: {
+            message: "Replace or rebuild the back pressure regulator. \nHas the issue been resolved?",
+            options: [
+                {label: 'No', next: 'exit'},
+                {label: 'Yes', next: 'end'},
+            ],
+        },
+        replace_sensor: {
+            message: "Replace the discharge pressure sensor. \nHas the issue been resolved?",
+            options: [
+                {label: 'No', next: 'back_pressure_functional'},
+                {label: 'Yes', next: 'end'},
+            ],
+        },
+
       };
 
-    const flowchartRef = useRef(null);
+      const flowchartRef = useRef(null);
       const [currentStep, setCurrentStep] = useState("start");
       const [hasScrolled, setHasScrolled] = useState(false);
       const [history, setHistory] = useState([]);
-      const [showHistory, setShowHistory] = useState("false");
+      const [showHistory, setShowHistory] = useState(false);
 
       const scrollToSection = (section) => {
         if (!hasScrolled) {
           const positions = {
             shutdown_high_temp: {x: 0},
-            metallic_knocking: {x: 0.2},
+            loud_knocking: {x: 0.2},
             no_final_discharge_pressure: {x: 0.43},
             low_interstage_pressures: {x: 0.65},
             high_interstage_pressures: {x: 1},
@@ -340,20 +406,26 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
       };
 
       const goToStep = (nextStep, selectedLabel) => {
-        setHistory((prev) => [
-            ...prev,
-            {
-                stepKey: currentStep,
-                message: flowChartLogic[currentStep].message || "",
-                selected: selectedLabel,
-            },
-        ]); // add current step to history
-        setCurrentStep(nextStep);
-        scrollToSection(nextStep);
+        if (nextStep === 'start') {
+            restartHistory();
+        } else {
+            setHistory((prev) => [
+                ...prev,
+                {
+                    stepKey: currentStep,
+                    message: flowChartLogic[currentStep].message || "",
+                    selected: selectedLabel,
+                },
+            ]); // add current step to history
+            setCurrentStep(nextStep);
+            scrollToSection(nextStep);
+        }
       };
 
       const goBack = () => {
-        if(history.length > 0) {
+        if(history.length === 1){
+            restartHistory();
+        } else if(history.length > 0) {
             const previousStep = history[history.length-1].stepKey;
             const updatedHistory = history.slice(0, -1); // remove last history entry
             setHistory(updatedHistory);

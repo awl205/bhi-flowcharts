@@ -35,7 +35,7 @@ const App = () => {
       ],
     },
     exit: {
-      message: "Sorry we were not able to resolve your issue. \nPlease contact __ for more information",
+      message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
       options: [
           {label: "Return to menu", next: "start"},
       ]
@@ -495,7 +495,7 @@ const App = () => {
   const [currentStep, setCurrentStep] = useState("start");
   const [hasScrolled, setHasScrolled] = useState(false);
   const [history, setHistory] = useState([]);
-  const [showHistory, setShowHistory] = useState("false");
+  const [showHistory, setShowHistory] = useState(false);
 
   const scrollToSection = (section) => {
     if (!hasScrolled) {
@@ -519,20 +519,26 @@ const App = () => {
   };
 
   const goToStep = (nextStep, selectedLabel) => {
-    setHistory((prev) => [
-        ...prev,
-        {
-            stepKey: currentStep,
-            message: flowChartLogic[currentStep].message || "",
-            selected: selectedLabel,
-        },
-    ]); // add current step to history
-    setCurrentStep(nextStep);
-    scrollToSection(nextStep);
+    if (nextStep === 'start') {
+        restartHistory();
+    } else {
+        setHistory((prev) => [
+            ...prev,
+            {
+                stepKey: currentStep,
+                message: flowChartLogic[currentStep].message || "",
+                selected: selectedLabel,
+            },
+        ]); // add current step to history
+        setCurrentStep(nextStep);
+        scrollToSection(nextStep);
+    }
   };
 
   const goBack = () => {
-    if(history.length > 0) {
+    if(history.length === 1){
+      restartHistory();
+    } else if(history.length > 0) {
       const previousStep = history[history.length-1].stepKey;
       const updatedHistory = history.slice(0, -1); // remove last history entry
       setHistory(updatedHistory);
