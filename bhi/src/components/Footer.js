@@ -37,7 +37,7 @@ const Footer = () => {
                         </a>
                 </div>
                 <div className='social-media'>
-                    <p> Subscribe, follow, and friend us to get the latest news <br/> on how BHI is improving healthcare infrastructure <br/>with partners around the world. </p>
+                    <p> Subscribe, follow, and friend us to get the latest news on how BHI is improving healthcare infrastructure with partners around the world. </p>
                     <div className='sm-logos-div'>
                         <a href='https://www.linkedin.com/company/build-health-international/'>
                             <div className='sm-logos'>
