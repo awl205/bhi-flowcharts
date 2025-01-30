@@ -26,7 +26,12 @@ function App() {
         <Route path="/air-compressor" element={<AirCompressor />} />
       </Routes>
       <Footer/>
+      <div>
+        {/* ... */}
+        <Analytics />
+      </div>
     </Router>
+
   );
 }
 
