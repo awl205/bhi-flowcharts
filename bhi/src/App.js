@@ -12,6 +12,7 @@ import OxygenGenerator from "./pages/oxygen-generator";
 import BoosterCompressor from "./pages/booster-compressor";
 import AirDryer from "./pages/air-dryer";
 import AirCompressor from "./pages/air-compressor";
+import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
