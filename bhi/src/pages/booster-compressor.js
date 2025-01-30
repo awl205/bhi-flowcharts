@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import "./equip.css";
-import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";
+import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
 
   const oxygenFlowChart = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
@@ -12,7 +12,7 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
             { label: "Shutdown due to high temperature (Rix 2V3B and Bailan)", next: "shutdown_high_temp" },
             { label: "Loud knocking noise", next: "loud_knocking" },
             { label: "Low Interstage Pressures", next: "low_interstage_pressures"},
-            { label: "Booster switches off before reaching final stage pressure", next: "no_final_discharge_pressure"},
+            { label: "Booster switches off before reaching final stage pressure", next: "off_before_final_stage"},
             { label: "High Interstage Pressures", next: "high_interstage_pressures"},
             { label: "Tripping pressure relief value (hissing and clicking noise)", next: "tripping_pressure"},
             { label: "Loud squealing noise during equipment start up", next: "squealing_noise"}
@@ -148,7 +148,7 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
         low_interstage_pressures: {
             message: "Is the inlet (suction) pressure high enough?",
             options: [
-                {label: 'No', next: 'sufficient_oxygen_supply'},
+                {label: 'No', next: 'pressure_regulator_upstream'},
                 {label: 'Yes', next: 'restricted_flow'},
             ],
         },
@@ -222,6 +222,20 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
                 {label: 'Yes', next: 'end'},
             ],
         },
+        pressure_regulator_upstream:{
+            message: "Is there a pressure regulator upstream of the booster compressor?",
+            options: [
+                {label: 'No', next: 'sufficient_oxygen_supply'},
+                {label: 'Yes', next: 'adjust_pressure_regulator'},
+            ],
+        },
+        adjust_pressure_regulator:{
+            message: "Adjust the pressure regulator to the appropriate inlet pressure. \nHas the issue been resolved?",
+            options: [
+                {label: 'No', next: 'sufficient_oxygen_supply'},
+                {label: 'Yes', next: 'end'},
+            ],
+        },
         sufficient_oxygen_supply: {
             message: "Is there sufficient oxygen supply in the O2 tank?",
             options: [
@@ -245,31 +259,31 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
         },
 
          // **** FLOWCHART 4 *****
-         no_final_discharge_pressure: {
+        off_before_final_stage: {
             message: "Are there any leaks in the downstream piping or manifolds?",
             options: [
-                {label: 'No', next: 'piston_rings_worn'},
+                {label: 'No', next: 'pressure_abnormally_low'},
                 {label: 'Yes', next: 'repair_leak'},
             ],
         },
         repair_leak: {
-            message: "Repair leak. Has the issue been resolved?",
+            message: "Repair leak. \nHas the issue been resolved?",
             options: [
                 {label: 'No', next: 'exit'},
                 {label: 'Yes', next: 'end'},
             ],
         },
-        piston_rings_worn: {
-            message: "Are the piston rings in the final stage worn?",
+        pressure_abnormally_low: {
+            message: "Are any of the interstage pressures abnormally low?",
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'replace_rings'},
+                {label: 'No', next: 'reset_outlet_switch'},
+                {label: 'Yes', next: 'low_interstage_pressures'},
             ],
         },
-        replace_rings: {
-            message: "Replace the rings. Has the issue been resolved?",
+        reset_outlet_switch: {
+            message: "Reset the outlet switch start/stop threshold. \nHas the issue been resolved?",
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
+                {label: 'No', next: 'exit'},
                 {label: 'Yes', next: 'end'},
             ],
         },
@@ -376,6 +390,15 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
             ],
         },
 
+        // ***** FLOWCHART 7 *****
+        squealing_noise: {
+            message: "Realign or replace the drive belts. \nHas the issue been resolved?",
+            options: [
+                {label: 'No', next: 'exit'},
+                {label: 'Yes', next: 'end'},
+            ],
+        }
+
       };
 
       const flowchartRef = useRef(null);
@@ -388,10 +411,12 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
         if (!hasScrolled) {
           const positions = {
             shutdown_high_temp: {x: 0},
-            loud_knocking: {x: 0.2},
-            no_final_discharge_pressure: {x: 0.43},
-            low_interstage_pressures: {x: 0.65},
+            loud_knocking: {x: 0},
+            low_interstage_pressures: {x: 0.27},
+            off_before_final_stage: {x: 0.45},
             high_interstage_pressures: {x: 1},
+            tripping_pressure: {x: 1},
+            squealing_noise: {x: 1},
           };
           if (flowchartRef.current){
               const {x: percentX} = positions[section] || {x:0};
@@ -571,7 +596,7 @@ import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png"
 
         <p className="flowchart-subtitle"> Complete Flowchart </p>
         <div className="flowchart" ref={flowchartRef}>
-            <img className="oxygen-generator-flowchart-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
+            <img className="booster-compressor-flowchart-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
         </div>
     </div>
     );

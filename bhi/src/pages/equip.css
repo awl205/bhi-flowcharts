@@ -223,6 +223,13 @@ div.flowchart {
     height: 100%;
 }
 
+.booster-compressor-flowchart-img{
+    display: flex;
+    position: relative;
+    width: 325%;
+    height: 100%;
+}
+
 @media (max-width: 800px) {
     .diagram_img{
         width: 100%;
