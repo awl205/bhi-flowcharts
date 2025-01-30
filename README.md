@@ -35,6 +35,9 @@ App.css -- main control page styling
 3. If new version has a different name, navigate to corresponding equipment page and change import statement at the top
 4. If the new LucidCharts full flowchart has changed, search for "positions" in the corresponding equipment page and modify percentages accordingly (may take some trial and error) - this is used for the automatic scrolling based on the first button selected 
 
+## Getting the most updated version from GitHub
+1. git pull
+   
 ## Pushing changes to GitHub
 1. git add .
 2. git commit -m "description of changes"
