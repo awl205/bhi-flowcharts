@@ -17,11 +17,15 @@ App.css -- main control page styling
 # Getting Started
 ## Setup
 1. Open VSCode to a directory you want to set up the repository in (generally somewhere in Documents)
-2. Open the terminal and type: git clone https://github.com/awl205/bhi-flowcharts.git
-3. Make sure you have the latest version of the repository before making any changes -- in the terminal, type: git pull
-4. Install necessary dependencies using pip install 
-5. To run the website locally, type: npm start
-6. To quit, ctrl+c on Mac
+2. Install Git 
+3. Open the terminal in VSCode and type: git clone https://github.com/awl205/bhi-flowcharts.git
+4. Navigate to directory (cd bhi-flowcharts, cd bhi) in terminal 
+5. Make sure you have the latest version of the repository before making any changes -- in the terminal, type: git pull
+6. Install necessary dependencies using pip install
+7. Install Node.js package
+8. npm install react-scripts
+9. To run the website locally, type: npm start
+10. To quit, ctrl+c on Mac
 
 # Making Edits
 ## Interactive Flowcharts

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import "./equip.css";
 import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram .png";
+import manufacturerContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 
   const diagram = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
@@ -28,7 +29,8 @@ import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram 
           message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
           options: [
               {label: "Return to menu", next: "start"},
-          ]
+          ],
+        pdfLink: manufacturerContactInfo,
         },
 
         // ***** FLOWCHART 1/2 *****
