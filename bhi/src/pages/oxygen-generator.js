@@ -499,6 +499,7 @@ const App = () => {
 
   const scrollToSection = (section) => {
     if (!hasScrolled) {
+      // change positions if upload new image 
       const positions = {
         generator_wont_run: {x: 0},
         low_purity: {x: 0.2},

@@ -26,8 +26,8 @@ function App() {
         <Route path="/air-compressor" element={<AirCompressor />} />
       </Routes>
       <Footer/>
+      {/* for vercel website analytics  */}
       <div>
-        {/* ... */}
         <Analytics />
       </div>
     </Router>
