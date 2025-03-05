@@ -14,7 +14,6 @@
     "vercel": "^39.4.2",
     "web-vitals": "^4.2.4"
   },
- 
   "eslintConfig": {
     "extends": [
       "react-app",
@@ -40,6 +39,11 @@
   "homepage": "https://awl205.github.io/bhi-flowcharts",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   }
+
 }
