@@ -39,7 +39,7 @@ const flowChartLogic = {
     pdfLink: manufacturerContactInfo,
     },
 
-    // ***** FLOWCHART 1 *****
+    // ***** FLOWCHART 1 ***** (4.1.3)
     wont_start: {
         message: "Is power present on all 3 phases?",
         options: [
@@ -179,7 +179,7 @@ const flowChartLogic = {
             {label: "Yes", next: "end"},
         ],
     },
-    // ***** FLOWCHART 2 *****
+    // ***** FLOWCHART 2 ***** (4.2.3)
     high_temp: {
         message: "Is the oil level ok?",
         options: [
@@ -271,7 +271,7 @@ const flowChartLogic = {
             {label: "Yes", next: "exit"},
         ],
     },
-    // ***** FLOWCHART 3 *****
+    // ***** FLOWCHART 3 ***** (4.3.2)
     low_pressure_point: {
         message: "How is the pressure in the compressor room?",
         options: [
@@ -334,6 +334,72 @@ const flowChartLogic = {
             {label: "Yes", next: "end"},
         ],
     },
+
+    //** FLOWCHART 4 ** (4.4.3)
+    low_pressure_room: {
+        message: "Check the pressure on compressor(s). Is it high or low?",
+        options: [
+            {label: "High (good)", next: "blockage"},
+            {label: "Low (same)", next: "single_mult_compressors"},
+        ],
+    },
+    blockage: {
+        message: "You have a blockage (pressure drop). \nCheck all filters, dryers, etc between compressor and air receiver. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    single_mult_compressors: {
+        message: "Are there single or multiple compressors?",
+        options: [
+            {label: "Single", next:"single_compressor"},
+            {label: "Multiple", next: "multiple_compressors"},
+        ],
+    },
+    multiple_compressors: {
+        message: "Are all compressors running loaded?",
+        options: [
+            {label: "Yes", next:"capacity_demand_problem"},
+            {label: "No", next: "single_compressor"},
+        ],
+    },
+    single_compressor: {
+        message: "Are the setpoints correct (load/unload, start/stop)?", // TODO
+        options: [
+            {label: "No", next:"adjust_setpoints"},
+            {label: "Yes", next: "compressor_loads"},
+        ],
+    },
+    adjust_setpoints: {
+        message: "Adjust setpoints! \nHas the issue been resolved?",
+        options: [
+            {label: "No", next:"exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressor_loads: {
+        message: "Does the compressor load and unload at correct pressures (according to setpoints)?",
+        options: [
+            {label: "No", next:"compressor_loading_problem"},
+            {label: "Yes", next: "capacity_demand_problem"},
+        ],
+    },
+    compressor_loading_problem: {
+        message: "You have a compressor loading problem.",
+        options: [
+            {label: "Troubleshoot compressor loading", next:""}, // TODO: FLOWCHART 8
+        ],
+    },
+    capacity_demand_problem: {
+        message: "There is a capacity OR demand problem. Has any new equipment been installed?",
+        options: [
+            {label: "No", next:""},
+            {label: "Yes", next: ""},
+        ],
+    },
+
+
 
 };
 
