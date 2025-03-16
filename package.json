@@ -36,7 +36,7 @@
     "@svgr/webpack": "^8.1.0",
     "gh-pages": "^6.3.0"
   },
-  "homepage": "https://awl205.github.io/bhi-flowcharts",
+  "homepage": "https://www.fixo2.org",
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
