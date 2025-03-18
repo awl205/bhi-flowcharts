@@ -17,7 +17,7 @@ const Home = () => {
             </p>
             <div class="grid">
                 <div class="box">
-                    <a href= "/oxygen-generator">
+                    <a href= "/#/oxygen-generator">
                         <img className="home-img" src={oxygen_generator_img} alt="Oxygen Generator"/>
                         <div className="overlay">
                             <span className="overlay-text">Oxygen Generator</span>
@@ -25,7 +25,7 @@ const Home = () => {
                     </a>
                 </div>
                 <div class="box">
-                    <a href= "/booster-compressor">
+                    <a href= "/#/booster-compressor">
                         <img className="home-img" src={booster_compressor_img} alt="Booster Compressor"/>
                         <div className="overlay">
                             <span className="overlay-text">Booster Compressor</span>
@@ -33,7 +33,7 @@ const Home = () => {
                     </a>
                 </div>
                 <div class="box">
-                    <a href= "/air-dryer">
+                    <a href= "/#/air-dryer">
                         <img className="home-img" src={air_dryer_img} alt="Air Dryer"/>
                         <div className="overlay">
                             <span className="overlay-text">Air Dryer</span>

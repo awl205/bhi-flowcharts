@@ -12,7 +12,6 @@ import OxygenGenerator from "./pages/oxygen-generator";
 import BoosterCompressor from "./pages/booster-compressor";
 import AirDryer from "./pages/air-dryer";
 import AirCompressor from "./pages/air-compressor";
-import { Analytics } from "@vercel/analytics/react"
 
 function App() {
   return (
@@ -20,16 +19,12 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/#/oxygen-generator" element={<OxygenGenerator/>} />
-        <Route path="/#/booster-compressor" element={<BoosterCompressor/>} />
-        <Route path="/#/air-dryer" element={<AirDryer />} />
-        <Route path="/#/air-compressor" element={<AirCompressor />} />
+        <Route path="/oxygen-generator" element={<OxygenGenerator/>} />
+        <Route path="/booster-compressor" element={<BoosterCompressor/>} />
+        <Route path="/air-dryer" element={<AirDryer/>} />
+        <Route path="/air-compressor" element={<AirCompressor/>} />
       </Routes>
       <Footer/>
-      {/* for vercel website analytics  */}
-      <div>
-        <Analytics />
-      </div>
     </Router>
 
   );
