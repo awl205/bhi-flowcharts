@@ -392,12 +392,327 @@ const flowChartLogic = {
         ],
     },
     capacity_demand_problem: {
-        message: "There is a capacity OR demand problem. Has any new equipment been installed?",
+        message: "There is a capacity OR demand problem. \nHas any new equipment been installed?",
         options: [
-            {label: "No", next:""},
-            {label: "Yes", next: ""},
+            {label: "No", next:"temporary_shut_off"},
+            {label: "Yes", next: "capacity_problem"},
         ],
     },
+    capacity_problem: {
+        message: "There is a capacity problem.",
+        options: [
+            {label: "Return to menu", next:"exit"},
+        ],
+    },
+    temporary_shut_off: {
+        message: "Temporarily shut off any new equipment. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next:"demand_problem"},
+            {label: "Yes", next: "replace_inlet_oil"},
+        ],
+    },
+    replace_inlet_oil: {
+        message: "Replace inlet oil, oil, and oil filter. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next:"compressed_air_leaks"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressed_air_leaks: {
+        message: "Fix all compressed air leaks. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next:"exit"},
+            {label: "Yes", next:"end"},
+        ],
+    },
+    demand_problem: {
+        message: "There is a demand problem.",
+        options: [
+            {label: "Return to menu", next:"end"},
+        ],
+    },
+
+    //** FLOWCHART 5 ** (4.5.3)
+    oil: {
+        message: "Was the separator last changed more than 6,000 hours ago?",
+        options: [
+            {label: "No", next: "oil_changed_recently"},
+            {label: "Yes", next: "replace_separator "},
+        ],
+    },
+    replace_separator: {
+        message: "Replace the separator and change the oil. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "oil_changed_recently"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    oil_changed_recently: {
+        message: "Was te oil recently changed or topped out?",
+        options: [
+            {label: "No", next: "open_separator_vessel"},
+            {label: "Yes", next: "same_oil"},
+        ],
+    },
+    same_oil: {
+        message: "Was the same type of oil used?",
+        options: [
+            {label: "No", next: "correct_oil"},
+            {label: "Yes", next: "oil_overfilled"},
+        ],
+    },
+    oil_overfilled: {
+        message: "Was the oil over-filled?",
+        options: [
+            {label: "No", next: "exit"}, // CHECK THIS
+            {label: "Yes", next: "drain_some_oil"},
+        ],
+    },
+    drain_some_oil: {
+        message: "Drain some oil and wait a few days. \nHas the issue been resolved?", // CHECK THIS
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    correct_oil: {
+        message: "Was the correct oil type used?",
+        options: [
+            {label: "No", next: "drain_all_oil"},
+            {label: "Yes", next: "old_oil_drained"},
+        ],
+    },
+    drain_all_oil: {
+        message: "Drain all of the oil and flush with correct new oil. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    old_oil_drained: {
+        message: "Was old oil drained thoroughly and machine flushed",
+        options: [
+            {label: "No", next: "drain_all_oil"},
+            {label: "Yes", next: "open_separator_vessel"},
+        ],
+    },
+    open_separator_vessel: {
+        message: "Check the separator. Is it ok?",
+        options: [
+            {label: "No", next: "replace_separator"},
+            {label: "Yes", next: "check_scavenge_line"},
+        ],
+    },
+    replace_separator: {
+        message: "Replace the separator, oil, and oil filter. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_scavenge_line: {
+        message: "Check the scavenge line and pipe. Are they ok?",
+        options: [
+            {label: "No", next: "fix_scavenge_line"},
+            {label: "Yes", next: "check_min_pressure_valve"},
+        ],
+    },
+    fix_scavenge_line: {
+        message: "Fix problems with the scavenge line and pipe. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_min_pressure_valve: {
+        message: "Check the minimum pressure valve. Is it ok?",
+        options: [
+            {label: "No/Not sure", next: "overhaul_min_pressure_valve"},
+            {label: "Yes", next: "compressor_high_temp"},
+        ],
+    },
+    overhaul_min_pressure_valve: {
+        message: "Overhaul the minimum pressure valve. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressor_high_temp: {
+        message: "Is the compressor running at high temperatures?",
+        options: [
+            {label: "No", next: "compressor_start_stop"},
+            {label: "Yes", next: "lower_ambient_temp"},
+        ],
+    },
+    lower_ambient_temp: {
+        message: "Try to lower ambient temperature. Install ducting. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressor_start_stop: {
+        message: "Is the compressor starting and stopping according to instructions?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "correct_start_stop"},
+        ],
+    },
+    correct_start_stop: {
+        message: "Use the correct procedures for starting and starting the compressor. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+
+    //** FLOWCHART 6 ** (4.6.3)
+    water: {
+        message: "Check all condensate traps. How are they?",
+        options: [
+            {label: "Bad", next: "clean_replace_traps"},
+            {label: "Good", next: "have_compressed_air_dryer"},
+        ],
+    },
+    clean_replace_traps: {
+        message: "Clean/replace bad condensate traps. \nHas the issue been resolved",
+        options: [
+            {label: "No", next: "have_compressed_air_dryer"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    have_compressed_air_dryer: {
+        message: "Do you have a compressed air dryer?",
+        options: [
+            {label: "No", next: "aftercooler_clean"},
+            {label: "Yes", next: "air_dryer_type"},
+        ],
+    },
+    air_dryer_type: {
+        message: "Check correct function and dewpoint. \nIs it ok?",
+        options: [
+            {label: "No", next: "solve_air_dryer_problems"},
+            {label: "Yes", next: "exit"},
+        ],
+    },
+    solve_air_dryer_problems: {
+        message: "Solve problems with the air dryer. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "aftercooler_clean"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    aftercooler_clean: {
+        message: "Is the aftercooler clean?",
+        options: [
+            {label: "No", next: "clean_aftercooler"},
+            {label: "Yes", next: "compressor_room_ok"},
+        ],
+    },
+    clean_aftercooler: {
+        message: "Clean the aftercooler. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "compressor_room_ok"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressor_room_ok: {
+        message: "Seems like everything is ok in the compressor room. \nDoes your compressed air piping run outdoors?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "cold_days"},
+        ],
+    },
+    cold_days: {
+        message: "On cold days, water condensate can form in pipes. \nHas the issue been resolved?", // CHECK THIS
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+
+    //** FLOWCHART 7  (4.7.3)
+    oil_inlet_valve: {
+        message: "Is the stopping procedure correct?",
+        options: [
+            {label: "No", next: "stop_compressor_right"},
+            {label: "Yes", next: "inlet_valve_ok"},
+        ],
+    },
+    stop_compressor_right: {
+        message: "Stop the compressor in the right way. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "inlet_valve_ok"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    inlet_valve_ok: {
+        message: "Is the inlet valve ok?",
+        options: [
+            {label: "No", next: "overhaul_inlet_valve"},
+            {label: "Yes", next: "check_valve_oil"},
+        ],
+    },
+    overhaul_inlet_valve: {
+        message: "Overhaul the inlet valve. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "check_valve_oil"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_valve_oil: {
+        message: "Check valve and oil stop valve. Are they ok?",
+        options: [
+            {label: "No", next: "overhaul_valves"},
+            {label: "Yes", next: "oil_overfilled"},
+        ],
+    },
+    overhaul_valves: {
+        message: "Overhaul valves. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "oil_overfilled"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    oil_overfilled: {
+        message: "Is the oil overfilled?",
+        options: [
+            {label: "No", next: "compressor_run_unloaded"},
+            {label: "Yes", next: "drain_some_oil_7"},
+        ],
+    },
+    drain_some_oil_7: {
+        message: "Drain some oil. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "compressor_run_unloaded"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    compressor_run_unloaded: {
+        message: "Is the compressor run unloaded before stopping?",
+        options: [
+            {label: "No", next: "check_fault"},
+            {label: "Yes", next: "exit"},
+        ],
+    },
+    check_fault: {
+        message: "Check for fault in controlled/electronics. \nHas the issue been resolved?", //CHECK THIS
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+
+    //** FLOWCHART 8 (4.8.3)
+    // : {
+    //     message: "",
+    //     options: [
+    //         {label: "No", next: ""},
+    //         {label: "Yes", next: ""},
+    //     ],
+    // },
+
 
 
 
