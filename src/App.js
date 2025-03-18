@@ -20,10 +20,10 @@ function App() {
       <Navbar />
       <Routes>
         <Route exact path="/" element={<Home />} />
-        <Route path="/oxygen-generator" element={<OxygenGenerator/>} />
-        <Route path="/booster-compressor" element={<BoosterCompressor/>} />
-        <Route path="/air-dryer" element={<AirDryer />} />
-        <Route path="/air-compressor" element={<AirCompressor />} />
+        <Route path="/#/oxygen-generator" element={<OxygenGenerator/>} />
+        <Route path="/#/booster-compressor" element={<BoosterCompressor/>} />
+        <Route path="/#/air-dryer" element={<AirDryer />} />
+        <Route path="/#/air-compressor" element={<AirCompressor />} />
       </Routes>
       <Footer/>
       {/* for vercel website analytics  */}
