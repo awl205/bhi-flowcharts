@@ -705,6 +705,197 @@ const flowChartLogic = {
     },
 
     //** FLOWCHART 8 (4.8.3)
+    wont_load: {
+        message: "Are the setpoints set correctly?",
+        options: [
+            {label: "No", next: "adjust_setpoints"},
+            {label: "Yes", next: "pressure_switch_ok"},
+        ],
+    },
+    adjust_setpoints: {
+        message: "Adjust the setpoints. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "pressure_switch_ok"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    pressure_switch_ok: {
+        message: "Is the pressure switch/sensor ok?",
+        options: [
+            {label: "No", next: "replace_pressure_switch"},
+            {label: "Yes", next: "indicate_loaded"},
+        ],
+    },
+    replace_pressure_switch: {
+        message: "Replace the pressure switch/sensor. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "indicate_loaded"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    indicate_loaded: {
+        message: "Is there a 'loaded' indication on the display?",
+        options: [
+            {label: "No", next: "compressor_need_load"},
+            {label: "Yes", next: "check_electrical_signal"},
+        ],
+    },
+    compressor_need_load: {
+        message: "Compressor doesn't 'think' it needs to load. Check controller, pressure switch, and/or electrical system. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "check_electrical_signal"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_electrical_signal: {
+        message: "Check electrical signal to loading solenoid; fix problems. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "check_solenoid_valve"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_solenoid_valve: {
+        message: "Check the solenoid valve; fix problems. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "check_inlet_valve"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_inlet_valve: {
+        message: "Check the inlet valve; fix problems. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+
+    //** FLOWCHART 9 **
+    trips_overload: {
+        message: "Does overload happening during startup or running?",
+        options: [
+            {label: "Startup", next: "startup"},
+            {label: "Running", next: "running"},
+        ],
+    },
+    running: {
+        message: "Check voltage on all phases during running. Is it low or normal?",
+        options: [
+            {label: "Low", next: "fix_electrical_supply"},
+            {label: "Normal", next: "check_current"},
+        ],
+    },
+    fix_electrical_supply: {
+        message: "Fix problems with electrical supply. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "startup"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_current: {
+        message: "Check current during running. Is it normal or high?",
+        options: [
+            {label: "Normal", next: "replace_overload"},
+            {label: "High ", next: "screw_element_ok"},
+        ],
+    },
+    replace_overload: {
+        message: "Replace overload relay/thermal block. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "startup"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    screw_element_ok: {
+        message: "Is the screw element ok?",
+        options: [
+            {label: "No", next: "overhaul_screw_element"},
+            {label: "Yes", next: "check_dp_separator"},
+        ],
+    },
+    overhaul_screw_element: {
+        message: "Overhaul screw element (consult manufacturer).",
+        options: [
+            {label: "Return to menu", next: "exit"},
+        ],
+    },
+    check_dp_separator: {
+        message: "Check dP separator. \nIs it normal or high?",
+        options: [
+            {label: "Normal", next: "check_unloading_setpoint"},
+            {label: "Yes", next: "replace_separator_filter"},
+        ],
+    },
+    replace_separator_filter: {
+        message: "Replace separator filter. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "startup"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_unloading_setpoint: {
+        message: "Check the unloading set point. \nIs it normal or high?",
+        options: [
+            {label: "Normal", next: "check_motor"},
+            {label: "Too high", next: "lower_unloading_setpoint"},
+        ],
+    },
+    lower_unloading_setpoint: {
+        message: "Lower the unloading (max pressure) setpoint. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "startup"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    check_motor: {
+        message: "Check the motor. \nIs it ok?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "lower_unloading_setpoint"},
+        ],
+    },
+    startup: {
+        message: "Check the voltage on all phases during startup. \nIs it low or normal?",
+        options: [
+            {label: "Low", next: "fix_electrical_supply_problems"},
+            {label: "Normal", next: "screw_element_ok_startup"},
+        ],
+    },
+    fix_electrical_supply_problems: {
+        message: "Fix problems with electrical supply. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "screw_element_ok_startup"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    screw_element_ok_startup: {
+        message: "Is the screw element ok?",
+        options: [
+            {label: "No", next: "overhaul_screw_element"},
+            {label: "Yes", next: "screw_element_oil"},
+        ],
+    },
+    screw_element_oil: {
+        message: "Is the screw element flooded with oil?",
+        options: [
+            {label: "No", next: "replace_overload"},
+            {label: "Yes", next: "overhaul_oil_stop_valve"},
+        ],
+    },
+    overhaul_oil_stop_valve: {
+        message: "Overhaul oil stop valve and check valve. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "replace_overload"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+    replace_overload: {
+        message: "Replace overload relay/thermal block. \nHas the issue been resolved?",
+        options: [
+            {label: "No", next: "exit"},
+            {label: "Yes", next: "end"},
+        ],
+    },
+
     // : {
     //     message: "",
     //     options: [
@@ -712,9 +903,6 @@ const flowChartLogic = {
     //         {label: "Yes", next: ""},
     //     ],
     // },
-
-
-
 
 };
 
