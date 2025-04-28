@@ -1,17 +1,43 @@
 h1{
-    display: flex;
+    /* display: flex; */
     justify-content: center;
     text-align: center;
+    font-size: 2rem;
 }
 
-.welcome-message{
+.welcome-row{
     display: flex;
     justify-content: center;
     text-align: center;
-    margin-left: 20%;
-    margin-right: 20%;
-    border: solid 3px var(--bhigreen);
+    background-color: var(--greenvar1);
+    color: white;
     padding: 10px;
+    font-size: 1.2rem;
+}
+
+.welcome-col{
+    float: left;
+    width: 33.33%;
+    padding: 10px;
+}
+
+.welcome-row:after{
+    content: "";
+    display: table;
+    clear: both;
+}
+
+h2{
+    font-weight: 850;
+}
+
+p{
+    font-weight: 500;
+}
+
+.icon{
+    margin-top: 12px;
+    width: 25px;
 }
 
 .grid {
@@ -32,6 +58,7 @@ h1{
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
 }
 
 .home-img {
@@ -45,15 +72,16 @@ h1{
 
 .box:hover .home-img {
     transform: scale(1.05);
+    opacity: 0.6;
   }
 
 .overlay {
     position: absolute;
-    top: 0;
+    top: 120px;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(255, 255, 255, 0.5);
+
     color: white;
     display: flex;
     justify-content: center;
@@ -62,7 +90,7 @@ h1{
     transition: opacity 0.3s ease;
 }
 
-.box:hover .overlay {
+.box .overlay {
     opacity: 1;
 }
 
@@ -71,16 +99,10 @@ h1{
     font-weight: bold;
     text-align: center;
     padding: 10px;
-    background: #f16521;
+    /* background: #f16521; */
 }
 
 @media (max-width: 800px) {
-    .welcome-message{
-        max-width: 90%;
-        margin-left: 10%;
-        margin-right: 10%
-    }
-
     .grid{
         max-width: 90%;
     }
@@ -91,5 +113,9 @@ h1{
 
     .home-img{
         max-width: 90%;
+    }
+
+    .welcome-col{
+        width: 100%;
     }
 }

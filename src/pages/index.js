@@ -3,18 +3,36 @@ import './index.css';
 import air_dryer_img from './assets/air dryer.jpg';
 import booster_compressor_img from './assets/Rix Compressor.jpg';
 import oxygen_generator_img from './assets/oxygen concentrator.JPG';
-
+import history_icon from './assets/history_icon.png';
+import tool_icon from './assets/tool_icon.png';
+import send_icon from './assets/send_icon.png';
 
 const Home = () => {
     return (
         <div>
-            <h1> Build Health International Troubleshooting Page</h1>
-            <p className='welcome-message'>
-            Welcome to BHI's Troubleshooting Page! Here, you can explore interactive troubleshooting guides
-            for the Oxygen Generator, Booster Compressor, and Air Dryer. Be sure to download your history to keep
-            track of the steps you’ve taken. Once your issue is resolved or if you are prompted to contact the manufacturer,
-            please send a report to BHI. This will help us improve the troubleshooting process and better assist you in the future.
-            </p>
+            <div class="welcome-section">
+                <h1>
+                    Build Health International <br/>
+                    <span style={{ color: 'var(--bhiorange)' }}>Troubleshooting</span>
+                </h1>
+                <div className='welcome-row'>
+                    <div className='welcome-col'>
+                        <img className='icon' src={tool_icon} alt='tool icon'/>
+                        <h2> INTERACTIVE TROUBLESHOOTING</h2>
+                        <p> Select the problems you're facing and follow the corresponding instructions to reach your solution.</p>
+                    </div>
+                    <div className='welcome-col'>
+                        <img className='icon' src={history_icon} alt='history icon'/>
+                        <h2> TROUBLESHOOTING HISTORY </h2>
+                        <p> We keep track of your steps - download when you reach the end and save for your records.</p>
+                    </div>
+                    <div className='welcome-col'>
+                        <img className='icon' src={send_icon} alt='send icon'/>
+                        <h2> SEND REPORT TO BHI</h2>
+                        <p> Help us continue to improve our troubleshooting process by sending us your history and feedback.</p>
+                    </div>
+                </div>
+            </div>
             <div class="grid">
                 <div class="box">
                     <a href= "/#/oxygen-generator">
@@ -24,6 +42,7 @@ const Home = () => {
                         </div>
                     </a>
                 </div>
+
                 <div class="box">
                     <a href= "/#/booster-compressor">
                         <img className="home-img" src={booster_compressor_img} alt="Booster Compressor"/>
