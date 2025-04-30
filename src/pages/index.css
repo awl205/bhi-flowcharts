@@ -13,7 +13,6 @@ h1{
     color: white;
     padding: 10px;
     font-size: 1.2rem;
-    flex-wrap: wrap;
 }
 
 .welcome-col{
@@ -118,5 +117,9 @@ p{
 
     .welcome-col{
         width: 100%;
+    }
+
+    .welcome-row{
+        flex-wrap: wrap;
     }
 }
