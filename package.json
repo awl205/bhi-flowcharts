@@ -40,7 +40,7 @@
   },
   "homepage": "https://www.fixo2.org",
   "scripts": {
-    "predeploy": "npm run build && cp CNAME build/CNAME",
+    "predeploy": "npm run build && cpy CNAME build/",
     "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
