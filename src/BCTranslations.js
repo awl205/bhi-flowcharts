@@ -1,0 +1,193 @@
+export const flowchartTranslations = {
+    en: {
+        start_message: "What issue are you facing?",
+        start_options: [
+            "Shutdown due to high temperature (Rix 2V3B and Bailan)",
+            "Loud knocking noise",
+            "Low Interstage Pressures",
+            "Booster switches off before reaching final stage pressure",
+            "High Interstage Pressures",
+            "Tripping pressure relief value (hissing and clicking noise)",
+            "Loud squealing noise during equipment start up",
+        ],
+        other: "Other",
+        end_message: "Issue resolved!",
+        return_to_menu: "Return to menu",
+        exit_message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
+        no: "No",
+        yes: "Yes",
+        done: "Done",
+        back: "Back",
+        restart: "Restart",
+        send_report: "Send Report to BHI",
+        hide_history: "Hide History",
+        view_history: "View History",
+        download_history: "Download History",
+        title: "Booster Compressor Troubleshooting",
+        update: "Last updated: Jan 2025",
+        interactive_troubleshooting: "Interactive Troubleshooting",
+        complete_flowchart: "Complete FLowchart",
+        navigation_history: "Navigation History",
+        question: "Question",
+        response: "Response",
+
+        // FLOWCHART 1
+        shutdown_high_temp_message: "Is the cooling fan inoperative or in reverse rotation?",
+        reconnect_cooling_fan_message: "Reconnect or replace cooling fan. \nHas the issue been resolved?",
+        sufficient_ventilation_message: "Is there sufficient ventilation around the compressor cooling fins?",
+        clean_cooling_fan_message: "Clean the cooling fans and fins. Has the issue been resolved?",
+        interstage_pressures_expected_message: "Are the interstage pressures as expected?",
+        insufficient_piston_clearance_message: "Is there insufficient piston clearance?",
+        measure_piston_clearance_message: "Measure and adjust piston clearance. \nHas the issue been resolved?",
+        verify_temperature_message: "Verify the temperature with a high temperature sensor. \nDo the temperatures match?",
+        replace_temp_sensor_message: "Replace the temperature sensor. \nHas the issue been resolved?",
+        check_temp_sensor_message: "Check the temperature sensor connections. \nHas the issue been resolved?",
+
+        // FLOWCHART 2
+        loud_knocking_message: "Is the noise coming from the cylinders or rotating assembly?",
+        crankshaft_issue_message: "Likely a crankshaft or bearing issue. \nPlease contact manufacturer.",
+        identify_stage_message: "Identify which stage the knocking is coming from. \nIs the noise coming from the cylinders or rotating assembly?",
+        final_stage_pressure_message: "Is the final stage pressure greater than or equal to the back pressure regulator threshold (Rix only)?",
+        adjust_back_pressure_regulator_message: "Adjust or replace the back pressure regulator. \nHas the issue been resolved?",
+
+        // FLOWCHART 3
+        low_interstage_pressures_message: "Is the inlet (suction) pressure high enough?",
+        restricted_flow_message: "Is there restricted flow through the inlet filter or section piping?",
+        leaking_piping_message: "Is there leaking through the piping?",
+        repair_leak_4_message: "Repair leak. \nHas the issue been resolved?",
+        valve_assembled_message: "Is the valve assembled correctly?",
+        compression_rings_worn_message: "Are the compression rings worn?",
+        excessive_head_clearance_4_message: "Is there excessive head clearance on the interstage cycle?",
+        realign_piston_message: "Realign piston. \nHas the issue been resolved?",
+        replace_compression_rings_message: "Replace compression rings and backing rings. \nHas the issue been resolved?",
+        reassemble_valve_message: "Reassemble the valve; replace valves and o-rings if necessary. \nHas the issue been resolved?",
+        replace_filter_message: "Replace the filter or clear the blockages. \nHas the issue been resolved?",
+        pressure_regulator_upstream_message: "Is there a pressure regulator upstream of the booster compressor?",
+        adjust_pressure_regulator_message: "Adjust the pressure regulator to the appropriate inlet pressure. \nHas the issue been resolved?",
+        sufficient_oxygen_supply_message: "Is there sufficient oxygen supply in the O2 tank?",
+        wait_o2_pressure_build_message: "Wait for O2 pressure to build. \nHas the issue been resolved?",
+        reset_inlet_switch_message: "Reset inlet switch start/stop threshold. \nHas the issue been resolved?",
+
+        // FLOWCHART 4
+        off_before_final_stage_message: "Are there any leaks in the downstream piping or manifolds?",
+        repair_leak_message:  "Repair leak. \nHas the issue been resolved?",
+        pressure_abnormally_low_message: "Are any of the interstage pressures abnormally low?",
+        reset_outlet_switch_message: "Reset the outlet switch start/stop threshold. \nHas the issue been resolved?",
+
+        // FLOWCHART 5
+        high_interstage_pressures_message: "Examine the valves in the following stage. Are they opening correctly?",
+        excessive_head_clearance_message: "Is there excessive head clearance on the interstage cylinder?",
+        pressure_gauge_message: "Is the pressure gauge working?",
+        replace_pressure_relief_valve_message: "Replace pressure relief valve. \nHas the issue been resolved?",
+        replace_gauge_message: "Replace the gauge. \nHas the issue been resolved?",
+        adjust_headspace_message: "Adjust headspace. \nHas the issue been resolved?",
+        replace_rebuild_valves_message: "Replace or rebuild the valves. \nHas the issue been resolved?",
+
+        // FLOWCHART 6
+        tripping_pressure_message: "Is the interstage pressure below the relief valve trip threshold?",
+        replace_end_message: "Replace the pressure relief valve. \n Has the issue been resolved?",
+        replace_cont_message: "Replace the pressure relief valve. \n Is the issue with the final stage?",
+        sensor_functional_message: "Is the discharge pressure sensor functional?",
+        back_pressure_functional_message: "Is the back pressure regulator functional? (Rix only)",
+        replace_back_pressure_message: "Replace or rebuild the back pressure regulator. \nHas the issue been resolved?",
+        replace_sensor_message: "Replace the discharge pressure sensor. \nHas the issue been resolved?",
+
+        // FLOWCHART 7
+        squealing_noise_message: "Realign or replace the drive belts. \nHas the issue been resolved?",
+    },
+
+    fr: {
+        start_message: "Quel est le problème rencontré ?",
+        start_options: [
+            "Le générateur d'oxygène ne fonctionne pas",
+            "Faible pureté mesurée par le capteur intégré",
+            "Bruit irrégulier de la valve",
+            "Basse pression dans le réservoir d'oxygène",
+            "Basse pression d'entrée"
+        ],
+        other: "Autre",
+        end_message: "Problème résolu !",
+        return_to_menu: "Retour au menu",
+        exit_message: "Désolé, nous n'avons pas pu résoudre votre problème. \nVeuillez contacter le fabricant pour plus d'informations.",
+        no: "Non",
+        yes: "Oui",
+        done: "Fait",
+        back: "Dos",
+        restart: "Redémarrage",
+        send_report: "Envoyer le rapport à BHI",
+        hide_history: "Masquer l'historique",
+        view_history: "Afficher l'historique",
+        download_history: "Historique des téléchargements",
+        title: "Dépannage du compresseur d'appoint",
+        update: "Dernière mise à jour: janvier2025",
+        interactive_troubleshooting: "Dépannage interactif",
+        complete_flowchart: "Organigramme complet",
+        navigation_history: "Historique de navigation",
+        question: "Question",
+        response: "Réponse",
+
+        // FLOWCHART 1
+        shutdown_high_temp_message: "Le ventilateur de refroidissement est-il hors service ou en rotation inverse?",
+        reconnect_cooling_fan_message: "Reconnecter ou remplacer le ventilateur de refroidissement. \nLe problème a-t-il été résolu?",
+        sufficient_ventilation_message: "La ventilation autour des ailettes de refroidissement du compresseur est-elle suffisante?",
+        clean_cooling_fan_message: "Nettoyer les ventilateurs et les ailettes de refroidissement. Le problème a-t-il été résolu?",
+        interstage_pressures_expected_message: "Les pressions inter-étages sont-elles conformes aux prévisions?",
+        incomplete_piston_clearance_message: "Le jeu du piston est-il insuffisant?",
+        measure_piston_clearance_message: "Mesurer et ajuster le jeu du piston. \nLe problème a-t-il été résolu?",
+        verify_temperature_message: "Vérifier la température à l'aide d'un capteur de température élevée. \nLes températures correspondent-elles?",
+        replace_temp_sensor_message: "Remplacer le capteur de température. \nLe problème a-t-il été résolu?",
+        check_temp_sensor_message: "Vérifiez les connexions du capteur de température. \nLe problème est-il résolu?",
+
+        // FLOWCHART 2
+        loud_knocking_message: "Le bruit provient-il des cylindres ou de l'ensemble rotatif?",
+        crankshaft_issue_message: "Problème probable de vilebrequin ou de roulement. \nVeuillez contacter le fabricant.",
+        identify_stage_message: "Identifiez l'étage où le cognement provient. \nLe bruit provient-il des cylindres ou de l'ensemble rotatif?",
+        final_stage_pressure_message: "La pression de l'étage final est-elle supérieure ou égale au seuil du régulateur de contre-pression (Rix uniquement)?",
+        adjust_back_pressure_regulator_message: "Réglez ou remplacez le régulateur de contre-pression. \nLe problème est-il résolu?",
+
+        // FLOWCHART 3
+        low_interstage_pressures_message: "La pression d'admission (aspiration) est-elle suffisamment élevée?",
+        restricted_flow_message: "Le débit est-il restreint dans le filtre d'admission ou la tuyauterie de la section?",
+        leaking_piping_message: "Y a-t-il une fuite dans la tuyauterie?",
+        repair_leak_4_message: "Réparer la fuite. \nLe problème a-t-il été résolu?",
+        valve_assembled_message: "La vanne est-elle correctement assemblée?",
+        compression_rings_worn_message: "Les segments de compression sont-ils usés?",
+        excessive_head_clearance_4_message: "Le jeu de tête est-il excessif sur le cycle interétage?",
+        realign_piston_message: "Réalignez le piston. \nLe problème a-t-il été résolu?",
+        replace_compression_rings_message: "Remplacer les segments de compression et les segments d'appui. \nLe problème a-t-il été résolu?",
+        reassemble_valve_message: "Remonter la vanne; remplacer les soupapes et les joints toriques si nécessaire. \nLe problème a-t-il été résolu?",
+        replace_filter_message: "Remplacer le filtre ou nettoyer le Blocages. \nLe problème a-t-il été résolu?",
+        pressure_regulator_upstream_message: "Y a-t-il un régulateur de pression en amont du compresseur d'appoint?",
+        adjust_pressure_regulator_message: "Réglez le régulateur de pression à la pression d'admission appropriée. \nLe problème a-t-il été résolu?",
+        sufficient_oxygen_supply_message: "L'alimentation en oxygène du réservoir d'O2 est-elle suffisante?",
+        wait_o2_pressure_build_message: "Attendez que la pression d'O2 augmente. \nLe problème a-t-il été résolu?",
+        reset_inlet_switch_message: "Réinitialisez le seuil de démarrage/arrêt du commutateur d'admission. \nLe problème a-t-il été résolu?",
+
+        // FLOWCHART 4
+        off_before_final_stage_message: "Y a-t-il des fuites dans la tuyauterie ou les collecteurs en aval?",
+        repair_leak_message: "Réparer la fuite. \nLe problème a-t-il été résolu?",
+        pressure_abnormally_low_message: "L'une des pressions inter-étages est-elle anormalement basse?",
+        reset_outlet_switch_message: "Réinitialiser le seuil de démarrage/arrêt du commutateur de sortie. \nLe problème a-t-il été résolu?",
+
+        // FLOWCHART 5
+        high_interstage_pressures_message: "Inspecter les vannes de l'étage suivant. S'ouvrent-elles correctement?",
+        excessive_head_clearance_message: "Le jeu de tête du vérin inter-étage est-il excessif?",
+        pressure_gauge_message: "Le manomètre fonctionne-t-il?",
+        replace_pressure_relief_valve_message: "Remplacer la soupape de surpression. \nLe problème a-t-il été résolu?",
+        replace_gauge_message: "Remplacer le manomètre. \nLe problème a-t-il été résolu?",
+        adjust_headspace_message: "Régler l'espace de tête. \nLe problème a-t-il été résolu?",
+        place_rebuild_valves_message: "Remplacer ou reconstruire les vannes. \nLe problème a-t-il été résolu?",
+
+        // FLOWCHART 6
+        tripping_pressure_message: "La pression inter-étages est-elle inférieure au seuil de déclenchement de la soupape de décharge?",
+        placer_end_message: "Remplacer la soupape de décharge. \nLe problème a-t-il été résolu?",
+        placer_cont_message: "Remplacer la soupape de décharge. \nLe problème concerne-t-il le dernier étage?",
+        sensor_functional_message: "Le capteur de pression de refoulement est-il fonctionnel?",
+        back_pressure_functional_message: "Le régulateur de contre-pression est-il fonctionnel? (Rix uniquement)",
+        placer_back_pressure_message: "Remplacer ou reconstruire le régulateur de contre-pression. \nLe problème a-t-il été résolu?",
+        replace_sensor_message: "Remplacer le capteur de pression de refoulement. Le problème a-t-il été résolu?",
+
+        // FLOWCHART 7
+        squealing_noise_message: "Réaligner ou remplacer les courroies d'entraînement. Le problème a-t-il été résolu?",
+        }
+};

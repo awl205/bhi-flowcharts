@@ -54,6 +54,58 @@ a {
     font-weight: bold;
 }
 
+.language-toggle-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: var(--greenvar1);
+    border-radius: 34px;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+    font-size: 14px;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.slider:before {
+    content: "EN";
+    position: absolute;
+    left: 8px;
+    transition: 0.4s;
+}
+
+input:checked + .slider {
+    background-color: var(--bhiorange);
+}
+
+input:checked + .slider::before {
+    content: "FR";
+    left: 32px;
+}
+
+
 @media (max-width: 600px) {
     .nav{
         height: 150px;

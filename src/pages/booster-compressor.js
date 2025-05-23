@@ -1,401 +1,400 @@
 import React, { useRef, useState } from 'react';
 import "./equip.css";
 import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
+import { useLanguage } from '../LanguageContext';
+import { flowchartTranslations } from '../BCTranslations';
 
   const oxygenFlowChart = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
   const App = () => {
+    const { language } = useLanguage();
+    const t = flowchartTranslations[language];
+
     const flowChartLogic = {
         start: {
-          message: "What issue are you facing?",
-          options: [
-            { label: "Shutdown due to high temperature (Rix 2V3B and Bailan)", next: "shutdown_high_temp" },
-            { label: "Loud knocking noise", next: "loud_knocking" },
-            { label: "Low Interstage Pressures", next: "low_interstage_pressures"},
-            { label: "Booster switches off before reaching final stage pressure", next: "off_before_final_stage"},
-            { label: "High Interstage Pressures", next: "high_interstage_pressures"},
-            { label: "Tripping pressure relief value (hissing and clicking noise)", next: "tripping_pressure"},
-            { label: "Loud squealing noise during equipment start up", next: "squealing_noise"}
-          ],
+          message: t.start_message,
+          options: t.start_options.map((label, index) => ({
+            label, next: ["shutdown_high_temp", "loud_knocking", "low_interstage_pressures", "off_before_final_stage", "high_interstage_pressures", "tripping_pressure", "squealing_noise"][index],
+          })),
           externalLink: {
             url: "https://bhioxygen.org/request-support/",
-            label: "Other"
+            label: t.other
           },
         },
         end: {
-          message: "Issue resolved!",
-          options: [
-            { label: "Return to menu", next: "start" },
-          ],
-        },
+            message: t.end_message,
+            options: [
+                { label: t.return_to_menu, next: "start" }
+            ],
+            },
         exit: {
-          message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
-          options: [
-              {label: "Return to menu", next: "start"},
-          ]
+            message: t.exit_message,
+            options: [
+                { label: t.return_to_menu, next: "start" }
+            ]
         },
 
 
         // ***** FLOWCHART 1 *****
         shutdown_high_temp: {
-            message: "Is the cooling fan inoperative or in reverse rotation?",
+            message: t.shutdown_high_temp_message,
             options: [
-                {label: 'No', next: 'sufficient_ventilation'},
-                {label: 'Yes', next: 'reconnect_cooling_fan'},
+                {label: t.no, next: 'sufficient_ventilation'},
+                {label: t.yes, next: 'reconnect_cooling_fan'},
             ],
         },
         reconnect_cooling_fan: {
-            message: "Reconnect or replace cooling fan. \nHas the issue been resolved?",
+            message: t.reconnect_cooling_fan_message,
             options: [
-                {label: 'No', next: 'sufficient_ventilation'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'sufficient_ventilation'},
+                {label: t.yes, next: 'end'},
             ],
         },
         sufficient_ventilation: {
-            message: "Is there sufficient ventilation around the compressor cooling fins?",
+            message: t.sufficient_ventilation_message,
             options: [
-                {label: 'No', next: 'clean_cooling_fan'},
-                {label: 'Yes', next: 'interstage_pressures_expected'},
+                {label: t.no, next: 'clean_cooling_fan'},
+                {label: t.yes, next: 'interstage_pressures_expected'},
             ],
         },
         clean_cooling_fan: {
-            message: "Clean the cooling fans and fins. Has the issue been resolved?",
+            message: t.clean_cooling_fan_message,
             options: [
-                {label: 'No', next: 'interstage_pressures_expected'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'interstage_pressures_expected'},
+                {label: t.yes, next: 'end'},
             ],
         },
         interstage_pressures_expected: {
-            message: "Are the interstage pressures as expected?",
+            message: t.interstage_pressures_expected_message,
             options: [
-                {label: 'No', next: 'insufficient_piston_clearance'},
-                {label: 'Yes', next: 'verify_temperature'},
+                {label: t.no, next: 'insufficient_piston_clearance'},
+                {label: t.yes, next: 'verify_temperature'},
             ],
         },
         insufficient_piston_clearance: {
-            message: "Is there insufficient piston clearance?",
+            message: t.insufficient_piston_clearance_message,
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'measure_piston_clearance'},
+                {label: t.no, next: 'exit'}, // fix this???
+                {label: t.yes, next: 'measure_piston_clearance'},
             ],
         },
         measure_piston_clearance: {
-            message: "Measure and adjust piston clearance. \nHas the issue been resolved?",
+            message: t.measure_piston_clearance_message,
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'}, // fix this???
+                {label: t.yes, next: 'end'},
             ],
         },
         verify_temperature: {
-            message: "Verify the temperature with a high temperature sensor. \nDo the temperatures match?",
+            message: t.verify_temperature_message,
             options: [
-                {label: 'No', next: 'replace_temp_sensor'},
-                {label: 'Yes', next: 'check_temp_sensor'},
+                {label: t.no, next: 'replace_temp_sensor'},
+                {label: t.yes, next: 'check_temp_sensor'},
             ],
         },
         replace_temp_sensor: {
-            message: "Replace the temperature sensor. \nHas the issue been resolved?",
+            message: t.replace_temp_sensor_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         check_temp_sensor: {
-            message: "Check the temperature sensor connections. \nHas the issue been resolved?",
+            message: t.check_temp_sensor_message,
             options: [
-                {label: 'No', next: 'replace_temp_sensor'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'replace_temp_sensor'},
+                {label: t.yes, next: 'end'},
             ],
         },
 
         // **** FLOWCHART 2 *****
         loud_knocking: {
-            message: "Is the noise coming from the cylinders or rotating assembly?",
+            message: t.loud_knocking_message,
             options: [
                 {label: 'Cylinders', next: 'identify_stage'},
                 {label: 'Rotating Assembly', next: 'crankshaft_issue'},
             ],
         },
         crankshaft_issue: {
-            message: "Likely a crankshaft or bearing issue. \nPlease contact manufacturer.",
+            message: t.crankshaft_issue_message,
             options: [
-                {label: 'Return to menu', next: 'start'},
+                {label: t.return_to_menu, next: 'start'},
             ],
         },
         identify_stage: {
-            message: "Identify which stage the knocking is coming from. \nIs the noise coming from the cylinders or rotating assembly?",
+            message: t.identify_stage_message,
             options: [
-                {label: 'No', next: 'measure_piston_clearance'},
-                {label: 'Yes', next: 'final_stage_pressure'},
+                {label: t.no, next: 'measure_piston_clearance'},
+                {label: t.yes, next: 'final_stage_pressure'},
             ],
         },
         final_stage_pressure: {
-            message: "Is the final stage pressure greater than or equal to the back pressure regulator threshold (Rix only)?",
+            message: t.final_stage_pressure_message,
             options: [
-                {label: 'No', next: 'measure_piston_clearance'},
-                {label: 'Yes', next: 'adjust_back_pressure_regulator'},
+                {label: t.no, next: 'measure_piston_clearance'},
+                {label: t.yes, next: 'adjust_back_pressure_regulator'},
             ],
         },
         adjust_back_pressure_regulator: {
-            message: "Adjust or replace the back pressure regulator. \nHas the issue been resolved?",
+            message: t.adjust_back_pressure_regulator_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
 
         // **** FLOWCHART 3 ****
         low_interstage_pressures: {
-            message: "Is the inlet (suction) pressure high enough?",
+            message: t.low_interstage_pressures_message,
             options: [
-                {label: 'No', next: 'pressure_regulator_upstream'},
-                {label: 'Yes', next: 'restricted_flow'},
+                {label: t.no, next: 'pressure_regulator_upstream'},
+                {label: t.yes, next: 'restricted_flow'},
             ],
         },
         restricted_flow: {
-            message: "Is there restricted flow through the inlet filter or section piping?",
+            message: t.restricted_flow_message,
             options: [
-                {label: 'No', next: 'leaking_piping'},
-                {label: 'Yes', next: 'replace_filter'},
+                {label: t.no, next: 'leaking_piping'},
+                {label: t.yes, next: 'replace_filter'},
             ],
         },
         leaking_piping: {
-            message: "Is there leaking through the piping?",
+            message: t.leaking_piping_message,
             options: [
-                {label: 'No', next: 'valve_assembled'},
-                {label: 'Yes', next: 'repair_leak_4'},
+                {label: t.no, next: 'valve_assembled'},
+                {label: t.yes, next: 'repair_leak_4'},
             ],
         },
         repair_leak_4: {
-            message: "Repair leak. \nHas the issue been resolved?",
+            message: t.repair_leak_4_message,
             options: [
-                {label: 'No', next: 'valve_assembled'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'valve_assembled'},
+                {label: t.yes, next: 'end'},
             ],
         },
         valve_assembled: {
-            message: "Is the valve assembled correctly?",
+            message: t.valve_assembled_message,
             options: [
-                {label: 'No', next: 'reassemble_valve'},
-                {label: 'Yes', next: 'compression_rings_worn'},
+                {label: t.no, next: 'reassemble_valve'},
+                {label: t.yes, next: 'compression_rings_worn'},
             ],
         },
         compression_rings_worn: {
-            message: "Are the compression rings worn?",
+            message: t.compression_rings_worn_message,
             options: [
-                {label: 'No', next: 'excessive_head_clearance_4'},
-                {label: 'Yes', next: 'replace_compression_rings'},
+                {label: t.no, next: 'excessive_head_clearance_4'},
+                {label: t.yes, next: 'replace_compression_rings'},
             ],
         },
         excessive_head_clearance_4: {
-            message: "Is there excessive head clearance on the interstage cycle?",
+            message: t.excessive_head_clearance_4_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'realign_piston'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'realign_piston'},
             ],
         },
         realign_piston: {
-            message: "Realign piston. \nHas the issue been resolved?",
+            message: t.realign_piston_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_compression_rings: {
-            message: "Replace compression rings and backing rings. \nHas the issue been resolved?",
+            message: t.replace_compression_rings_message,
             options: [
-                {label: 'No', next: 'excessive_head_clearance_4'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'excessive_head_clearance_4'},
+                {label: t.yes, next: 'end'},
             ],
         },
         reassemble_valve: {
-            message: "Reassemble the valve; replace valves and o-rings if necessary. \nHas the issue been resolved?",
+            message: t.reassemble_valve_message,
             options: [
-                {label: 'No', next: 'compression_rings_worn'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'compression_rings_worn'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_filter: {
-            message: "Replace the filter or clear the blockages. \nHas the issue been resolved?",
+            message: t.replace_filter_message,
             options: [
-                {label: 'No', next: 'leaking_piping'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'leaking_piping'},
+                {label: t.yes, next: 'end'},
             ],
         },
         pressure_regulator_upstream:{
-            message: "Is there a pressure regulator upstream of the booster compressor?",
+            message: t.pressure_regulator_upstream_message,
             options: [
-                {label: 'No', next: 'sufficient_oxygen_supply'},
-                {label: 'Yes', next: 'adjust_pressure_regulator'},
+                {label: t.no, next: 'sufficient_oxygen_supply'},
+                {label: t.yes, next: 'adjust_pressure_regulator'},
             ],
         },
         adjust_pressure_regulator:{
-            message: "Adjust the pressure regulator to the appropriate inlet pressure. \nHas the issue been resolved?",
+            message: t.adjust_pressure_regulator_message,
             options: [
-                {label: 'No', next: 'sufficient_oxygen_supply'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'sufficient_oxygen_supply'},
+                {label: t.yes, next: 'end'},
             ],
         },
         sufficient_oxygen_supply: {
-            message: "Is there sufficient oxygen supply in the O2 tank?",
+            message: t.sufficient_oxygen_supply_message,
             options: [
-                {label: 'No', next: 'wait_o2_pressure_build'},
-                {label: 'Yes', next: 'reset_inlet_switch'},
+                {label: t.no, next: 'wait_o2_pressure_build'},
+                {label: t.yes, next: 'reset_inlet_switch'},
             ],
         },
         wait_o2_pressure_build: {
-            message: "Wait for O2 pressure to build. \nHas the issue been resolved?",
+            message: t.wait_o2_pressure_build_message,
             options: [
-                {label: 'No', next: 'reset_inlet_switch'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'reset_inlet_switch'},
+                {label: t.yes, next: 'end'},
             ],
         },
         reset_inlet_switch: {
-            message: "Reset inlet switch start/stop threshold. \nHas the issue been resolved?",
+            message: t.reset_inlet_switch_message,
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'}, // fix this???
+                {label: t.yes, next: 'end'},
             ],
         },
 
          // **** FLOWCHART 4 *****
         off_before_final_stage: {
-            message: "Are there any leaks in the downstream piping or manifolds?",
+            message: t.off_before_final_stage_message,
             options: [
-                {label: 'No', next: 'pressure_abnormally_low'},
-                {label: 'Yes', next: 'repair_leak'},
+                {label: t.no, next: 'pressure_abnormally_low'},
+                {label: t.yes, next: 'repair_leak'},
             ],
         },
         repair_leak: {
-            message: "Repair leak. \nHas the issue been resolved?",
+            message: t.repair_leak_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         pressure_abnormally_low: {
-            message: "Are any of the interstage pressures abnormally low?",
+            message: t.pressure_abnormally_low_message,
             options: [
-                {label: 'No', next: 'reset_outlet_switch'},
-                {label: 'Yes', next: 'low_interstage_pressures'},
+                {label: t.no, next: 'reset_outlet_switch'},
+                {label: t.yes, next: 'low_interstage_pressures'},
             ],
         },
         reset_outlet_switch: {
-            message: "Reset the outlet switch start/stop threshold. \nHas the issue been resolved?",
+            message: t.reset_outlet_switch_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
 
         // **** FLOWCAHRT 5 ****
         high_interstage_pressures: {
-            message: "Examine the valves in the following stage. Are they opening correctly?",
+            message: t.high_interstage_pressures_message,
             options: [
-                {label: 'No', next: 'replace_rebuild_valves'},
-                {label: 'Yes', next: 'excessive_head_clearance'},
+                {label: t.no, next: 'replace_rebuild_valves'},
+                {label: t.yes, next: 'excessive_head_clearance'},
             ],
         },
         excessive_head_clearance: {
-            message: "Is there excessive head clearance on the interstage cylinder?",
+            message: t.excessive_head_clearance_message,
             options: [
-                {label: 'No', next: 'pressure_gauge'},
-                {label: 'Yes', next: 'adjust_headspace'},
+                {label: t.no, next: 'pressure_gauge'},
+                {label: t.yes, next: 'adjust_headspace'},
             ],
         },
         pressure_gauge: {
-            message: "Is the pressure gauge working?",
+            message: t.pressure_gauge_message,
             options: [
-                {label: 'No', next: 'replace_pressure_relief_valve'},
-                {label: 'Yes', next: 'replace_gauge'},
+                {label: t.no, next: 'replace_pressure_relief_valve'},
+                {label: t.yes, next: 'replace_gauge'},
             ],
         },
         replace_pressure_relief_valve: {
-            message: "Replace pressure relief valve. \nHas the issue been resolved?",
+            message: t.replace_pressure_relief_valve_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_gauge: {
-            message: "Replace the gauge. \nHas the issue been resolved?",
+            message: t.replace_gauge_message,
             options: [
-                {label: 'No', next: 'replace_pressure_relief_valve'}, // fix this???
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'replace_pressure_relief_valve'}, // fix this???
+                {label: t.yes, next: 'end'},
             ],
         },
         adjust_headspace: {
-            message: "Adjust headspace. \nHas the issue been resolved?",
+            message: t.adjust_headspace_message,
             options: [
-                {label: 'No', next: 'pressure_gauge'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'pressure_gauge'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_rebuild_valves: {
-            message: "Replace or rebuild the valves. \nHas the issue been resolved?",
+            message: t.replace_rebuild_valves_message,
             options: [
-                {label: 'No', next: 'exit'}, // fix this???
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'}, // fix this???
+                {label: t.yes, next: 'end'},
             ],
         },
 
         // ***** FLOWCHART 6 *****
         tripping_pressure: {
-            message: "Is the interstage pressure below the relief valve trip threshold?",
+            message: t.tripping_pressure_message,
             options: [
-                {label: 'No', next: 'replace_cont'},
-                {label: 'Yes', next: 'replace_end'},
+                {label: t.no, next: 'replace_cont'},
+                {label: t.yes, next: 'replace_end'},
             ],
         },
         replace_end: {
-            message: "Replace the pressure relief valve. \n Has the issue been resolved?",
+            message: t.replace_end_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_cont: {
-            message: "Replace the pressure relief valve. \n Is the issue with the final stage?",
+            message: t.replace_cont_message,
             options: [
-                {label: 'No', next: 'high_interstage_pressures'},
-                {label: 'Yes', next: 'sensor_functional'},
+                {label: t.no, next: 'high_interstage_pressures'},
+                {label: t.yes, next: 'sensor_functional'},
             ],
         },
         sensor_functional: {
-            message: "Is the discharge pressure sensor functional?",
+            message: t.sensor_functional_message,
             options: [
-                {label: 'No', next: 'replace_sensor'},
-                {label: 'Yes', next: 'back_pressure_functional'},
+                {label: t.no, next: 'replace_sensor'},
+                {label: t.yes, next: 'back_pressure_functional'},
             ],
         },
         back_pressure_functional: {
-            message: "Is the back pressure regulator functional? (Rix only)",
+            message: t.back_pressure_functional_message,
             options: [
-                {label: 'No', next: 'replace_back_pressure'},
-                {label: 'Yes', next: 'exit'},
+                {label: t.no, next: 'replace_back_pressure'},
+                {label: t.yes, next: 'exit'},
             ],
         },
         replace_back_pressure: {
-            message: "Replace or rebuild the back pressure regulator. \nHas the issue been resolved?",
+            message: t.replace_back_pressure_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         },
         replace_sensor: {
-            message: "Replace the discharge pressure sensor. \nHas the issue been resolved?",
+            message: t.replace_sensor_message,
             options: [
-                {label: 'No', next: 'back_pressure_functional'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'back_pressure_functional'},
+                {label: t.yes, next: 'end'},
             ],
         },
 
         // ***** FLOWCHART 7 *****
         squealing_noise: {
-            message: "Realign or replace the drive belts. \nHas the issue been resolved?",
+            message: t.squealing_noise_message,
             options: [
-                {label: 'No', next: 'exit'},
-                {label: 'Yes', next: 'end'},
+                {label: t.no, next: 'exit'},
+                {label: t.yes, next: 'end'},
             ],
         }
 
@@ -499,10 +498,10 @@ import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
 
     return (
       <div className="container">
-          <h1 className="title">Booster Compressor Troubleshooting</h1>
-          <p className="update"> Last updated: Jan 2025 </p>
+          <h1 className="title"> {t.title} </h1>
+          <p className="update"> {t.update} </p>
           <img className="diagram_img" src={oxygenFlowChart} alt="Oxygen generator diagram"/>
-          <p className="interactive-subtitle"> Interactive Troubleshooting </p>
+          <p className="interactive-subtitle"> {t.interactive_troubleshooting} </p>
 
           <p className="message">
               {step.message.split('\n').map((line, index) => (
@@ -544,10 +543,10 @@ import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
           {history.length > 0 && currentStep !== "start" && (
           <div className="buttons-container">
             <button onClick={goBack} className="back-button">
-                Back
+                {t.back}
             </button>
             <button onClick={restartHistory} className="back-button">
-                Restart
+                {t.restart}
             </button>
           </div>
         )}
@@ -556,11 +555,11 @@ import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
 
           {showHistory && (
             <div className="history">
-            <h2> Navigation History </h2>
+            <h2> {t.navigation_history} </h2>
             <ol>
               {history.map((entry, index) => (
               <li key={index}>
-                <strong> Question:  </strong>{" "}
+                <strong> {t.question}:  </strong>{" "}
                 {entry.message.split("\n").map((line, idx) => (
                 <React.Fragment key={idx}>
                     {line}
@@ -569,7 +568,7 @@ import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
                 ))}
                 <ul>
                     <li>
-                        <strong>Response:</strong> {entry.selected}
+                        <strong>{t.response}:</strong> {entry.selected}
                     </li>
                 </ul>
               </li>
@@ -581,20 +580,20 @@ import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
           <div className = "history-button-div">
             <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
               className="bottom-buttons">
-              Send Report to BHI
+              {t.send_report}
             </a>
 
             <button onClick={toggleHistory} className="history-button">
-              {showHistory ? "Hide History" : "View History"}
+              {showHistory ? t.hide_history : t.view_history}
             </button>
 
             <button onClick={downloadHistory} className = "bottom-buttons">
-              Download History
+              {t.download_history}
             </button>
           </div>
         </div>
 
-        <p className="flowchart-subtitle"> Complete Flowchart </p>
+        <p className="flowchart-subtitle"> {t.complete_flowchart} </p>
         <div className="flowchart" ref={flowchartRef}>
             <img className="booster-compressor-flowchart-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
         </div>

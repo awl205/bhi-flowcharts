@@ -1,4 +1,6 @@
 import React, { useRef, useState } from 'react';
+import { useLanguage } from '../LanguageContext';
+import { flowchartTranslations } from '../OGTranslations';
 import "./equip.css";
 import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";
 import buildPurityPDF from "./assets/Building Purity .pdf";
@@ -13,232 +15,231 @@ import zeoliteDegradationPDF from "./assets/Zeolite Degradation.pdf";
 const oxygenDiagram = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
 const App = () => {
+  const { language } = useLanguage();
+  const t = flowchartTranslations[language];
+
   const flowChartLogic = {
     start: {
-      message: "What issue are you facing?",
-      options: [
-        { label: "Oxygen Generator won't run", next: "generator_wont_run" },
-        { label: "Low purity measured by onboard sensor", next: "low_purity" },
-        { label: "Irregular valve noise", next: "irregular_valve_noise"},
-        { label: "Low pressure in oxygen tank", next: "limit_oxygen_output"},
-        { label: "Low inlet pressure", next: "low_inlet_pressure"}
-      ],
+      message: t.start_message,
+      options: t.start_options.map((label, index) => ({
+        label, next: ["generator_wont_run", "low_purity", "irregular_valve_noise", "limit_oxygen_output", "low_inlet_pressure"][index],
+      })),
       externalLink: {
         url: "https://bhioxygen.org/request-support/",
-        label: "Other"
+        label: t.other,
       },
     },
     end: {
-      message: "Issue resolved!",
+      message: t.end_message,
       options: [
-        { label: "Return to menu", next: "start" },
+        { label: t.return_to_menu, next: "start" }
       ],
     },
     exit: {
-      message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
+      message: t.exit_message,
       options: [
-          {label: "Return to menu", next: "start"},
+        { label: t.return_to_menu, next: "start" }
       ]
   },
 
     // ***** FLOWCHART #1: OXYGEN GENERATOR WON'T RUN *****
     generator_wont_run: {
-      message: "Is the oxygen generator in standby mode?",
+      message: t.generator_wont_run_message,
       options: [
-          { label: "No", next: "display"},
-          { label: "Yes", next: "wait_oxygen_tank"},
+          { label: t.no, next: "display"},
+          { label: t.yes, next: "wait_oxygen_tank"},
       ],
     },
 
     display: {
-      message: "Is there a display?",
+      message: t.display_message,
       options: [
-          { label: "No", next: "receive_power"},
-          { label: "Yes", next: "display_on"},
+          { label: t.no, next: "receive_power"},
+          { label: t.yes, next: "display_on"},
       ],
     },
 
     display_on: {
-      message: "Is the display turning on?",
+      message: t.display_on_message,
       options: [
-          { label: "No", next: "receive_power"},
-          { label: "Yes", next: "memory_cryptic_errors"},
+          { label: t.no, next: "receive_power"},
+          { label: t.yes, next: "memory_cryptic_errors"},
       ],
     },
     memory_cryptic_errors: {
-      message: "Are there any memory or cryptic error messages?",
+      message: t.memory_cryptic_errors_message,
       options: [
-          { label: "No", next: "display_plc"},
-          { label: "Yes", next: "contact_manufacturer"},
+          { label: t.no, next: "display_plc"},
+          { label: t.yes, next: "contact_manufacturer"},
       ],
     },
 
     receive_power: {
-      message: "Is the oxygen generator receiving power?",
+      message: t.receive_power_message,
       options: [
-          { label: "No", next: "troubleshoot_upstream_power_supply"},
-          { label: "Yes", next: "acdc_match"},
+          { label: t.no, next: "troubleshoot_upstream_power_supply"},
+          { label: t.yes, next: "acdc_match"},
       ],
     },
     acdc_match: {
-      message: "Does the AC/DC power supply output match the display input requirement?",
+      message: t.acdc_match_message,
       options: [
-          { label: "No", next: "verify_power"},
-          { label: "Yes", next: "display_plc"},
+          { label: t.no, next: "verify_power"},
+          { label: t.yes, next: "display_plc"},
       ],
     },
     display_plc: {
-      message: "Is the display connected to the PLC or is it a combination display/PLC?",
+      message: t.display_plc_message,
       options: [
-          { label: "No", next: "connect_display_plc"},
-          { label: "Yes", next: "physical_switch"},
+          { label: t.no, next: "connect_display_plc"},
+          { label: t.yes, next: "physical_switch"},
       ],
     },
     physical_switch: {
-      message: "Is there a physical run program switch?",
+      message: t.physical_switch_message,
       options: [
-          { label: "No", next: "plc_receive_power"},
-          { label: "Yes", next: "switch_set"},
+          { label: t.no, next: "plc_receive_power"},
+          { label: t.yes, next: "switch_set"},
       ],
     },
     switch_set: {
-      message: "Is the switch set to run / execute?",
+      message: t.switch_set_message,
       options: [
-          { label: "No", next: "set_switch_to_run"},
-          { label: "Yes", next: "toggle_switch"},
+          { label: t.no, next: "set_switch_to_run"},
+          { label: t.yes, next: "toggle_switch"},
       ],
     },
     set_switch_to_run: {
-      message: "Set switch to run. \nHas the issue been resolved?",
+      message: t.set_switch_to_run_message,
       options: [
-          { label: "No", next: "contact_manufacturer"}, // defined in flowchart #2
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "contact_manufacturer"}, // defined in flowchart #2
+          { label: t.yes, next: "end"},
       ],
     },
     toggle_switch: {
-      message: "Toggle the switch. \nHas the issue been resolved?",
+      message: t.toggle_switch_message,
       options: [
-          { label: "No", next: "contact_manufacturer"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "contact_manufacturer"},
+          { label: t.yes, next: "end"},
       ],
     },
 
     connect_display_plc: {
-      message: "Connect the display to the PLC.",
+      message: t.connect_display_plc_message,
       options: [
-          { label: "Done", next: "plc_receive_power"},
+          { label: t.done, next: "plc_receive_power"},
       ],
     },
     plc_receive_power: {
-      message: "Is the PLC receiving power (are the lights flashing)?",
+      message: t.plc_receive_power_message,
       options: [
-          { label: "No", next: "troubleshoot_upstream_power_supply"},
-          { label: "Yes", next: "replace_display"},
+          { label: t.no, next: "troubleshoot_upstream_power_supply"},
+          { label: t.yes, next: "replace_display"},
       ],
     },
 
     replace_display: {
-      message: "Replace display. \nHas the issue been resolved?",
+      message: t.replace_display_message,
       options: [
-          { label: "No", next: "contact_manufacturer"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "contact_manufacturer"},
+          { label: t.yes, next: "end"},
       ],
     },
     verify_power: {
-      message: "Verify power incompatibility and replace power supply. \n Has the issue been resolved?",
+      message: t.verify_power_message,
       options: [
-          { label: "No", next: "display_plc"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "display_plc"},
+          { label: t.yes, next: "end"},
       ],
     },
 
     troubleshoot_upstream_power_supply: {
-      message: "Troubleshoot the upstream power supply.",
+      message: t.troubleshoot_upstream_power_supply_message,
       options: [
-          { label: "Return to menu", next: "start"},
+          { label: t.return_to_menu, next: "start"},
       ],
       pdfLink: TroubleshootUpstreamPowerPDF,
     },
 
     wait_oxygen_tank: {
-      message: "Wait until the oxygen tank pressure is below the setpoint. \n Has the issue been resolved?",
+      message: t.wait_oxygen_tank_message,
       options: [
-          { label: "No", next: "display"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "display"},
+          { label: t.yes, next: "end"},
       ],
     },
 
     // ***** FLOWCHART #2: LOW PURITY MEASURED BY ONBOARD SENSOR *****
     low_purity: {
-      message: "Has the machine been restarted recently (in the last 30 minutes)?",
+      message: t.low_purity_message,
       options: [
-          { label: "No", next: "handheld_analyzer"},
-          { label: "Yes", next: "build_purity"},
+          { label: t.no, next: "handheld_analyzer"},
+          { label: t.yes, next: "build_purity"},
       ],
     },
     handheld_analyzer: {
-      message: "Check the purity with a calibrated handheld analyzer. \n Does the purity match the onboard sensor?",
+      message: t.handheld_analyzer_message,
       options: [
-          { label: "No", next: "flow_rate_match"},
-          { label: "Yes", next: "inlet_pressure_match_purity"},
+          { label: t.no, next: "flow_rate_match"},
+          { label: t.yes, next: "inlet_pressure_match_purity"},
       ],
     },
     inlet_pressure_match_purity: {
-      message: "Does the inlet pressure match manufacturer specs?",
+      message: t.inlet_pressure_match_purity_message,
       options: [
-          { label: "No", next: "troubleshoot_upstream_equip"}, // defined in flowchart #5
-          { label: "Yes", next: "limit_oxygen_output_purity"},
+          { label: t.no, next: "troubleshoot_upstream_equip"}, // defined in flowchart #5
+          { label: t.yes, next: "limit_oxygen_output_purity"},
       ],
       pdfLink: lowInletPressurePDF,
     },
     limit_oxygen_output_purity: {
-      message: "Limit oxygen output (close supply valve to hospital). \n Does the purity improve?",
+      message: t.limit_oxygen_output_purity_message,
       options: [
-          { label: "No", next: "troubleshoot_valve_noise"}, // defined in flowchart #4
-          { label: "Yes", next: "distribution_pipeline_leaks"},
+          { label: t.no, next: "troubleshoot_valve_noise"}, // defined in flowchart #4
+          { label: t.yes, next: "distribution_pipeline_leaks"},
       ],
     },
     distribution_pipeline_leaks: {
-      message: "Check for and resolve any leaks in the distribution pipeline. \n Has the issue been resolved?",
+      message: t.distribution_pipeline_leaks_message,
       options: [
-          { label: "No", next: "contact_manufacturer"},
-          { label: "Yes", next: "limit_oxygen_demand"}, // defined in flowchart #4
+          { label: t.no, next: "contact_manufacturer"},
+          { label: t.yes, next: "limit_oxygen_demand"}, // defined in flowchart #4
       ],
     },
     contact_manufacturer: {
-      message: "Sorry, we were not able to resolve your issue. \n Please contact the manufacturer or check the manual for an error message.",
+      message: t.contact_manufacturer_message,
       options: [
-          { label: "Return to menu", next: "start"},
+          { label: t.return_to_menu, next: "start"},
       ],
     },
 
     flow_rate_match: {
-      message: "Does the flow rate to sensor match manufacturer specs?",
+      message: t.flow_rate_match_message,
       options: [
-          { label: "No", next: "reset_flow"},
-          { label: "Yes", next: "replace_sensor"},
+          { label: t.no, next: "reset_flow"},
+          { label: t.yes, next: "replace_sensor"},
       ],
     },
     reset_flow: {
-      message: "Reset flow. \nHas the issue been resolved?",
+      message: t.reset_flow_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "end"},
       ],
     },
     replace_sensor: {
-      message: "Onboard purity sensor needs ot be recalibrated or replaced. \n Has the issue been resolved?",
+      message: t.replace_sensor_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "end"},
       ],
     },
 
     build_purity: {
-      message: "Wait until the oxygen generator can cycle and build purity. \nCheck every hour to see if purity is increasing. \nHas the issue been resolved?",
+      message: t.build_purity_message,
       options: [
-          { label: "No", next: "handheld_analyzer"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "handheld_analyzer"},
+          { label: t.yes, next: "end"},
       ],
       pdfLink: buildPurityPDF,
     },
@@ -246,247 +247,247 @@ const App = () => {
 
     // ***** FLOWCHART #3: IRREGULAR VALVE NOISE *****
     irregular_valve_noise: {
-      message: "Observe a full cycle in valve cabinet. \n Does each Sieve bed reach the expected maximum and minimum pressures?",
+      message: t.irregular_valve_noise_message,
       options: [
-          { label: "No", next: "valve_signal"},
-          { label: "Yes", next: "valve_leaks"},
+          { label: t.no, next: "valve_signal"},
+          { label: t.yes, next: "valve_leaks"},
       ],
       pdfLink: PSACyclePressurePDF,
     },
     valve_leaks: {
-      message: "Are there any leaks in valve cabinet?",
+      message: t.valve_leaks_message,
       options: [
-          { label: "No", next: "backpressure_regulator"},
-          { label: "Yes", next: "tighten_leaky_unions"},
+          { label: t.no, next: "backpressure_regulator"},
+          { label: t.yes, next: "tighten_leaky_unions"},
       ],
       pdfLink: valveCabinetLeaksPDF,
     },
     backpressure_regulator: {
-      message: "Is there a backpressure regulator?",
+      message: t.backpressure_regulator_message,
       options: [
-          { label: "No", next: "dusting_oil"},
-          { label: "Yes", next: "regulator_settings"},
+          { label: t.no, next: "dusting_oil"},
+          { label: t.yes, next: "regulator_settings"},
       ],
     },
     regulator_settings: {
-      message: "Is the backpressure regulator set to manufacturer recommendations? \n (Check during equalization)",
+      message: t.regulator_settings_message,
       options: [
-          { label: "No", next: "dusting_oil"},
-          { label: "Yes", next: "reset_regulator"},
+          { label: t.no, next: "dusting_oil"},
+          { label: t.yes, next: "reset_regulator"},
       ],
     },
     reset_regulator: {
-      message: "Reset the backpressure regulator. \n Has the issue been resolved?",
+      message: t.reset_regulator_message,
       options: [
-          { label: "No", next: "dusting_oil"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "dusting_oil"},
+          { label: t.yes, next: "end"},
       ],
     },
     dusting_oil: {
-      message: "Is there dusting or oil on the muffler?",
+      message: t.dusting_oil_message,
       options: [
-          { label: "No", next: "zeolite_depressed"},
-          { label: "Yes", next: "clean_replace_mufflers"},
+          { label: t.no, next: "zeolite_depressed"},
+          { label: t.yes, next: "clean_replace_mufflers"},
       ],
       pdfLink: mufflerPhotosPDF,
     },
     clean_replace_mufflers: {
-      message: "Clean or replace mufflers. \nHas the issue been resolved?",
+      message: t.clean_replace_mufflers_message,
       options: [
-          { label: "No", next: "zeolite_degraded"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "zeolite_degraded"},
+          { label: t.yes, next: "end"},
       ],
     },
     zeolite_degraded: {
-      message: "Zeolite is likely degraded and needs to be replaced. \nTroubleshoot upstream equipment.",
+      message: t.zeolite_degraded_message,
       options: [
           { label: "Okay", next: "exit"},
       ],
       pdfLink: zeoliteDegradationPDF,
     },
     zeolite_depressed: {
-      message: "Has the zeolite been depressed?",
+      message: t.zeolite_depressed_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "top_off_zeolite"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "top_off_zeolite"},
       ],
     },
     top_off_zeolite: {
-      message: "Top off zeolite. \nHas the issue been resolved?",
+      message: t.top_off_zeolite_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "end"},
       ],
     },
     tighten_leaky_unions: {
-      message: "Tighten leaky unions. \nHas the issue been resolved?",
+      message: t.tighten_leaky_unions_message,
       options: [
-          { label: "No", next: "inspect_fitting_surface"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "inspect_fitting_surface"},
+          { label: t.yes, next: "end"},
       ],
     },
     inspect_fitting_surface: {
-      message: "Inspect fitting seal surface. \nHas the issue been resolved?",
+      message: t.inspect_fitting_surface_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "end"},
       ],
     },
     valve_signal: {
-      message: "Is each valve receiving a signal?",
+      message: t.valve_signal_message,
       options: [
-          { label: "No", next: "loose_wires"},
-          { label: "Yes", next: "inspect_rebuild"},
+          { label: t.no, next: "loose_wires"},
+          { label: t.yes, next: "inspect_rebuild"},
       ],
     },
     inspect_rebuild: {
-      message: "Inspect and clean or rebuild valves. \nHas the issue been resolved?",
+      message: t.inspect_rebuild_message,
       options: [
-          { label: "No", next: "loose_wires"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "loose_wires"},
+          { label: t.yes, next: "end"},
       ],
     },
     loose_wires: {
-      message: "Check for and re-terminate loose wires/tubing. \nHas the issue been resolved?",
+      message: t.loose_wires_message,
       options: [
-          { label: "No", next: "replace_plc"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "replace_plc"},
+          { label: t.yes, next: "end"},
       ],
     },
     replace_plc: {
-      message: "Replace PLC. \nHas the issue been resolved?",
+      message: t.replace_plc_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "end"},
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "end"},
       ],
     },
 
     // ***** FLOWCHART #4: LOW PRESSURE IN OXYGEN TANK *****
     limit_oxygen_output: {
-      message: "Limit oxygen output (close supply valve to hospital). \nDoes the pressure increase?",
+      message: t.limit_oxygen_output_message,
       options: [
-          { label: "No", next: "inlet_pressure_match" },
-          { label: "Yes", next: "piping_leaks" },
+          { label: t.no, next: "inlet_pressure_match" },
+          { label: t.yes, next: "piping_leaks" },
 
       ],
     },
     // for inlet_pressure_match branching
     inlet_pressure_match: {
-      message: "Does the inlet pressure match manufacturer specs?",
+      message: t.inlet_pressure_match_message,
       options: [
-        { label: "No", next: "troubleshoot_inlet_pressure" },
-        { label: "Yes", next: "troubleshoot_valve_noise" },
+        { label: t.no, next: "troubleshoot_inlet_pressure" },
+        { label: t.yes, next: "troubleshoot_valve_noise" },
       ],
     },
     troubleshoot_inlet_pressure: {
-      message: "Troubleshoot low inlet pressure.",
+      message: t.troubleshoot_inlet_pressure_message,
       options: [
         { label: "Here", next: "low_inlet_pressure" },
       ],
     },
     troubleshoot_valve_noise: {
-      message: "Troubleshoot irregular valve noise.",
+      message: t.troubleshoot_valve_noise_message,
       options: [
         { label: "Here", next: "irregular_valve_noise" },
       ],
     },
     // for piping_leaks branching
     piping_leaks: {
-      message: "Are there any leaks in the piping distribution system?",
+      message: t.piping_leaks_message,
       options: [
-          { label: "No", next: "exceed_capacity" },
-          { label: "Yes", next: "repair_leaks" },
+          { label: t.no, next: "exceed_capacity" },
+          { label: t.yes, next: "repair_leaks" },
       ],
     },
     repair_leaks: {
-      message: "Repair leaks. \nHas the issue been resolved?",
+      message: t.repair_leaks_message,
       options: [
-        { label: "No", next: "exceed_capacity"},
-        { label: "Yes", next: "end" },
+        { label: t.no, next: "exceed_capacity"},
+        { label: t.yes, next: "end" },
       ],
     },
     exceed_capacity: {
-      message: "Does the hospital oxygen usage exceed oxygen generator capacity?",
+      message: t.exceed_capacity_message,
       options: [
-          { label: "No", next: "exit"},
-          { label: "Yes", next: "limit_oxygen_demand" },
+          { label: t.no, next: "exit"},
+          { label: t.yes, next: "limit_oxygen_demand" },
       ],
     },
     limit_oxygen_demand: {
-      message: "Permanently limit oxygen demand on PSA Plant. \nProcure supplemental oxygen supply. \nHas the issue been resolved?",
+      message: t.limit_oxygen_demand_message,
       options: [
-        { label: "No", next: "contact_manufacturer"},
-        { label: "Yes", next: "end" },
+        { label: t.no, next: "contact_manufacturer"},
+        { label: t.yes, next: "end" },
       ],
     },
 
     // ***** FLOWCHART #5: LOW INLET PRESSURE *****
     low_inlet_pressure: {
-      message: "Are any closed ball valves blocking airflow?",
+      message: t.low_inlet_pressure_message,
       options: [
-          {label: "No", next: "sufficient_pressure"},
-          {label: "Yes", next: "open_ball_valves"},
+          {label: t.no, next: "sufficient_pressure"},
+          {label: t.yes, next: "open_ball_valves"},
       ],
     },
     open_ball_valves: {
-      message: "Open the ball valves. Is there sufficient pressure?",
+      message: t.open_ball_valves_message,
       options: [
-          {label: "No", next: "sufficient_pressure"},
-          {label: "Yes", next: "end"},
+          {label: t.no, next: "sufficient_pressure"},
+          {label: t.yes, next: "end"},
       ],
     },
     sufficient_pressure: {
-      message: "Is there sufficient pressure in the air tank?",
+      message: t.sufficient_pressure_message,
       options: [
-          {label: "No", next: "troubleshoot_upstream_equip"},
-          {label: "Yes", next: "dial_pressure_settings"},
+          {label: t.no, next: "troubleshoot_upstream_equip"},
+          {label: t.yes, next: "dial_pressure_settings"},
       ],
     },
     troubleshoot_upstream_equip: {
-      message: "Troubleshoot upstream equipment.",
+      message: t.troubleshoot_upstream_equip_message,
       options: [
           {label: "Return to menu", next: "start"},
       ],
     },
     dial_pressure_settings: {
-      message: "Does the feed air regulator have dial pressure settings on it?",
+      message: t.dial_pressure_settings_message,
       options: [
-          {label: "No", next: "increase_output_pressure"},
-          {label: "Yes", next: "compare_pressure"},
+          {label: t.no, next: "increase_output_pressure"},
+          {label: t.yes, next: "compare_pressure"},
       ],
     },
     increase_output_pressure: {
-      message: "Slowly increase output pressure by adjusting the pressure regulator.",
+      message: t.increase_output_pressure_message,
       options: [
           {label: "Done", next: "pressure_increased"},
       ],
     },
     compare_pressure: {
-      message: "Compare the pressure on the dial to the maximum pressure of the sieve beds. \nAre they close to each other?",
+      message: t.compare_pressure_message,
       options: [
-          {label: "No", next: "adjust_regulator"},
-          {label: "Yes", next: "service_regulator"},
+          {label: t.no, next: "adjust_regulator"},
+          {label: t.yes, next: "service_regulator"},
       ],
     },
     service_regulator: {
-      message: "Service or replace the pressure regulator. \nHas the issue been resolved?",
+      message: t.service_regulator_message,
       options: [
-          {label: "No", next: "adjust_regulator"},
-          {label: "Yes", next: "end"},
+          {label: t.no, next: "adjust_regulator"},
+          {label: t.yes, next: "end"},
       ],
     },
     adjust_regulator: {
-      message: "Adjust the feed air regulator pressure settings to manufacturer recommendations. \nHas the issue been resolved?",
+      message: t.adjust_regulator_message,
       options: [
-          {label: "No", next: "pressure_increased"},
-          {label: "Yes", next: "end"},
+          {label: t.no, next: "pressure_increased"},
+          {label: t.yes, next: "end"},
       ],
     },
     pressure_increased: {
-      message: "Has the pressure downstream of the regulator increased?",
+      message: t.pressure_increased_message,
       options: [
-          {label: "Yes", next: "end"},
-          {label: "No", next: "exit"},
+          {label: t.yes, next: "end"},
+          {label: t.no, next: "exit"},
       ],
     },
   };
@@ -499,7 +500,7 @@ const App = () => {
 
   const scrollToSection = (section) => {
     if (!hasScrolled) {
-      // change positions if upload new image 
+      // change positions if upload new image
       const positions = {
         generator_wont_run: {x: 0},
         low_purity: {x: 0.2},
@@ -588,10 +589,10 @@ const App = () => {
 
   return (
     <div className="container">
-        <h1 className="title">Oxygen Generator Troubleshooting</h1>
-        <p className="update"> Last updated: Jan 2025 </p>
+        <h1 className="title"> {t.og_title} </h1>
+        <p className="update"> {t.og_update} </p>
         <img className="diagram_img" src={oxygenDiagram} alt="Oxygen generator diagram"/>
-        <p className="interactive-subtitle"> Interactive Troubleshooting </p>
+        <p className="interactive-subtitle"> {t.interactive_troubleshooting} </p>
 
         <p className="message">
             {step.message.split('\n').map((line, index) => (
@@ -633,10 +634,10 @@ const App = () => {
         {history.length > 0 && currentStep !== "start" && (
           <div className="buttons-container">
             <button onClick={goBack} className="back-button">
-                Back
+                {t.back}
             </button>
             <button onClick={restartHistory} className="back-button">
-                Restart
+                {t.restart}
             </button>
           </div>
         )}
@@ -645,11 +646,11 @@ const App = () => {
 
           {showHistory && (
             <div className="history">
-              <h2> Navigation History </h2>
+              <h2> {t.navigation_history} </h2>
             <ol>
               {history.map((entry, index) => (
               <li key={index}>
-                <strong> Question:  </strong>{" "}
+                <strong> {t.question}:  </strong>{" "}
                 {entry.message.split("\n").map((line, idx) => (
                 <React.Fragment key={idx}>
                     {line}
@@ -658,7 +659,7 @@ const App = () => {
                 ))}
                 <ul>
                     <li>
-                        <strong>Response:</strong> {entry.selected}
+                        <strong>{t.response}:</strong> {entry.selected}
                     </li>
                 </ul>
               </li>
@@ -670,20 +671,20 @@ const App = () => {
           <div className = "history-button-div">
             <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
               className="bottom-buttons">
-              Send Report to BHI
+              {t.send_report}
             </a>
 
             <button onClick={toggleHistory} className="history-button">
-              {showHistory ? "Hide History" : "View History"}
+              {showHistory ? t.hide_history : t.view_history}
             </button>
 
             <button onClick={downloadHistory} className = "bottom-buttons">
-              Download History
+              {t.download_history}
             </button>
           </div>
         </div>
 
-        <p className="flowchart-subtitle"> Complete Flowchart </p>
+        <p className="flowchart-subtitle"> {t.complete_flowchart} </p>
         <div className="flowchart" ref={flowchartRef}>
             <img className="oxygen-generator-flowchart-img" src={flowchart} alt="Full oxygen generator troubleshooting flowchart."/>
         </div>
