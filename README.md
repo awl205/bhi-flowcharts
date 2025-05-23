@@ -43,8 +43,7 @@ App.css -- main control page styling
 1. git pull
    
 ## Pushing changes to GitHub
-1. git add .
-2. git commit -m "description of changes"
-3. git push
-   
-Note: Vercel should automatically update after pushing changes 
+1. ctrl + c to terminate local host
+2. git add [file name]
+3. git commit -m "description of changes"
+4. git push
