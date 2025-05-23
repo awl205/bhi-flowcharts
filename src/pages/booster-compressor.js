@@ -517,7 +517,7 @@ import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact In
               <div className = "additional-info">
                   <button className = "info-button"
                       onClick = {() => window.open(step.pdfLink, "_blank")}
-                  > Additional Information
+                  > {t.additional_information}
                   </button>
               </div>
           )}

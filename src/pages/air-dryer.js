@@ -1,187 +1,190 @@
 import React, { useRef, useState } from 'react';
+import { useLanguage } from '../LanguageContext';
+import { flowchartTranslations } from '../ADTranslations';
 import "./equip.css";
 import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram .png";
-import manufacturerContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
+import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 
 const diagram = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
 const App = () => {
+    const { language } = useLanguage();
+    const t = flowchartTranslations[language];
+
 const flowChartLogic = {
     start: {
-        message: "What issue are you facing?",
-        options: [
-        { label: (<>Excess water in the line <br/>(in coalescing filters or bottom of air tank)</>), next: "excess_water" },
-        { label: (<>High PDP <br/> (6{'\u00b0'} C or see manual for limit)</>), next: "heat_exchangers" },
-        { label: (<>PDP sensor error </>), next: "sensor_power"},
-        ],
+        message: t.start_message,
+        options: t.start_options.map((label, index) => ({
+            label, next: ["excess_water", "heat_exchangers", "sensor_power"][index],
+        })),
         externalLink: {
         url: "https://bhioxygen.org/request-support/",
-        label: "Other"
+        label: t.other
         },
     },
     end: {
-        message: "Issue resolved!",
+        message: t.end_message,
         options: [
-        { label: "Return to menu", next: "start" },
+        { label: t.return_to_menu, next: "start" },
         ],
     },
     exit: {
-        message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
+        message: t.exit_message,
         options: [
-            {label: "Return to menu", next: "start"},
+            {label: t.return_to_menu, next: "start"},
         ],
-    pdfLink: manufacturerContactInfo,
+    pdfLink: manufacturingContactInfo,
     },
 
     // ***** FLOWCHART 1/2 *****
     excess_water: {
-        message: "Test the condensate drain. Is it working?",
+        message: t.excess_water_message,
         options: [
-            {label: 'No', next: 'valve_light'},
-            {label: 'Yes', next: 'heat_exchangers'}
+            {label: t.no, next: 'valve_light'},
+            {label: t.yes, next: 'heat_exchangers'}
         ],
     },
     heat_exchangers: {
-        message: "Are the heat exchangers (radiators) dirty?",
+        message: t.heat_exchangers_message,
         options: [
-            {label: 'No', next: 'radiator_fan'},
-            {label: 'Yes', next: 'clean_heat_exchangers'}
+            {label: t.no, next: 'radiator_fan'},
+            {label: t.yes, next: 'clean_heat_exchangers'}
         ],
     },
     clean_heat_exchangers: {
-        message: "Clean dust and debris off heat exchangers. \nHas the issue been resolved?",
+        message: t.clean_heat_exchangers_message,
         options: [
-            {label: 'No', next: 'radiator_fan'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'radiator_fan'},
+            {label: t.yes, next: 'end'}
         ],
     },
     radiator_fan: {
-        message: "Is the radiator fan running?",
+        message: t.radiator_fan_message,
         options: [
-            {label: 'No', next: 'voltage_fan'},
-            {label: 'Yes', next: 'refrigerant_compressor'}
+            {label: t.no, next: 'voltage_fan'},
+            {label: t.yes, next: 'refrigerant_compressor'}
         ],
     },
     refrigerant_compressor: {
-        message: "Is the refrigerant compressor running?",
+        message: t.refrigerant_compressor_message,
         options: [
-            {label: 'No', next: 'refrigerant_power'},
-            {label: 'Yes', next: 'sensor_resistance'}
+            {label: t.no, next: 'refrigerant_power'},
+            {label: t.yes, next: 'sensor_resistance'}
         ],
     },
     sensor_resistance: {
-        message: "Check sensor resistance and continuity. Is it functioning as expected?",
+        message: t.sensor_resistance_message,
         options: [
-            {label: 'No', next: 'replace_sensor'},
-            {label: 'Yes', next: 'hvac_specialist'}
+            {label: t.no, next: 'replace_sensor'},
+            {label: t.yes, next: 'hvac_specialist'}
         ],
     },
     replace_sensor: {
-        message: "Replace sensor. \nHas the issue been resolved?",
+        message: t.replace_sensor_message,
         options: [
-            {label: 'No', next: 'hvac_specialist'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'hvac_specialist'},
+            {label: t.yes, next: 'end'}
         ],
     },
     hvac_specialist: {
-        message: "Hire an HVAC specialist to replace or recharge the refrigerant \nand repair any possible leaks. \nHas the issue been resolved?",
+        message: t.hvac_specialist_message,
         options: [
-            {label: 'No', next: 'replace_dryer'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'replace_dryer'},
+            {label: t.yes, next: 'end'}
         ],
     },
     refrigerant_power: {
-        message: "Is the refrigerant compressor getting power?",
+        message: t.refrigerant_power_message,
         options: [
-            {label: 'No', next: 'troubleshoot_upstream'},
-            {label: 'Yes', next: 'replace_dryer'}
+            {label: t.no, next: 'troubleshoot_upstream'},
+            {label: t.yes, next: 'replace_dryer'}
         ],
     },
     troubleshoot_upstream: {
-        message: "Troubleshoot upstream electrical components. \nHas the issue been resolved?",
+        message: t.troubleshoot_upstream_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ],
     },
     replace_dryer: {
-        message: "Replace the dryer. \nHas the issue been resolved?",
+        message: t.replace_dryer_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ],
     },
     voltage_fan: {
-        message: "Is there voltage to the fan?",
+        message: t.voltage_fan_message,
         options: [
-            {label: 'No', next: 'troubleshoot_power_problem'},
-            {label: 'Yes', next: 'replace_radiator_fan'}
+            {label: t.no, next: 'troubleshoot_power_problem'},
+            {label: t.yes, next: 'replace_radiator_fan'}
         ],
     },
     replace_radiator_fan: {
-        message: "Replace the radiator fan. \nHas the issue been resolved?",
+        message: t.replace_radiator_fan_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ],
     },
     troubleshoot_power_problem: {
-        message: "Troubleshoot power problem. \nHas the issue been resolved?",
+        message: t.troubleshoot_power_problem_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ],
     },
 
     valve_light: {
-        message: "Is the light on the valve on?",
+        message: t.valve_light_message,
         options: [
-            {label: 'No', next: 'wiring_continuity'},
-            {label: 'Yes', next: 'replace_valve'}
+            {label: t.no, next: 'wiring_continuity'},
+            {label: t.yes, next: 'replace_valve'}
         ]
     },
     replace_valve: {
-        message: "Replace valve. \nHas the issue been resolved?",
+        message: t.replace_valve_message,
         options: [
-            {label: 'No', next: 'wiring_continuity'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'wiring_continuity'},
+            {label: t.yes, next: 'end'}
         ]
     },
     wiring_continuity: {
-        message: "Check continuity of wiring. \nHas the issue been resolved?",
+        message: t.wiring_continuity_message,
         options: [
-            {label: 'No', next: 'replace_electrical_valve'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'replace_electrical_valve'},
+            {label: t.yes, next: 'end'}
         ]
     },
     replace_electrical_valve: {
-        message: "Replace the electrical part of the valve. \nHas the issue been resolved?",
+        message: t.replace_electrical_valve_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ]
     },
 
     // ***** FLOWCHART 3 *****
     sensor_power: {
-        message: "Is the sensor receiving power?",
+        message: t.sensor_power_message,
         options: [
-            {label: 'No', next: 'reconnect_sensor'},
-            {label: 'Yes', next: 'replace_sensor3'}
+            {label: t.no, next: 'reconnect_sensor'},
+            {label: t.yes, next: 'replace_sensor3'}
         ]
     },
     reconnect_sensor: {
-        message: "Reconnect the sensor. \nHas the issue been resolved?",
+        message: t.reconnect_sensor_message,
         options: [
-            {label: 'No', next: 'replace_sensor3'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'replace_sensor3'},
+            {label: t.yes, next: 'end'}
         ]
     },
     replace_sensor3: {
-        message: "Replace the sensor. \nHas the issue been resolved?",
+        message: t.replace_sensor3_message,
         options: [
-            {label: 'No', next: 'exit'},
-            {label: 'Yes', next: 'end'}
+            {label: t.no, next: 'exit'},
+            {label: t.yes, next: 'end'}
         ]
     },
 };
@@ -265,10 +268,10 @@ const downloadHistory = () => {
 
 return (
     <div className="container">
-        <h1 className="title">Air Dryer (Refrigerant) Troubleshooting</h1>
-        <p className="update"> Last updated: Jan 2025 </p>
+        <h1 className="title"> {t.title} </h1>
+        <p className="update"> {t.update} </p>
         <img className="diagram_img" src={diagram} alt="Air dryer diagram"/>
-        <p className="interactive-subtitle"> Interactive Troubleshooting </p>
+        <p className="interactive-subtitle"> {t.interactive_troubleshooting} </p>
 
         <p className="message">
             {step.message.split('\n').map((line, index) => (
@@ -282,7 +285,7 @@ return (
             <div className = "additional-info">
                 <button className = "info-button"
                     onClick = {() => window.open(step.pdfLink, "_blank")}
-                > Additional Information
+                > {t.additional_information}
                 </button>
             </div>
         )}
@@ -310,10 +313,10 @@ return (
         {history.length > 0 && currentStep !== "start" && (
         <div className="buttons-container">
         <button onClick={goBack} className="back-button">
-            Back
+            {t.back}
         </button>
         <button onClick={restartHistory} className="back-button">
-            Restart
+            {t.restart}
         </button>
         </div>
     )}
@@ -322,11 +325,11 @@ return (
 
         {showHistory && (
         <div className="history">
-        <h2> Navigation History </h2>
+        <h2> {t.navigation_history} </h2>
         <ol>
             {history.map((entry, index) => (
             <li key={index}>
-            <strong> Question:  </strong>{" "}
+            <strong> {t.question}:  </strong>{" "}
             {entry.message.split("\n").map((line, idx) => (
             <React.Fragment key={idx}>
                 {line}
@@ -335,7 +338,7 @@ return (
             ))}
             <ul>
                 <li>
-                    <strong>Response:</strong> {entry.selected}
+                    <strong>{t.response}:</strong> {entry.selected}
                 </li>
             </ul>
             </li>
@@ -347,20 +350,20 @@ return (
         <div className = "history-button-div">
         <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
             className="bottom-buttons">
-            Send Report to BHI
+            {t.send_report}
         </a>
 
         <button onClick={toggleHistory} className="history-button">
-            {showHistory ? "Hide History" : "View History"}
+            {showHistory ? t.hide_history : t.view_history}
         </button>
 
         <button onClick={downloadHistory} className = "bottom-buttons">
-            Download History
+            {t.download_history}
         </button>
         </div>
     </div>
 
-    <p className="flowchart-subtitle"> Complete Flowchart </p>
+    <p className="flowchart-subtitle"> {t.complete_flowchart} </p>
     <div className="flowchart" ref={flowchartRef}>
         <img className="air-dryer-flowchart-img" src={flowchart} alt="Full air dryer troubleshooting flowchart"/>
     </div>

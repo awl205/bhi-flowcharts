@@ -18,6 +18,8 @@ export const flowchartTranslations = {
         yes: "Yes",
         done: "Done",
         back: "Back",
+        end: "Problem Resolved",
+        exit: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
         restart: "Restart",
         send_report: "Send Report to BHI",
         hide_history: "Hide History",
@@ -30,6 +32,7 @@ export const flowchartTranslations = {
         navigation_history: "Navigation History",
         question: "Question",
         response: "Response",
+        additional_information: "Additional Information",
 
         // FLOWCHART 1
         shutdown_high_temp_message: "Is the cooling fan inoperative or in reverse rotation?",
@@ -99,11 +102,13 @@ export const flowchartTranslations = {
     fr: {
         start_message: "Quel est le problème rencontré ?",
         start_options: [
-            "Le générateur d'oxygène ne fonctionne pas",
-            "Faible pureté mesurée par le capteur intégré",
-            "Bruit irrégulier de la valve",
-            "Basse pression dans le réservoir d'oxygène",
-            "Basse pression d'entrée"
+            "Arrêt dû à une température élevée (Rix 2V3B et Bailan)",
+            "Bruit de cognement important",
+            "Faibles pressions inter-étages",
+            "Le surpresseur s'arrête avant d'atteindre la pression finale",
+            "Pressions inter-étages élevées",
+            "Déclenchement de la valeur de décharge de pression (sifflement et cliquetis)",
+            "Bruit de grincement important au démarrage de l'équipement",
         ],
         other: "Autre",
         end_message: "Problème résolu !",
@@ -113,6 +118,8 @@ export const flowchartTranslations = {
         yes: "Oui",
         done: "Fait",
         back: "Dos",
+        end: "Problème résolu",
+        exit: "Désolé, nous n'avons pas pu résoudre votre problème. Veuillez contacter le fabricant pour plus d'informations.",
         restart: "Redémarrage",
         send_report: "Envoyer le rapport à BHI",
         hide_history: "Masquer l'historique",
@@ -125,6 +132,7 @@ export const flowchartTranslations = {
         navigation_history: "Historique de navigation",
         question: "Question",
         response: "Réponse",
+        additional_information: "Informations supplémentaires",
 
         // FLOWCHART 1
         shutdown_high_temp_message: "Le ventilateur de refroidissement est-il hors service ou en rotation inverse?",

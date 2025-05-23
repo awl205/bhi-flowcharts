@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useLanguage } from '../LanguageContext';
 import { flowchartTranslations } from '../OGTranslations';
 import "./equip.css";
+import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";
 import buildPurityPDF from "./assets/Building Purity .pdf";
 import lowInletPressurePDF from "./assets/Check for low inlet pressure .pdf";
@@ -39,7 +40,8 @@ const App = () => {
       message: t.exit_message,
       options: [
         { label: t.return_to_menu, next: "start" }
-      ]
+      ],
+      pdfLink: manufacturingContactInfo,
   },
 
     // ***** FLOWCHART #1: OXYGEN GENERATOR WON'T RUN *****
@@ -606,7 +608,7 @@ const App = () => {
             <div className = "additional-info">
                 <button className = "info-button"
                     onClick = {() => window.open(step.pdfLink, "_blank")}
-                > Additional Information
+                > {t.additional_information}
                 </button>
             </div>
         )}

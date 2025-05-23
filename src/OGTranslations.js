@@ -28,6 +28,7 @@ export const flowchartTranslations = {
         navigation_history: "Navigation History",
         question: "Question",
         response: "Response",
+        additional_information: "Additional Information",
 
         // FLOWCHART 1
         generator_wont_run_message: "Is the oxygen generator in standby mode?",
@@ -131,6 +132,7 @@ export const flowchartTranslations = {
         navigation_history: "Historique de navigation",
         question: "Question",
         response: "Réponse",
+        additional_information: "Informations supplémentaires",
 
         // FLOWCHART 1
         generator_wont_run_message: "Le générateur d'oxygène est-il en mode veille ?",
