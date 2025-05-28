@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import './index.css';
 import { useLanguage } from '../LanguageContext';
 import air_dryer_img from './assets/air dryer.jpg';
@@ -36,12 +36,13 @@ const translations = {
       dryer: "Sèche-Air",
     },
 };
+
 const Home = () => {
     const { language, setLanguage } = useLanguage();
     const t = translations[language];
 
     return (
-        <div>
+        <div className="home-container">
             <div class="welcome-section">
                 <h1>
                     {t.title} <br/>
@@ -99,8 +100,8 @@ const Home = () => {
                         </div>
                     </a>
                 </div> */}
+                </div>
             </div>
-        </div>
     );
 };
 
