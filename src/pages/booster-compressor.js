@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import "./equip.css";
 import flowchart from "./assets/Booster Compressor Troubleshooting Diagram.png";
 import { useLanguage } from '../LanguageContext';
-import { flowchartTranslations } from '../BCTranslations';
+import { flowchartTranslations } from '../BoosterCompressorTranslations';
 import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 
   const oxygenFlowChart = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"

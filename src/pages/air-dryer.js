@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../LanguageContext';
-import { flowchartTranslations } from '../ADTranslations';
+import { flowchartTranslations } from '../AirDryerTranslations';
 import "./equip.css";
 import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram .png";
 import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";

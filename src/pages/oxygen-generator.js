@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../LanguageContext';
-import { flowchartTranslations } from '../OGTranslations';
+import { flowchartTranslations } from '../OxygenGeneratorTranslations';
 import "./equip.css";
 import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 import flowchart from "./assets/Oxygen Generator Troubleshooting Flow Chart.png";

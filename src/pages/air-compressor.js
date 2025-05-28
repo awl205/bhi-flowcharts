@@ -1,909 +1,897 @@
 import React, { useRef, useState } from 'react';
+import { useLanguage } from '../LanguageContext';
+import { flowchartTranslations } from '../AirCompressorTranslations';
 import "./equip.css";
 import flowchart from "./assets/Air Dryer (Refrigerant) Troubleshooting diagram .png";
-import manufacturerContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
+import manufacturingContactInfo from "./assets/PSA Plant Manufacturer Contact Information.pdf";
 
 const diagram = "https://i0.wp.com/bhioxygen.org/wp-content/uploads/2023/09/PSA-plant-components-1.png?w=808&ssl=1"
 
 const App = () => {
+    const { language } = useLanguage();
+    const t = flowchartTranslations[language];
+
 const flowChartLogic = {
     start: {
-        message: "What issue are you facing?",
-        options: [
-        { label: "Compressor won't start", next: "wont_start" },
-        { label: "High compressor temperature", next: "high_temp" },
-        { label: "Low pressure at point of use", next: "low_pressure_point"},
-        { label: "Low pressure in compressor room", next: "low_pressure_room"},
-        { label: "Oil in compressed air", next: "oil"},
-        { label: "Water in compressed air", next: "water"},
-        { label: "Oil comes out of inlet valve", next: "oil_inlet_valve"},
-        { label: "Compressor won't load", next: "wont_load"},
-        { label: "Compressor trips on overload/overcurrent", next: "trips_overload"},
-        ],
+        message: t.start_message,
+        options: t.start_options.map((label, index) => ({
+            label, next: ["wont_start", "high_temp", "low_pressure_point", "low_pressure_room", "oil", "water", "oil_inlet_valve", "wont_load", "trips_overload"][index],
+        })),
         externalLink: {
         url: "https://bhioxygen.org/request-support/",
         label: "Other"
         },
     },
     end: {
-        message: "Issue resolved!",
+        message: t.end_message,
         options: [
-        { label: "Return to menu", next: "start" },
+        { label: t.return_to_menu, next: "start" },
         ],
     },
     exit: {
-        message: "Sorry, we were not able to resolve your issue. \nPlease contact the manufacturer for more information.",
+        message: t.exit_message,
         options: [
-            {label: "Return to menu", next: "start"},
+            {label: t.return_to_menu, next: "start"},
         ],
-    pdfLink: manufacturerContactInfo,
+    pdfLink: manufacturingContactInfo,
     },
 
     // ***** FLOWCHART 1 ***** (4.1.3)
     wont_start: {
-        message: "Is power present on all 3 phases?",
+        message: t.wont_start_message,
         options: [
-            {label: "No", next: "fix_electrical_supply"},
-            {label: "Yes", next: "indication_screen"},
+            {label: t.no, next: "fix_electrical_supply"},
+            {label: t.yes, next: "indication_screen"},
         ],
     },
     indication_screen: {
-        message: "Is there any indication on the screen/panel?",
+        message: t.indication_screen_message,
         options: [
-            {label: "No", next: "checks"},
-            {label: "Yes", next: "error_panel"},
+            {label: t.no, next: "checks"},
+            {label: t.yes, next: "error_panel"},
         ],
     },
     checks: {
-        message: "Check the main power fuses, low voltage fuses, electrical connections, and light bulbs. \n Fix any problems. Has the issue been resolved?",
+        message: t.checks_message,
         options: [
-            {label: "No", next: "error_panel"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "error_panel"},
+            {label: t.yes, next: "end"},
         ],
     },
     error_panel: {
-        message: "Is there any error indicated on the panel?",
+        message: t.error_panel_message,
         options: [
-            {label: "No", next: "press_start"},
-            {label: "Yes", next: "fix_errors"},
+            {label: t.no, next: "press_start"},
+            {label: t.yes, next: "fix_errors"},
         ],
     },
     fix_errors: {
-        message: "Fix the errors. \nHas the issue been resolved?",
+        message: t.fix_errors_message,
         options: [
-            {label: "No", next: "press_start"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "press_start"},
+            {label: t.yes, next: "end"},
         ],
     },
     press_start: {
-        message: "When you press start, what happens?",
+        message: t.press_start_message,
         options: [
-            {label: "Nothing", next: "check_main_contactors"},
-            {label: "Motor tries to start but fails", next: "check_backpressure"},
+            {label: t.nothing_option, next: "check_main_contactors"},
+            {label: t.motor_tries_option, next: "check_backpressure"},
         ],
     },
     check_backpressure: {
-        message: "Is the backpressure in the compressor?",
+        message: t.check_backpressure_message,
         options: [
-            {label: "No", next: "oil_flood"},
-            {label: "Yes", next: "overhaul_min_valve"},
+            {label: t.no, next: "oil_flood"},
+            {label: t.yes, next: "overhaul_min_valve"},
         ],
     },
     overhaul_min_valve: {
-        message: "Overhaul the minimum pressure valve. \nHas the issue been resolved?",
+        message: t.overhaul_min_valve_message,
         options: [
-            {label: "No", next: "oil_flood"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "oil_flood"},
+            {label: t.yes, next: "end"},
         ],
     },
     oil_flood: {
-        message: "Has the element been flooded with oil?",
+        message: t.oil_flood_message,
         options: [
-            {label: "No", next: "screw_stuck"},
-            {label: "Yes", next: "overhaul_oil"},
+            {label: t.no, next: "screw_stuck"},
+            {label: t.yes, next: "overhaul_oil"},
         ],
     },
     overhaul_oil: {
-        message: "Overhaul oil stop valve and check valve. \nHas the issue been resolved?", // fix this??
+        message: t.overhaul_oil_message, // fix this??
         options: [
-            {label: "No", next: "screw_stuck"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "screw_stuck"},
+            {label: t.yes, next: "end"},
         ],
     },
     screw_stuck: {
-        message: "Is the screw element stuck?",
+        message: t.screw_stuck_message,
         options: [
-            {label: "No", next: "check_motor_winding"},
-            {label: "Yes", next: "overhaul_screw"},
+            {label: t.no, next: "check_motor_winding"},
+            {label: t.yes, next: "overhaul_screw"},
         ],
     },
     check_motor_winding: {
-        message: "Is the motor winding isolation ok?",
+        message: t.check_motor_winding_message,
         options: [
-            {label: "No", next: ""},
-            {label: "Yes", next: "exit"},
+            {label: t.no, next: ""},
+            {label: t.yes, next: "exit"},
         ],
     },
     motor_rewinding: {
-        message: "Motor need re-winding. Consult manufacturer.",
+        message: t.motor_rewinding_message,
         options: [
-            {label: "Ok", next: "exit"},
+            {label: t.ok, next: "exit"},
         ],
     },
     check_main_contactors: {
-        message: "Check main contactors. Are they ok?",
+        message: t.check_main_contactors_message,
         options: [
-            {label: "No", next: "fix_main_contactors"},
-            {label: "Yes", next: "check_motor_turn"},
+            {label: t.no, next: "fix_main_contactors"},
+            {label: t.yes, next: "check_motor_turn"},
         ],
     },
     fix_main_contactors: {
-        message: "Fix main contactors. \nHas the issue been resolved?",
+        message: t.fix_main_contactors_message,
         options: [
-            {label: "No", next: "check_motor_turn"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_motor_turn"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_motor_turn: {
-        message: "Check to see - is the motor really turning?",
+        message: t.check_motor_turn_message,
         options: [
-            {label: "Motor running", next: "fix_coupling"},
-            {label: "Nothing happens", next: "power_motor"},
+            {label: t.motor_running_option, next: "fix_coupling"},
+            {label: t.nothing_happens_option, next: "power_motor"},
         ],
     },
     power_motor: {
-        message: "Power goes to motor but motor is not turning. \nIs the screw element stuck?",
+        message: t.power_motor_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "overhaul_screw"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "overhaul_screw"},
         ],
     },
     overhaul_screw: {
-        message: "Overhaul the screw element or consult manufacturer. \nHas the issue been resolved?",
+        message: t.overhaul_screw_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     fix_coupling: {
-        message: "Coupling or belt is broken. Fix it. \nHas the issue been resolved?",
+        message: t.fix_coupling_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     fix_electrical_supply: {
-        message: "Fix electrical supply. \nHas the issue been resolved?",
+        message: t.fix_electrical_supply_message,
         options: [
-            {label: "No", next: "indication_screen"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "indication_screen"},
+            {label: t.yes, next: "end"},
         ],
     },
     // ***** FLOWCHART 2 ***** (4.2.3)
     high_temp: {
-        message: "Is the oil level ok?",
+        message: t.high_temp_message,
         options: [
-            {label: "No", next: "fill_oil"},
-            {label: "Yes", next: "check_oil_cooler"},
+            {label: t.no, next: "fill_oil"},
+            {label: t.yes, next: "check_oil_cooler"},
         ],
     },
     fill_oil: {
-        message: "Fill up oil. \nHas the issue been resolved?",
+        message: t.fill_oil_message,
         options: [
-            {label: "No", next: "check_oil_cooler"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_oil_cooler"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_oil_cooler: {
-        message: "Is the oil cooler clean?",
+        message: t.check_oil_cooler_message,
         options: [
-            {label: "No", next: "clean_oil_cooler"},
-            {label: "Yes", next: "check_airflow"},
+            {label: t.no, next: "clean_oil_cooler"},
+            {label: t.yes, next: "check_airflow"},
         ],
     },
     clean_oil_cooler: {
-        message: "Clean the oil cooler. \nHas the issue been resolved?",
+        message: t.clean_oil_cooler_message,
         options: [
-            {label: "No", next: "check_airflow"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_airflow"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_airflow: {
-        message: "Check airflow. Is the fan running? Are there no obstructions?",
+        message: t.check_airflow_message,
         options: [
-            {label: "No", next: "fix_problems"},
-            {label: "Yes", next: "check_temp"},
+            {label: t.no, next: "fix_problems"},
+            {label: t.yes, next: "check_temp"},
         ],
     },
     fix_problems: {
-        message: "Fix problems. \nHas the issue been resolved?",
+        message: t.fix_problems_message,
         options: [
-            {label: "No", next: "check_temp"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_temp"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_temp: {
-        message: "What is the temperature of the cooler?",
+        message: t.check_temp_message,
         options: [
             {label: "Cool", next: "check_thermostat"},
             {label: "Hot", next: "room_temp"},
         ],
     },
     check_thermostat: {
-        message: "Check the thermostatic value. \nHas the issue been resolved?",
+        message: t.check_thermostat_message,
         options: [
-            {label: "No", next: "room_temp"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "room_temp"},
+            {label: t.yes, next: "end"},
         ],
     },
     room_temp: {
-        message: "What is the temperature of the compressor room",
+        message: t.room_temp_message,
         options: [
             {label: "Hot", next: "lower_ambient_temp"},
             {label: "Normal", next: "inside_oil_cooler"},
         ],
     },
     lower_ambient_temp: {
-        message: "Try to lower ambient temperature. \nHas the issue been resolved?",
+        message: t.lower_ambient_temp_message,
         options: [
-            {label: "No", next: "inside_oil_cooler"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "inside_oil_cooler"},
+            {label: t.yes, next: "end"},
         ],
     },
     inside_oil_cooler: {
-        message: "Is the inside of the oil cooler clean?",
+        message: t.inside_oil_cooler_message,
         options: [
-            {label: "No", next: "clean_inside"}, // FIX THIS???
-            {label: "Yes", next: "check_screw"},
+            {label: t.no, next: "clean_inside"}, // FIX THIS???
+            {label: t.yes, next: "check_screw"},
         ],
     },
     clean_inside: {
-        message: "Clean the inside of the oil cooler. \nHas the issue been resolved?", // FIX THIS??
+        message: t.clean_inside_message, // FIX THIS??
         options: [
-            {label: "No", next: "check_screw"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_screw"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_screw: {
-        message: "Is the screw element ok?", // FIX THIS??
+        message: t.check_screw_message, // FIX THIS??
         options: [
-            {label: "No", next: "overhaul_screw"},
-            {label: "Yes", next: "exit"},
+            {label: t.no, next: "overhaul_screw"},
+            {label: t.yes, next: "exit"},
         ],
     },
     // ***** FLOWCHART 3 ***** (4.3.2)
     low_pressure_point: {
-        message: "How is the pressure in the compressor room?",
+        message: t.low_pressure_point_message,
         options: [
-            {label: "Low", next: "low_pressure_room"},
+            {label: "Low", next: "low_pressure_room_3"},
             {label: "Good", next: "pressure_drop"},
         ],
     },
-    low_pressure_room: {
-        message: "Fix the low pressure in the compressor room. \nHas the issue been resolved?",
+    low_pressure_room_3: {
+        message: t.low_pressure_room_3_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     pressure_drop: {
-        message: "There is a pressure drop problem. Check all filters, valves, etc. between compressor and point of use. \nAre they all working?",
+        message: t.pressure_drop_message,
         options: [
-            {label: "No", next: "fix_replace"},
-            {label: "Yes", next: "new_equip"},
+            {label: t.no, next: "fix_replace"},
+            {label: t.yes, next: "new_equip"},
         ],
     },
     fix_replace: {
-        message: "Fix the problems and replace the filters. \nHas the issue been resolved?",
+        message: t.fix_replace_message,
         options: [
-            {label: "No", next: "new_equip"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "new_equip"},
+            {label: t.yes, next: "end"},
         ],
     },
     new_equip: {
-        message: "Has any new equipment been installed?",
+        message: t.new_equip_message,
         options: [
-            {label: "No", next: "install_pressure_sensor"},
-            {label: "Yes", next: "temporary_off"},
+            {label: t.no, next: "install_pressure_sensor"},
+            {label: t.yes, next: "temporary_off"},
         ],
     },
     temporary_off: {
-        message: "Temporarily shut off new equipment. \nHas the issue been resolved?",
+        message: t.temporary_off_message,
         options: [
-            {label: "No", next: "install_pressure_sensor"},
-            {label: "Yes", next: "low_capacity"},
+            {label: t.no, next: "install_pressure_sensor"},
+            {label: t.yes, next: "low_capacity"},
         ],
     },
     install_pressure_sensor: {
-        message: "Install a pressure sensor at various points in the system. \nHas the point of pressure drop been located?",
+        message: t.install_pressure_sensor_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "fix_problem_increase"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "fix_problem_increase"},
         ],
     },
     low_capacity: {
-        message: "Current system layout has too low capacity for the higher air use. \nCompressors might be big enough but pipes, filters, and valves are too small.",
+        message: t.low_capacity_message,
         options: [
-            {label: "Ok", next: "fix_problem_increase"},
+            {label: t.ok, next: "fix_problem_increase"},
         ],
     },
     fix_problem_increase: {
-        message: "Fix the problem: increase pipe size, install larger filter, etc. \nHas the issue been resolved?",
+        message: t.fix_problem_increase_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
 
     //** FLOWCHART 4 ** (4.4.3)
     low_pressure_room: {
-        message: "Check the pressure on compressor(s). Is it high or low?",
+        message: t.low_pressure_room_message,
         options: [
-            {label: "High (good)", next: "blockage"},
-            {label: "Low (same)", next: "single_mult_compressors"},
+            {label: t.high_good_option, next: "blockage"},
+            {label: t.low_same_option, next: "single_mult_compressors"},
         ],
     },
     blockage: {
-        message: "You have a blockage (pressure drop). \nCheck all filters, dryers, etc between compressor and air receiver. \nHas the issue been resolved?",
+        message: t.blockage_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     single_mult_compressors: {
-        message: "Are there single or multiple compressors?",
+        message: t.single_mult_compressors_message,
         options: [
-            {label: "Single", next:"single_compressor"},
-            {label: "Multiple", next: "multiple_compressors"},
+            {label: t.single_option, next:"single_compressor"},
+            {label: t.multiple_option, next: "multiple_compressors"},
         ],
     },
     multiple_compressors: {
-        message: "Are all compressors running loaded?",
+        message: t.multiple_compressors_message,
         options: [
-            {label: "Yes", next:"capacity_demand_problem"},
-            {label: "No", next: "single_compressor"},
+            {label: t.yes, next:"capacity_demand_problem"},
+            {label: t.no, next: "single_compressor"},
         ],
     },
     single_compressor: {
-        message: "Are the setpoints correct (load/unload, start/stop)?", // TODO
+        message: t.single_compressor_message, // TODO
         options: [
-            {label: "No", next:"adjust_setpoints"},
-            {label: "Yes", next: "compressor_loads"},
+            {label: t.no, next:"adjust_setpoints"},
+            {label: t.yes, next: "compressor_loads"},
         ],
     },
     adjust_setpoints: {
-        message: "Adjust setpoints! \nHas the issue been resolved?",
+        message: t.adjust_setpoints_message,
         options: [
-            {label: "No", next:"exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next:"exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressor_loads: {
-        message: "Does the compressor load and unload at correct pressures (according to setpoints)?",
+        message: t.compressor_loads_message,
         options: [
-            {label: "No", next:"compressor_loading_problem"},
-            {label: "Yes", next: "capacity_demand_problem"},
+            {label: t.no, next:"compressor_loading_problem"},
+            {label: t.yes, next: "capacity_demand_problem"},
         ],
     },
     compressor_loading_problem: {
-        message: "You have a compressor loading problem.",
+        message: t.compressor_loading_problem_message,
         options: [
-            {label: "Troubleshoot compressor loading", next:""}, // TODO: FLOWCHART 8
+            {label: "Troubleshoot compressor loading", next:"wont_load"},
         ],
     },
     capacity_demand_problem: {
-        message: "There is a capacity OR demand problem. \nHas any new equipment been installed?",
+        message: t.capacity_demand_problem_message,
         options: [
-            {label: "No", next:"temporary_shut_off"},
-            {label: "Yes", next: "capacity_problem"},
+            {label: t.no, next:"temporary_shut_off"},
+            {label: t.yes, next: "capacity_problem"},
         ],
     },
     capacity_problem: {
-        message: "There is a capacity problem.",
+        message: t.capacity_problem_message,
         options: [
-            {label: "Return to menu", next:"exit"},
+            {label: t.return_to_menu, next:"exit"},
         ],
     },
     temporary_shut_off: {
-        message: "Temporarily shut off any new equipment. \nHas the issue been resolved?",
+        message: t.temporary_shut_off_message,
         options: [
-            {label: "No", next:"demand_problem"},
-            {label: "Yes", next: "replace_inlet_oil"},
+            {label: t.no, next:"demand_problem"},
+            {label: t.yes, next: "replace_inlet_oil"},
         ],
     },
     replace_inlet_oil: {
-        message: "Replace inlet oil, oil, and oil filter. \nHas the issue been resolved?",
+        message: t.replace_inlet_oil_message,
         options: [
-            {label: "No", next:"compressed_air_leaks"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next:"compressed_air_leaks"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressed_air_leaks: {
-        message: "Fix all compressed air leaks. \nHas the issue been resolved?",
+        message: t.compressed_air_leaks_message,
         options: [
-            {label: "No", next:"exit"},
-            {label: "Yes", next:"end"},
+            {label: t.no, next:"exit"},
+            {label: t.yes, next:"end"},
         ],
     },
     demand_problem: {
-        message: "There is a demand problem.",
+        message: t.demand_problem_message,
         options: [
-            {label: "Return to menu", next:"end"},
+            {label: t.return_to_menu, next:"end"},
         ],
     },
 
     //** FLOWCHART 5 ** (4.5.3)
     oil: {
-        message: "Was the separator last changed more than 6,000 hours ago?",
+        message: t.oil_message,
         options: [
-            {label: "No", next: "oil_changed_recently"},
-            {label: "Yes", next: "replace_separator "},
+            {label: t.no, next: "oil_changed_recently"},
+            {label: t.yes, next: "replace_separator_5 "},
         ],
     },
-    replace_separator: {
-        message: "Replace the separator and change the oil. \nHas the issue been resolved?",
+    replace_separator_5: {
+        message: t.replace_separator_5_message,
         options: [
-            {label: "No", next: "oil_changed_recently"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "oil_changed_recently"},
+            {label: t.yes, next: "end"},
         ],
     },
     oil_changed_recently: {
-        message: "Was te oil recently changed or topped out?",
+        message: t.oil_changed_recently_message,
         options: [
-            {label: "No", next: "open_separator_vessel"},
-            {label: "Yes", next: "same_oil"},
+            {label: t.no, next: "open_separator_vessel"},
+            {label: t.yes, next: "same_oil"},
         ],
     },
     same_oil: {
-        message: "Was the same type of oil used?",
+        message: t.same_oil_message,
         options: [
-            {label: "No", next: "correct_oil"},
-            {label: "Yes", next: "oil_overfilled"},
+            {label: t.no, next: "correct_oil"},
+            {label: t.yes, next: "oil_overfilled"},
         ],
     },
     oil_overfilled: {
-        message: "Was the oil over-filled?",
+        message: t.oil_overfilled_message,
         options: [
-            {label: "No", next: "exit"}, // CHECK THIS
-            {label: "Yes", next: "drain_some_oil"},
+            {label: t.no, next: "exit"}, // CHECK THIS
+            {label: t.yes, next: "drain_some_oil"},
         ],
     },
     drain_some_oil: {
-        message: "Drain some oil and wait a few days. \nHas the issue been resolved?", // CHECK THIS
+        message: t.drain_some_oil_message, // CHECK THIS
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     correct_oil: {
-        message: "Was the correct oil type used?",
+        message: t.correct_oil_message,
         options: [
-            {label: "No", next: "drain_all_oil"},
-            {label: "Yes", next: "old_oil_drained"},
+            {label: t.no, next: "drain_all_oil"},
+            {label: t.yes, next: "old_oil_drained"},
         ],
     },
     drain_all_oil: {
-        message: "Drain all of the oil and flush with correct new oil. \nHas the issue been resolved?",
+        message: t.drain_all_oil_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     old_oil_drained: {
-        message: "Was old oil drained thoroughly and machine flushed",
+        message: t.old_oil_drained_message,
         options: [
-            {label: "No", next: "drain_all_oil"},
-            {label: "Yes", next: "open_separator_vessel"},
+            {label: t.no, next: "drain_all_oil"},
+            {label: t.yes, next: "open_separator_vessel"},
         ],
     },
     open_separator_vessel: {
-        message: "Check the separator. Is it ok?",
+        message: t.open_separator_vessel_message,
         options: [
-            {label: "No", next: "replace_separator"},
-            {label: "Yes", next: "check_scavenge_line"},
+            {label: t.no, next: "replace_separator"},
+            {label: t.yes, next: "check_scavenge_line"},
         ],
     },
     replace_separator: {
-        message: "Replace the separator, oil, and oil filter. \nHas the issue been resolved?",
+        message: t.replace_separator_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_scavenge_line: {
-        message: "Check the scavenge line and pipe. Are they ok?",
+        message: t.check_scavenge_line_message,
         options: [
-            {label: "No", next: "fix_scavenge_line"},
-            {label: "Yes", next: "check_min_pressure_valve"},
+            {label: t.no, next: "fix_scavenge_line"},
+            {label: t.yes, next: "check_min_pressure_valve"},
         ],
     },
     fix_scavenge_line: {
-        message: "Fix problems with the scavenge line and pipe. \nHas the issue been resolved?",
+        message: t.fix_scavenge_line_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_min_pressure_valve: {
-        message: "Check the minimum pressure valve. Is it ok?",
+        message: t.check_min_pressure_valve_message,
         options: [
-            {label: "No/Not sure", next: "overhaul_min_pressure_valve"},
-            {label: "Yes", next: "compressor_high_temp"},
+            {label: t.not_sure_option, next: "overhaul_min_pressure_valve"},
+            {label: t.yes, next: "compressor_high_temp"},
         ],
     },
     overhaul_min_pressure_valve: {
-        message: "Overhaul the minimum pressure valve. \nHas the issue been resolved?",
+        message: t.overhaul_min_pressure_valve_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressor_high_temp: {
-        message: "Is the compressor running at high temperatures?",
+        message: t.compressor_high_temp_message,
         options: [
-            {label: "No", next: "compressor_start_stop"},
-            {label: "Yes", next: "lower_ambient_temp"},
+            {label: t.no, next: "compressor_start_stop"},
+            {label: t.yes, next: "lower_ambient_temp_5"},
         ],
     },
-    lower_ambient_temp: {
-        message: "Try to lower ambient temperature. Install ducting. \nHas the issue been resolved?",
+    lower_ambient_temp_5: {
+        message: t.lower_ambient_temp_5_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressor_start_stop: {
-        message: "Is the compressor starting and stopping according to instructions?",
+        message: t.compressor_start_stop_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "correct_start_stop"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "correct_start_stop"},
         ],
     },
     correct_start_stop: {
-        message: "Use the correct procedures for starting and starting the compressor. \nHas the issue been resolved?",
+        message: t.correct_start_stop_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
 
     //** FLOWCHART 6 ** (4.6.3)
     water: {
-        message: "Check all condensate traps. How are they?",
+        message: t.water_message,
         options: [
-            {label: "Bad", next: "clean_replace_traps"},
-            {label: "Good", next: "have_compressed_air_dryer"},
+            {label: t.bad, next: "clean_replace_traps"},
+            {label: t.good, next: "have_compressed_air_dryer"},
         ],
     },
     clean_replace_traps: {
-        message: "Clean/replace bad condensate traps. \nHas the issue been resolved",
+        message: t.clean_replace_traps_message,
         options: [
-            {label: "No", next: "have_compressed_air_dryer"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "have_compressed_air_dryer"},
+            {label: t.yes, next: "end"},
         ],
     },
     have_compressed_air_dryer: {
-        message: "Do you have a compressed air dryer?",
+        message: t.have_compressed_air_dryer_message,
         options: [
-            {label: "No", next: "aftercooler_clean"},
-            {label: "Yes", next: "air_dryer_type"},
+            {label: t.no, next: "aftercooler_clean"},
+            {label: t.yes, next: "air_dryer_type"},
         ],
     },
     air_dryer_type: {
-        message: "Check correct function and dewpoint. \nIs it ok?",
+        message: t.air_dryer_type_message,
         options: [
-            {label: "No", next: "solve_air_dryer_problems"},
-            {label: "Yes", next: "exit"},
+            {label: t.no, next: "solve_air_dryer_problems"},
+            {label: t.yes, next: "exit"},
         ],
     },
     solve_air_dryer_problems: {
-        message: "Solve problems with the air dryer. \nHas the issue been resolved?",
+        message: t.solve_air_dryer_problems_message,
         options: [
-            {label: "No", next: "aftercooler_clean"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "aftercooler_clean"},
+            {label: t.yes, next: "end"},
         ],
     },
     aftercooler_clean: {
-        message: "Is the aftercooler clean?",
+        message: t.aftercooler_clean_message,
         options: [
-            {label: "No", next: "clean_aftercooler"},
-            {label: "Yes", next: "compressor_room_ok"},
+            {label: t.no, next: "clean_aftercooler"},
+            {label: t.yes, next: "compressor_room_ok"},
         ],
     },
     clean_aftercooler: {
-        message: "Clean the aftercooler. \nHas the issue been resolved?",
+        message: t.clean_aftercooler_message,
         options: [
-            {label: "No", next: "compressor_room_ok"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "compressor_room_ok"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressor_room_ok: {
-        message: "Seems like everything is ok in the compressor room. \nDoes your compressed air piping run outdoors?",
+        message: t.compressor_room_ok_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "cold_days"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "cold_days"},
         ],
     },
     cold_days: {
-        message: "On cold days, water condensate can form in pipes. \nHas the issue been resolved?", // CHECK THIS
+        message: t.cold_days_message, // CHECK THIS
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
 
     //** FLOWCHART 7  (4.7.3)
     oil_inlet_valve: {
-        message: "Is the stopping procedure correct?",
+        message: t.oil_inlet_valve_message,
         options: [
-            {label: "No", next: "stop_compressor_right"},
-            {label: "Yes", next: "inlet_valve_ok"},
+            {label: t.no, next: "stop_compressor_right"},
+            {label: t.yes, next: "inlet_valve_ok"},
         ],
     },
     stop_compressor_right: {
-        message: "Stop the compressor in the right way. \nHas the issue been resolved?",
+        message: t.stop_compressor_right_message,
         options: [
-            {label: "No", next: "inlet_valve_ok"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "inlet_valve_ok"},
+            {label: t.yes, next: "end"},
         ],
     },
     inlet_valve_ok: {
-        message: "Is the inlet valve ok?",
+        message: t.inlet_valve_ok_message,
         options: [
-            {label: "No", next: "overhaul_inlet_valve"},
-            {label: "Yes", next: "check_valve_oil"},
+            {label: t.no, next: "overhaul_inlet_valve"},
+            {label: t.yes, next: "check_valve_oil"},
         ],
     },
     overhaul_inlet_valve: {
-        message: "Overhaul the inlet valve. \nHas the issue been resolved?",
+        message: t.overhaul_inlet_valve_message,
         options: [
-            {label: "No", next: "check_valve_oil"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_valve_oil"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_valve_oil: {
-        message: "Check valve and oil stop valve. Are they ok?",
+        message: t.check_valve_oil_message,
         options: [
-            {label: "No", next: "overhaul_valves"},
-            {label: "Yes", next: "oil_overfilled"},
+            {label: t.no, next: "overhaul_valves"},
+            {label: t.yes, next: "oil_overfilled_7"},
         ],
     },
     overhaul_valves: {
-        message: "Overhaul valves. \nHas the issue been resolved?",
+        message: t.overhaul_valves_message,
         options: [
-            {label: "No", next: "oil_overfilled"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "oil_overfilled"},
+            {label: t.yes, next: "end"},
         ],
     },
-    oil_overfilled: {
-        message: "Is the oil overfilled?",
+    oil_overfilled_7: {
+        message: t.oil_overfilled_7_message,
         options: [
-            {label: "No", next: "compressor_run_unloaded"},
-            {label: "Yes", next: "drain_some_oil_7"},
+            {label: t.no, next: "compressor_run_unloaded"},
+            {label: t.yes, next: "drain_some_oil_7"},
         ],
     },
     drain_some_oil_7: {
-        message: "Drain some oil. \nHas the issue been resolved?",
+        message: t.drain_some_oil_7_message,
         options: [
-            {label: "No", next: "compressor_run_unloaded"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "compressor_run_unloaded"},
+            {label: t.yes, next: "end"},
         ],
     },
     compressor_run_unloaded: {
-        message: "Is the compressor run unloaded before stopping?",
+        message: t.compressor_run_unloaded_message,
         options: [
-            {label: "No", next: "check_fault"},
-            {label: "Yes", next: "exit"},
+            {label: t.no, next: "check_fault"},
+            {label: t.yes, next: "exit"},
         ],
     },
     check_fault: {
-        message: "Check for fault in controlled/electronics. \nHas the issue been resolved?", //CHECK THIS
+        message: t.check_fault_message, //CHECK THIS
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
 
     //** FLOWCHART 8 (4.8.3)
     wont_load: {
-        message: "Are the setpoints set correctly?",
+        message: t.wont_load_message,
         options: [
-            {label: "No", next: "adjust_setpoints"},
-            {label: "Yes", next: "pressure_switch_ok"},
+            {label: t.no, next: "adjust_setpoints_8"},
+            {label: t.yes, next: "pressure_switch_ok"},
         ],
     },
-    adjust_setpoints: {
-        message: "Adjust the setpoints. \nHas the issue been resolved?",
+    adjust_setpoints_8: {
+        message: t.adjust_setpoints_8_message,
         options: [
-            {label: "No", next: "pressure_switch_ok"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "pressure_switch_ok"},
+            {label: t.yes, next: "end"},
         ],
     },
     pressure_switch_ok: {
-        message: "Is the pressure switch/sensor ok?",
+        message: t.pressure_switch_ok_message,
         options: [
-            {label: "No", next: "replace_pressure_switch"},
-            {label: "Yes", next: "indicate_loaded"},
+            {label: t.no, next: "replace_pressure_switch"},
+            {label: t.yes, next: "indicate_loaded"},
         ],
     },
     replace_pressure_switch: {
-        message: "Replace the pressure switch/sensor. \nHas the issue been resolved?",
+        message: t.replace_pressure_switch_message,
         options: [
-            {label: "No", next: "indicate_loaded"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "indicate_loaded"},
+            {label: t.yes, next: "end"},
         ],
     },
     indicate_loaded: {
-        message: "Is there a 'loaded' indication on the display?",
+        message: t.indicate_loaded_message,
         options: [
-            {label: "No", next: "compressor_need_load"},
-            {label: "Yes", next: "check_electrical_signal"},
+            {label: t.no, next: "compressor_need_load"},
+            {label: t.yes, next: "check_electrical_signal"},
         ],
     },
     compressor_need_load: {
-        message: "Compressor doesn't 'think' it needs to load. Check controller, pressure switch, and/or electrical system. \nHas the issue been resolved?",
+        message: t.compressor_need_load_message,
         options: [
-            {label: "No", next: "check_electrical_signal"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_electrical_signal"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_electrical_signal: {
-        message: "Check electrical signal to loading solenoid; fix problems. \nHas the issue been resolved?",
+        message: t.check_electrical_signal_message,
         options: [
-            {label: "No", next: "check_solenoid_valve"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_solenoid_valve"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_solenoid_valve: {
-        message: "Check the solenoid valve; fix problems. \nHas the issue been resolved?",
+        message: t.check_solenoid_valve_message,
         options: [
-            {label: "No", next: "check_inlet_valve"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "check_inlet_valve"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_inlet_valve: {
-        message: "Check the inlet valve; fix problems. \nHas the issue been resolved?",
+        message: t.check_inlet_valve_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
 
     //** FLOWCHART 9 **
     trips_overload: {
-        message: "Does overload happening during startup or running?",
+        message: t.trips_overload_message,
         options: [
-            {label: "Startup", next: "startup"},
-            {label: "Running", next: "running"},
+            {label: t.startup_option, next: "startup"},
+            {label: t.running_option, next: "running"},
         ],
     },
     running: {
-        message: "Check voltage on all phases during running. Is it low or normal?",
+        message: t.running_message,
         options: [
-            {label: "Low", next: "fix_electrical_supply"},
-            {label: "Normal", next: "check_current"},
+            {label: t.low_option, next: "fix_electrical_supply_9"},
+            {label: t.normal_option, next: "check_current"},
         ],
     },
-    fix_electrical_supply: {
-        message: "Fix problems with electrical supply. \nHas the issue been resolved?",
+    fix_electrical_supply_9: {
+        message: t.fix_electrical_supply_9_message,
         options: [
-            {label: "No", next: "startup"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "startup"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_current: {
-        message: "Check current during running. Is it normal or high?",
+        message: t.check_current_message,
         options: [
-            {label: "Normal", next: "replace_overload"},
-            {label: "High ", next: "screw_element_ok"},
+            {label: t.normal_option, next: "replace_overload_9"},
+            {label: t.high_option, next: "screw_element_ok"},
         ],
     },
-    replace_overload: {
-        message: "Replace overload relay/thermal block. \nHas the issue been resolved?",
+    replace_overload_9: {
+        message: t.replace_overload_9_message,
         options: [
-            {label: "No", next: "startup"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "startup"},
+            {label: t.yes, next: "end"},
         ],
     },
     screw_element_ok: {
-        message: "Is the screw element ok?",
+        message: t.screw_element_ok_message,
         options: [
-            {label: "No", next: "overhaul_screw_element"},
-            {label: "Yes", next: "check_dp_separator"},
+            {label: t.no, next: "overhaul_screw_element"},
+            {label: t.yes, next: "check_dp_separator"},
         ],
     },
     overhaul_screw_element: {
-        message: "Overhaul screw element (consult manufacturer).",
+        message: t.overhaul_screw_element_message,
         options: [
             {label: "Return to menu", next: "exit"},
         ],
     },
     check_dp_separator: {
-        message: "Check dP separator. \nIs it normal or high?",
+        message: t.check_dp_separator_message,
         options: [
-            {label: "Normal", next: "check_unloading_setpoint"},
-            {label: "Yes", next: "replace_separator_filter"},
+            {label: t.normal_option, next: "check_unloading_setpoint"},
+            {label: t.high_option, next: "replace_separator_filter"},
         ],
     },
     replace_separator_filter: {
-        message: "Replace separator filter. \nHas the issue been resolved?",
+        message: t.replace_separator_filter_message,
         options: [
-            {label: "No", next: "startup"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "startup"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_unloading_setpoint: {
-        message: "Check the unloading set point. \nIs it normal or high?",
+        message: t.check_unloading_setpoint_message,
         options: [
-            {label: "Normal", next: "check_motor"},
-            {label: "Too high", next: "lower_unloading_setpoint"},
+            {label: t.normal_option, next: "check_motor"},
+            {label: t.high_option, next: "lower_unloading_setpoint"},
         ],
     },
     lower_unloading_setpoint: {
-        message: "Lower the unloading (max pressure) setpoint. \nHas the issue been resolved?",
+        message: t.lower_unloading_setpoint_message,
         options: [
-            {label: "No", next: "startup"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "startup"},
+            {label: t.yes, next: "end"},
         ],
     },
     check_motor: {
-        message: "Check the motor. \nIs it ok?",
+        message: t.check_motor_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "lower_unloading_setpoint"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "lower_unloading_setpoint"},
         ],
     },
     startup: {
-        message: "Check the voltage on all phases during startup. \nIs it low or normal?",
+        message: t.startup_message,
         options: [
-            {label: "Low", next: "fix_electrical_supply_problems"},
-            {label: "Normal", next: "screw_element_ok_startup"},
+            {label: t.low_option, next: "fix_electrical_supply_problems"},
+            {label: t.normal_option, next: "screw_element_ok_startup"},
         ],
     },
     fix_electrical_supply_problems: {
-        message: "Fix problems with electrical supply. \nHas the issue been resolved?",
+        message: t.fix_electrical_supply_problems_message,
         options: [
-            {label: "No", next: "screw_element_ok_startup"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "screw_element_ok_startup"},
+            {label: t.yes, next: "end"},
         ],
     },
     screw_element_ok_startup: {
-        message: "Is the screw element ok?",
+        message: t.screw_element_ok_startup_message,
         options: [
-            {label: "No", next: "overhaul_screw_element"},
-            {label: "Yes", next: "screw_element_oil"},
+            {label: t.no, next: "overhaul_screw_element"},
+            {label: t.yes, next: "screw_element_oil"},
         ],
     },
     screw_element_oil: {
-        message: "Is the screw element flooded with oil?",
+        message: t.screw_element_oil_message,
         options: [
-            {label: "No", next: "replace_overload"},
-            {label: "Yes", next: "overhaul_oil_stop_valve"},
+            {label: t.no, next: "replace_overload"},
+            {label: t.yes, next: "overhaul_oil_stop_valve"},
         ],
     },
     overhaul_oil_stop_valve: {
-        message: "Overhaul oil stop valve and check valve. \nHas the issue been resolved?",
+        message: t.overhaul_oil_stop_valve_message,
         options: [
-            {label: "No", next: "replace_overload"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "replace_overload"},
+            {label: t.yes, next: "end"},
         ],
     },
     replace_overload: {
-        message: "Replace overload relay/thermal block. \nHas the issue been resolved?",
+        message: t.replace_overload_message,
         options: [
-            {label: "No", next: "exit"},
-            {label: "Yes", next: "end"},
+            {label: t.no, next: "exit"},
+            {label: t.yes, next: "end"},
         ],
     },
-
-    // : {
-    //     message: "",
-    //     options: [
-    //         {label: "No", next: ""},
-    //         {label: "Yes", next: ""},
-    //     ],
-    // },
-
 };
 
 const flowchartRef = useRef(null);
@@ -985,10 +973,10 @@ const downloadHistory = () => {
 
 return (
     <div className="container">
-        <h1 className="title">Air Compressor Troubleshooting</h1>
-        <p className="update"> Last updated: Jan 2025 </p>
+        <h1 className="title"> {t.title} </h1>
+        <p className="update"> {t.update} </p>
         <img className="diagram_img" src={diagram} alt="Air compressor diagram"/>
-        <p className="interactive-subtitle"> Interactive Troubleshooting </p>
+        <p className="interactive-subtitle"> {t.interactive_troubleshooting} </p>
 
         <p className="message">
             {step.message.split('\n').map((line, index) => (
@@ -1002,7 +990,7 @@ return (
             <div className = "additional-info">
                 <button className = "info-button"
                     onClick = {() => window.open(step.pdfLink, "_blank")}
-                > Additional Information
+                > {t.additional_information}
                 </button>
             </div>
         )}
@@ -1030,10 +1018,10 @@ return (
         {history.length > 0 && currentStep !== "start" && (
         <div className="buttons-container">
         <button onClick={goBack} className="back-button">
-            Back
+            {t.back}
         </button>
         <button onClick={restartHistory} className="back-button">
-            Restart
+            {t.restart}
         </button>
         </div>
     )}
@@ -1042,11 +1030,11 @@ return (
 
         {showHistory && (
         <div className="history">
-        <h2> Navigation History </h2>
+        <h2> {t.navigation_history} </h2>
         <ol>
             {history.map((entry, index) => (
             <li key={index}>
-            <strong> Question:  </strong>{" "}
+            <strong> {t.question}:  </strong>{" "}
             {entry.message.split("\n").map((line, idx) => (
             <React.Fragment key={idx}>
                 {line}
@@ -1055,7 +1043,7 @@ return (
             ))}
             <ul>
                 <li>
-                    <strong>Response:</strong> {entry.selected}
+                    <strong>{t.response}:</strong> {entry.selected}
                 </li>
             </ul>
             </li>
@@ -1067,20 +1055,20 @@ return (
         <div className = "history-button-div">
         <a href ='https://bhioxygen.org/request-support/' target="_blank" rel="noreferrer"
             className="bottom-buttons">
-            Send Report to BHI
+            {t.send_report}
         </a>
 
         <button onClick={toggleHistory} className="history-button">
-            {showHistory ? "Hide History" : "View History"}
+            {showHistory ? t.show_history : t.view_history}
         </button>
 
         <button onClick={downloadHistory} className = "bottom-buttons">
-            Download History
+            {t.download_history}
         </button>
         </div>
     </div>
 
-    <p className="flowchart-subtitle"> Complete Flowchart </p>
+    <p className="flowchart-subtitle"> {t.complete_flowchart} </p>
     <div className="flowchart" ref={flowchartRef}>
         <img className="air-compressor-flowchart-img" src={flowchart} alt="Full air compressor troubleshooting flowchart."/>
     </div>
